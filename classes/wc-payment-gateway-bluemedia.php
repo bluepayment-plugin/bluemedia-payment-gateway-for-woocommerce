@@ -7,7 +7,7 @@
  * @copyright 2015 Blue Media
  * @license   http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  * @since     2015-02-28
- * @version   v1.0.5
+ * @version   v1.1.0
  */
 class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
 {
@@ -271,7 +271,7 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
     /**
      * Override this method so this gateway does not appear on checkout page.
      *
-     * @since 1.0.5
+     * @since 1.1.0
      */
     public function admin_options()
     {
@@ -400,10 +400,10 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
         $isCheckout    = false;
         $orderId       = 0;
 
-        if ($_GET['order_id']) {
+        if (isset($_GET['order_id'])) {
             $isCheckout    = true;
             $orderId       = $_GET['order_id'];
-        } elseif ($_GET['OrderID']) {
+        } elseif (isset($_GET['OrderID'])) {
             $isCheckout    = true;
             $orderId       = $_GET['OrderID'];
         }

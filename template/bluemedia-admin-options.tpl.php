@@ -7,7 +7,7 @@
  * @copyright 2015 Blue Media
  * @license   http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  * @since     2015-02-28
- * @version   v1.0.5
+ * @version   v1.1.0
  */
 echo sprintf('<h3>%s</h3>', isset($this->method_title) ? $this->method_title : __('Settings', 'bluemedia-payment-gateway-for-woocommerce'));
 echo isset($this->method_description) ? wpautop($this->method_description) : '';

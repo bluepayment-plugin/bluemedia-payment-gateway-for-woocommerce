@@ -10,11 +10,11 @@
  * @see       http://english.bluemedia.pl/project/payment_gateway_on-line_payment_processing/ (English)
  * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
  * @since     2015-02-28
- * @version   v1.0.5
+ * @version   v1.1.0
  *
  * Plugin Name:       System płatności online Blue Media dla WooCommerce
  * Description:       Easily enable Blue Media Payment Gateway with WooCommerce
- * Version:           1.0.5
+ * Version:           1.1.0
  * Author:            Piotr Żuralski
  * Author URI:        http://zuralski.net/
  * License:           GNU General Public License, version 3 (GPL-3.0)
@@ -56,7 +56,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
      * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
      * @since     2015-02-28
      *
-     * @version   v1.0.5
+     * @version   v1.1.0
      */
     class BlueMedia_Payment_Gateway
     {
@@ -139,7 +139,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
                 'configure' => sprintf('<a href="%s">%s</a>', admin_url('admin.php?page=wc-settings&tab=checkout&section=bluemedia_payment_gateway'), __('Konfiguracja', 'bluemedia-payment-gateway-for-woocommerce')),
                 'support'   => sprintf('<a href="mailto:info@bm.pl" target="_blank">%s</a>', __('Pomoc', 'bluemedia-payment-gateway-for-woocommerce')),
                 'wc-status' => sprintf('<a href="%s">%s</a>', admin_url('admin.php?page=wc-status'), __('Status', 'bluemedia-payment-gateway-for-woocommerce')),
-                'wc-logs'   => sprintf('<a href="%s">%s</a>', admin_url('page=wc-status&tab=logs'), __('Logi', 'bluemedia-payment-gateway-for-woocommerce')),
+                'wc-logs'   => sprintf('<a href="%s">%s</a>', admin_url('admin.php?page=wc-status&tab=logs'), __('Logi', 'bluemedia-payment-gateway-for-woocommerce')),
             );
 
             // add the links to the front of the actions list
@@ -160,7 +160,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
             $plugin_data = get_plugin_data(__FILE__, false);
 
             if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins'))) && !is_plugin_active_for_network('woocommerce/woocommerce.php')) {
-                if (!in_array(@$_GET['action'], array('activate-plugin', 'upgrade-plugin', 'activate', 'do-plugin-upgrade')) && is_plugin_active($plugin)) {
+                if (isset($_GET['action']) && !in_array($_GET['action'], array('activate-plugin', 'upgrade-plugin', 'activate', 'do-plugin-upgrade')) && is_plugin_active($plugin)) {
                     deactivate_plugins($plugin);
                     wp_die(sprintf('<strong>%s</strong> requires <strong>WooCommerce</strong> plugin to work normally. Please activate it or <a href="http://wordpress.org/plugins/woocommerce/" target="_blank">install</a>.<br /><br />Back to the WordPress <a href="%s">Plugins page</a>.', $plugin_data['Name'], get_admin_url(null, 'plugins.php')));
                 }
@@ -182,12 +182,12 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
 
 //            $blue_media_settings = get_option('woocommerce_bluemedia_payment_gateway_settings');
 
-            if (@$blue_media_settings['enabled'] == 1) {
+            if (isset($blue_media_settings['enabled']) && $blue_media_settings['enabled'] == 1) {
                 // Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
                 if (get_option('woocommerce_force_ssl_checkout') == 'no' && !class_exists('WordPressHTTPS') && !get_user_meta($user_id, 'ignore_pp_ssl')) {
                     echo '<div class="error"><p>'.sprintf(__('WooCommerce Blue Media Online Payment System requires that the <a href="%s">Force secure checkout</a> option is enabled; your checkout may not be secure! Please enable SSL and ensure your server has a valid SSL certificate. | <a href="%s">%s</a>', 'bluemedia-payment-gateway-for-woocommerce'), admin_url('admin.php?page=woocommerce'), add_query_arg('ignore_bm_ssl', 0), __('Hide this notice', 'bluemedia-payment-gateway-for-woocommerce')).'</p></div>';
                 }
-                if ((@$blue_media_settings['mode'] == WC_Payment_Gateway_BlueMedia::MODE_SANDBOX)) {
+                if ((isset($blue_media_settings['mode']) && $blue_media_settings['mode'] == WC_Payment_Gateway_BlueMedia::MODE_SANDBOX)) {
                     echo '<div class="error"><p>'.sprintf(__('WooCommerce Blue Media Online Payment System is currently running in Sandbox mode and will NOT process any actual payments. | <a href="%s">%s</a>', 'bluemedia-payment-gateway-for-woocommerce'), add_query_arg('ignore_bm_mode', 0), __('Hide this notice', 'bluemedia-payment-gateway-for-woocommerce')).'</p></div>';
                 }
             }

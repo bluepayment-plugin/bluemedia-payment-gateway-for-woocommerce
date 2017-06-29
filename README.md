@@ -5,7 +5,7 @@
 
 ##### Instalacja ręczna
 
-1. Sciągnij ze strony [Blue Media](https://platnosci.bm.pl/technologia/#wtyczki) wtyczkę dla WooCommerce.
+1. Sciągnij ze strony [Blue Media](https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce/archive/v1.1.0.zip) wtyczkę dla WooCommerce.
 2. Przejdź do panelu administracyjnego i otwórz zakładkę "Wtyczki". Kliknij "Dodaj nową", następnie wybierz "Wyślij wtyczkę na serwer".
 3. Wybierz plik który wcześniej został ściągnięty, następnie kliknij "Zainstaluj". Po instalacji kliknij "Włącz wtyczkę".
 4. Przy wtyczce "System płatności online Blue Media dla WooCommerce" Kliknij "Konfiguracja".
@@ -27,24 +27,17 @@ Biblioteka ta jest na licencji licencji GPL-3.0. Proszę zobaczyć [LICENSE](LIC
 #### Historia zmian
 Proszę zobaczyć [CHANGELOG](CHANGELOG.md) po więcej szczegółów.
 
-#### Testy 
-Ten dodatek został przetestowny na poniższych wersjach:
+#### Wymaganie
+Ten dodatek został przetestowny i działa poprawnie na wersjach:
+Wordpress: 4.4 - 4.8
+Woocommerce: 2.1 - 3.1
 
-1. Wordpress:
-- 4.4
-- 4.6
-
-2. Woocommerce
-- 2.1
-- 2.6
-
-3. PHP
-a. rozszeżenia:
-    - xmlwriter
-    - xmlreader
+Wymagane rozszerzenia PHP
+- xmlwriter
+- xmlreader
 
 
 Najniższa wymagana wersja WooCommerce do działania wtyczki to wersja 2.1.
 
 #### Kontakt i wsparcie
-W razie jakichkolwiek problemów technicznych proszę o kontakt z [Blue Media](info@bm.pl).
+W razie jakichkolwiek problemów technicznych proszę o kontakt z [Blue Media](info@bluemedia.pl).
