@@ -10,11 +10,11 @@
  * @see       http://english.bluemedia.pl/project/payment_gateway_on-line_payment_processing/ (English)
  * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
  * @since     2015-02-28
- * @version   v1.1.0
+ * @version   v1.2.0
  *
  * Plugin Name:       System płatności online Blue Media dla WooCommerce
  * Description:       Easily enable Blue Media Payment Gateway with WooCommerce
- * Version:           1.1.0
+ * Version:           1.2.0
  * Author:            Piotr Żuralski
  * Author URI:        http://zuralski.net/
  * License:           GNU General Public License, version 3 (GPL-3.0)
@@ -38,6 +38,7 @@ global $woocommerce, $blue_media_settings, $wp_version;
  * Get Settings
  */
 $blue_media_settings = get_option('woocommerce_bluemedia_payment_gateway_settings');
+$blue_gateways_db_version = 1;
 
 require_once dirname(__FILE__).'/../woocommerce/includes/abstracts/abstract-wc-settings-api.php';
 require_once dirname(__FILE__).'/../woocommerce/includes/abstracts/abstract-wc-payment-gateway.php';
@@ -56,7 +57,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
      * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
      * @since     2015-02-28
      *
-     * @version   v1.1.0
+     * @version   v1.2.0
      */
     class BlueMedia_Payment_Gateway
     {
@@ -81,6 +82,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
 
             add_action('plugins_loaded', array($this, 'init'));
             register_activation_hook(__FILE__, array($this, 'activate'));
+            register_activation_hook(__FILE__, array($this, 'update_db'));
             add_action('admin_notices', array($this, 'admin_notices'));
             add_action('admin_init', array($this, 'set_ignore_tag'));
             add_filter('woocommerce_product_title', array($this, 'woocommerce_product_title'));
@@ -92,6 +94,35 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
             add_action('admin_enqueue_scripts', array($this, 'add_admin_scripts'));
         }
 
+        public function update_db()
+        {
+            global $wpdb;
+
+            $installed_db_ver = get_option("blue_gateways_db_version");
+
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+            if ($installed_db_ver < 1) {
+                $table_name = $wpdb->prefix . 'blue_gateways';
+                $sql = "CREATE TABLE
+                    $table_name (
+                        entity_id INT NOT NULL AUTO_INCREMENT,
+                        gateway_status INT NOT NULL,
+                        gateway_id INT NOT NULL,
+                        bank_name VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+                        gateway_name VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+                        gateway_description VARCHAR(1000) CHARACTER SET utf8,
+                        gateway_sort_order INT,
+                        gateway_type VARCHAR(50) CHARACTER SET utf8 NOT NULL,
+                        gateway_logo_url VARCHAR(500) CHARACTER SET utf8,
+                        status_date TIMESTAMP NOT NULL
+                        PRIMARY KEY(entity_id)
+                    );
+                ALTER TABLE $table_name CHARACTER SET utf8 COLLATE utf8_general_ci;";
+                dbDelta($sql);
+            }
+            update_option( "blue_gateways_db_version", $blue_gateways_db_version );
+        }
         /**
          * Get WooCommerce Version Number
          * http://wpbackoffice.com/get-current-woocommerce-version-number/.

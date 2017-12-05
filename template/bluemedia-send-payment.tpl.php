@@ -10,7 +10,7 @@
  * @see       http://english.bluemedia.pl/project/payment_gateway_on-line_payment_processing/ (English)
  * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
  * @since     2015-02-28
- * @version   v1.1.0
+ * @version   v1.2.0
  */
 ?>
 <div>
