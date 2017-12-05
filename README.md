@@ -5,7 +5,7 @@
 
 ##### Instalacja ręczna
 
-1. Sciągnij ze strony [Blue Media](https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce/archive/v1.1.0.zip) wtyczkę dla WooCommerce.
+1. Sciągnij ze [strony](https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce/archive/v1.1.0.zip) wtyczkę dla WooCommerce.
 2. Przejdź do panelu administracyjnego i otwórz zakładkę "Wtyczki". Kliknij "Dodaj nową", następnie wybierz "Wyślij wtyczkę na serwer".
 3. Wybierz plik który wcześniej został ściągnięty, następnie kliknij "Zainstaluj". Po instalacji kliknij "Włącz wtyczkę".
 4. Przy wtyczce "System płatności online Blue Media dla WooCommerce" Kliknij "Konfiguracja".
