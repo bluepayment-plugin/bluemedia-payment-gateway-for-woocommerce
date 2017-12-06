@@ -1,38 +1,30 @@
-<?php
-/**
- * System płatności online Blue Media.
- *
- * View for payment form
- *
- * @author    Piotr Żuralski <piotr@zuralski.net>
- * @copyright 2015 Blue Media S.A.
- * @license   http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
- * @see       http://english.bluemedia.pl/project/payment_gateway_on-line_payment_processing/ (English)
- * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
- * @since     2015-02-28
- * @version   v1.2.0
- */
-?>
-<div>
-    <form action="<?php echo $data['action']; ?>" method="post" id="bluemedia_form" name="bluemedia_form">
-        <div class="hidden">
-            <?php
-            foreach ($data['form'] as $fieldName => $fieldValue) {
-                printf('<input type="hidden" name="%s" value="%s" />', $fieldName, $fieldValue);
-            }
-            ?>
-        </div>
-        <div class="buttons">
-            <div class="pull-right">
-                <input type="submit" value="<?php echo $data['submit']; ?>" id="button-confirm" class="btn btn-primary" />
+<?php get_header(); ?>
+
+<div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+        <header class="entry-header">
+            <h1 class="entry-title">Wybierz kanał płatności</h1>
+        </header>
+        <div>
+            <div class="columns-3">
+                <ul class="products">
+                    <?php foreach ($gateways as $row): ?>
+                        <li class="product" style="border: 1px solid #ddd; margin: 10px; width: 24.99%">
+                            <a href="?wc-api=WC_Payment_Gateway_BlueMedia&order_id=<?php echo $orderId; ?>&gateway_id=<?php echo $row['gateway_id']; ?>">
+                                <img src="<?php echo $row['gateway_logo_url'] ?>" width="100"
+                                     class="woocommerce-placeholder wp-post-image" height="100">
+                                <h2 class="woocommerce-loop-product__title"><?php echo $row['gateway_type']; ?></h2>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
         </div>
-        <script type="text/javascript">
-            // post data to server
-            document.getElementById('bluemedia_form').submit();
-        </script>
-    </form>
-</div>
 
-<?php die(); ?>
+    </main><!-- #content -->
+</div><!-- #primary -->
+
+<?php get_sidebar(); ?>
+<?php get_footer(); ?>
+
 

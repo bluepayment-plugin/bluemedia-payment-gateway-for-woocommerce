@@ -9,6 +9,18 @@
  * @since     2015-02-28
  * @version   v1.2.0
  */
+
+require_once dirname(__FILE__).'/wc-payment-gateway.php';
+
+global $blue_media_settings;
+
+/*
+ * Get Settings
+ */
+$blue_media_settings = get_option('woocommerce_bluemedia_payment_gateway_settings');
+
+
+
 class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
 {
     const MODE_SANDBOX = 'sandbox';
@@ -216,16 +228,19 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
         return $data;
     }
 
-    final public function buildTransactionData(WC_Order $orderInfo)
+    final public function buildTransactionData(WC_Order $orderInfo, $gateway_id=null)
     {
         $result = array(
             'ServiceID' => $this->service_id,
             'OrderID' => ((!empty($orderInfo->id)) ? $orderInfo->id : 0),
             'Amount' => ((!empty($orderInfo->order_total)) ? number_format($orderInfo->order_total, 2, '.', '') : 0),
-            'Description' => ((!empty($orderInfo->id)) ? $orderInfo->id : 0),
-            'Currency' => ((!empty($orderInfo->order_currency)) ? $orderInfo->order_currency : ''),
-            'CustomerEmail' => ((!empty($orderInfo->billing_email)) ? $orderInfo->billing_email : ''),
         );
+
+        if ($gateway_id){
+            $result['GatewayID'] = $gateway_id;
+        }
+
+        $result['CustomerEmail'] = ((!empty($orderInfo->billing_email)) ? $orderInfo->billing_email : '');
 
         self::generateHash($this->hash_key, $result);
 
@@ -391,6 +406,16 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
                     'required' => 'required',
                 ),
             ),
+            'enabled_gateway' => array(
+                'title' => __('Wybór kanałów płatności', 'bluemedia-payment-gateway-for-woocommerce'),
+                'label' => __('Wybór kanałów płatności', 'bluemedia-payment-gateway-for-woocommerce'),
+                'type' => 'select',
+                'description' => '',
+                'options' => array(
+                    'no' => __('wyłączony', 'bluemedia-payment-gateway-for-woocommerce'),
+                    'yes' => __('włączony', 'bluemedia-payment-gateway-for-woocommerce'),
+                ),
+            ),
         );
     }
 
@@ -505,14 +530,21 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
 
     protected function gateway_process_send_payment($orderId)
     {
+        global $blue_media_settings;
+
         $orderInfo = new WC_Order($orderId);
         $orderInfo->update_status('pending', __('Awaiting payment', 'bluemedia-payment-gateway-for-woocommerce'));
 
-        $data = array(
-            'action' => self::getActionUrl($this->mode, self::PAYMENT_ACTON_PAYMENT),
-            'form' => $this->buildTransactionData($orderInfo),
-            'submit' => __('Submit', 'bluemedia-payment-gateway-for-woocommerce'),
-        );
+        if ($blue_media_settings['enabled_gateway'] == 'no'){
+            wp_redirect(self::getActionUrl($this->mode, self::PAYMENT_ACTON_PAYMENT) .
+                http_build_query($this->buildTransactionData($orderInfo)));
+        } elseif (isset($_GET['gateway_id'])){
+            wp_redirect(self::getActionUrl($this->mode, self::PAYMENT_ACTON_PAYMENT) .
+                http_build_query($this->buildTransactionData($orderInfo, $_GET['gateway_id'])));
+        }
+
+        $class = new WC_Bluepayment_gateway($blue_media_settings);
+        $gateways = $class->getSimpleGatewaysList();
 
         return require_once dirname(__FILE__).'/../template/bluemedia-send-payment.tpl.php';
     }

@@ -38,11 +38,12 @@ global $woocommerce, $blue_media_settings, $wp_version;
  * Get Settings
  */
 $blue_media_settings = get_option('woocommerce_bluemedia_payment_gateway_settings');
-$blue_gateways_db_version = 1;
 
 require_once dirname(__FILE__).'/../woocommerce/includes/abstracts/abstract-wc-settings-api.php';
 require_once dirname(__FILE__).'/../woocommerce/includes/abstracts/abstract-wc-payment-gateway.php';
 require_once dirname(__FILE__).'/classes/wc-payment-gateway-bluemedia.php';
+require_once dirname(__FILE__).'/tables/wc-payment-gateway.php';
+require_once dirname(__FILE__).'/classes/wc-payment-gateway.php';
 
 if (!class_exists('BlueMedia_Payment_Gateway')) {
 
@@ -90,22 +91,71 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
             // http://stackoverflow.com/questions/22577727/problems-adding-action-links-to-wordpress-plugin
             $basename = plugin_basename(__FILE__);
             $prefix = ((is_network_admin()) ? 'network_admin_' : '');
-            add_filter($prefix.'plugin_action_links_'.$basename, array($this, 'plugin_action_links'), 10, 4);
+            add_filter($prefix . 'plugin_action_links_' . $basename, array($this, 'plugin_action_links'), 10, 4);
             add_action('admin_enqueue_scripts', array($this, 'add_admin_scripts'));
+
+            add_action('admin_menu', array($this, 'add_admin_page_menu'));
+
+        }
+
+
+        public function add_admin_page_menu(){
+            add_menu_page("Blue Media", "Blue media Kanały płatności", 'manage_options', 'bluepayment_manage_gateway',
+                array($this, 'manage_gatway'));
+            add_submenu_page(null, "Blue Media", "Aktualizuj Kanały płatności", 'manage_options',
+                'bluepayment_manage_gateway_update', array($this, 'update_gateway'));
+
+        }
+
+        function update_gateway(){
+            global $blue_media_settings;
+
+            if ( !current_user_can( 'manage_options' ) )  {
+                wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+            }
+            $gatway_objects = new WC_Bluepayment_gateway($blue_media_settings);
+            $gatway_objects->syncGateways();
+            wp_redirect(admin_url('admin.php?page=bluepayment_manage_gateway'));
+        }
+
+        function manage_gatway() {
+            if ( !current_user_can( 'manage_options' ) )  {
+                wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+            }
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'blue_gateways';
+
+            if (isset($_GET['action']) ) {
+                if ($_GET['action'] == 'deactivate'){
+                    $wpdb->update($table_name, array('gateway_status'=> 1), array('gateway_id'=>$_GET['gateway_id']));
+                }
+                if ($_GET['action'] == 'activate'){
+                    $wpdb->update($table_name, array('gateway_status'=> 0), array('gateway_id'=>$_GET['gateway_id']));
+                }
+                wp_redirect(admin_url('admin.php?page=bluepayment_manage_gateway'));
+            }
+
+            $this->gateway_list_table = new BluemediaGateway_List_Table($this->plugin_text_domain);
+            $this->gateway_list_table->prepare_items();
+
+            $this->url_to_update = admin_url('admin.php?page=bluepayment_manage_gateway_update');
+
+            include_once dirname(__FILE__).'/template/bluemedia-admin-manage-gateway.tpl.php';
         }
 
         public function update_db()
         {
             global $wpdb;
 
-            $installed_db_ver = get_option("blue_gateways_db_version");
+            $version = get_option("blue_gateways_db_version", '1.0');
+            $charset_collate = $wpdb->get_charset_collate();
 
             require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-            if ($installed_db_ver < 1) {
+            if (version_compare($version, '2.0' ) < 0) {
                 $table_name = $wpdb->prefix . 'blue_gateways';
-                $sql = "CREATE TABLE
-                    $table_name (
+                $sql = "CREATE TABLE 
+                    $table_name  (
                         entity_id INT NOT NULL AUTO_INCREMENT,
                         gateway_status INT NOT NULL,
                         gateway_id INT NOT NULL,
@@ -115,13 +165,14 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
                         gateway_sort_order INT,
                         gateway_type VARCHAR(50) CHARACTER SET utf8 NOT NULL,
                         gateway_logo_url VARCHAR(500) CHARACTER SET utf8,
-                        status_date TIMESTAMP NOT NULL
+                        status_date TIMESTAMP NOT NULL,
+                        mode VARCHAR( 32 ) NOT NULL,
                         PRIMARY KEY(entity_id)
-                    );
-                ALTER TABLE $table_name CHARACTER SET utf8 COLLATE utf8_general_ci;";
+                    ) $charset_collate;";
                 dbDelta($sql);
+                update_option("blue_gateways_db_version", '2.0');
             }
-            update_option( "blue_gateways_db_version", $blue_gateways_db_version );
+
         }
         /**
          * Get WooCommerce Version Number
