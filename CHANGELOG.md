@@ -1,5 +1,8 @@
 # Changelog / Historia zmian
 
+#### v1.2.1 `2017-12`
+- poprawki do obsługi kanałów płatności
+
 #### v1.2.0 `2017-12`
 - obsługa płatności w tle
 

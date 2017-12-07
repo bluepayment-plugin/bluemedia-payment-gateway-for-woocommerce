@@ -10,11 +10,11 @@
  * @see       http://english.bluemedia.pl/project/payment_gateway_on-line_payment_processing/ (English)
  * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
  * @since     2015-02-28
- * @version   v1.2.0
+ * @version   v1.2.1
  *
  * Plugin Name:       System płatności online Blue Media dla WooCommerce
  * Description:       Easily enable Blue Media Payment Gateway with WooCommerce
- * Version:           1.2.0
+ * Version:           1.2.1
  * Author:            Piotr Żuralski
  * Author URI:        http://zuralski.net/
  * License:           GNU General Public License, version 3 (GPL-3.0)
@@ -58,7 +58,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
      * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
      * @since     2015-02-28
      *
-     * @version   v1.2.0
+     * @version   v1.2.1
      */
     class BlueMedia_Payment_Gateway
     {
@@ -100,7 +100,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
 
 
         public function add_admin_page_menu(){
-            add_menu_page("Blue Media", "Blue media Kanały płatności", 'manage_options', 'bluepayment_manage_gateway',
+            add_menu_page("Blue Media", "Blue Media Kanały płatności", 'manage_options', 'bluepayment_manage_gateway',
                 array($this, 'manage_gatway'));
             add_submenu_page(null, "Blue Media", "Aktualizuj Kanały płatności", 'manage_options',
                 'bluepayment_manage_gateway_update', array($this, 'update_gateway'));

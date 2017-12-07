@@ -7,18 +7,10 @@
  * @copyright 2015 Blue Media
  * @license   http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  * @since     2015-02-28
- * @version   v1.2.0
+ * @version   v1.2.1
  */
 
 require_once dirname(__FILE__).'/wc-payment-gateway.php';
-
-global $blue_media_settings;
-
-/*
- * Get Settings
- */
-$blue_media_settings = get_option('woocommerce_bluemedia_payment_gateway_settings');
-
 
 
 class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
@@ -62,7 +54,7 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
 
         // Get setting values
         $this->title = $this->settings['title'];
-        $this->description = $this->settings['description'];
+        $this->description = $this->get_html();
 
         $this->enabled = $this->settings['enabled'];
         $this->mode = $this->settings['mode'];
@@ -286,7 +278,7 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
     /**
      * Override this method so this gateway does not appear on checkout page.
      *
-     * @since 1.2.0
+     * @since 1.2.1
      */
     public function admin_options()
     {
@@ -428,9 +420,11 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
         if (isset($_GET['order_id'])) {
             $isCheckout    = true;
             $orderId       = $_GET['order_id'];
+            $gateway_id    = isset($_GET['gateway_id']) ? $_GET['gateway_id'] : null;
         } elseif (isset($_GET['OrderID'])) {
             $isCheckout    = true;
             $orderId       = $_GET['OrderID'];
+            $gateway_id    = null;
         }
 
         if ($isTransaction) {
@@ -438,7 +432,7 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
             $this->gateway_process_response();
         } elseif ($isCheckout) {
             $this->add_log('backURL');
-            $this->gateway_process_send_payment($orderId);
+            $this->gateway_process_send_payment($orderId, $gateway_id);
         } else {
             $this->add_log('empty request');
             header('HTTP/1.1 404 Not Found');
@@ -528,25 +522,14 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
         echo self::returnNotifyStatus($returnData);
     }
 
-    protected function gateway_process_send_payment($orderId)
+    protected function gateway_process_send_payment($orderId, $gateway_id=null)
     {
-        global $blue_media_settings;
 
         $orderInfo = new WC_Order($orderId);
         $orderInfo->update_status('pending', __('Awaiting payment', 'bluemedia-payment-gateway-for-woocommerce'));
 
-        if ($blue_media_settings['enabled_gateway'] == 'no'){
-            wp_redirect(self::getActionUrl($this->mode, self::PAYMENT_ACTON_PAYMENT) .
-                http_build_query($this->buildTransactionData($orderInfo)));
-        } elseif (isset($_GET['gateway_id'])){
-            wp_redirect(self::getActionUrl($this->mode, self::PAYMENT_ACTON_PAYMENT) .
-                http_build_query($this->buildTransactionData($orderInfo, $_GET['gateway_id'])));
-        }
-
-        $class = new WC_Bluepayment_gateway($blue_media_settings);
-        $gateways = $class->getSimpleGatewaysList();
-
-        return require_once dirname(__FILE__).'/../template/bluemedia-send-payment.tpl.php';
+        wp_redirect(self::getActionUrl($this->mode, self::PAYMENT_ACTON_PAYMENT) .
+            http_build_query($this->buildTransactionData($orderInfo, $gateway_id)));
     }
 
     /**
@@ -585,15 +568,36 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
     {
         global $woocommerce;
 
+        // Post data and redirect
+        if ($this->settings['enabled_gateway'] == 'yes' && empty($_POST['payment_method_bluemedia_payment_gateway_id'])){
+            wc_add_notice( __('Błąd: ', 'woothemes') . 'Proszę wybrać kanał płatności', 'error' );
+            return;
+        }
         $order = new WC_Order($order_id);
         $order->update_status('pending', __('Awaiting payment', 'bluemedia-payment-gateway-for-woocommerce'));
         // Clear cart
         $woocommerce->cart->empty_cart();
 
-        // Post data and redirect
-        return array(
-            'result' => 'success',
-            'redirect' => add_query_arg(array('order_id' => $order_id), $this->url_notify),
-        );
+        if (isset($_POST['payment_method_bluemedia_payment_gateway_id'])){
+            return array(
+                'result' => 'success',
+                'redirect' => add_query_arg(array('order_id' => $order_id,
+                    'gateway_id' => $_POST['payment_method_bluemedia_payment_gateway_id']), $this->url_notify),
+            );
+        } else {
+            return array(
+                'result' => 'success',
+                'redirect' => add_query_arg(array('order_id' => $order_id), $this->url_notify),
+            );
+        }
+    }
+
+    function get_html(){
+        $class = new WC_Bluepayment_gateway($this->settings);
+        $gateways = $class->getSimpleGatewaysList();
+
+        ob_start();
+        include dirname(__FILE__).'/../template/bluemedia-send-payment.tpl.php';
+        return ob_get_clean();
     }
 }
