@@ -1,5 +1,8 @@
 # Changelog / Historia zmian
 
+#### v1.2.2 `2018-01`
+-poprawki w adresie powrotu
+
 #### v1.2.1 `2017-12`
 - poprawki do obsługi kanałów płatności
 

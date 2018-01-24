@@ -59,19 +59,10 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
         $this->enabled = $this->settings['enabled'];
         $this->mode = $this->settings['mode'];
 
-        $this->url_notify = $this->settings['url_notify'];
-        if (empty($this->url_notify)) {
-            unset($this->url_notify);
-            unset($this->settings['url_notify']);
-            $this->url_notify = $this->settings['url_notify'] = $this->notifyUrl;
-        }
+        $this->url_notify = $this->settings['url_notify'] = $this->notifyUrl;
 
-        $this->url_back = $this->settings['url_back'];
-        if (empty($this->url_back)) {
-            unset($this->url_back);
-            unset($this->settings['url_back']);
-            $this->url_back = $this->settings['url_back'] = $this->backUrl;
-        }
+        $this->url_back = $this->settings['url_back'] = $this->backUrl;
+
 
         $this->service_id = $this->settings['service_id'];
         $this->hash_key = $this->settings['hash_key'];
@@ -168,10 +159,7 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
      */
     final public function getBackUrl()
     {
-        $result = $this->get_return_url(null);
-        if ($this->is_ssl()) {
-            $result = str_replace('https:', 'http:', $result);
-        }
+        $result = $this->getNotifyUrl() . (parse_url($this->getNotifyUrl(), PHP_URL_QUERY) ? '&' : '?') . 'order-received';
         
         return $result;
     }
@@ -414,6 +402,8 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
     public function gateway_process()
     {
         $isTransaction = (isset($_POST['transactions']));
+        $isBackUrl = (isset($_GET['order-received']));
+
         $isCheckout    = false;
         $orderId       = 0;
 
@@ -426,8 +416,11 @@ class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
             $orderId       = $_GET['OrderID'];
             $gateway_id    = null;
         }
-
-        if ($isTransaction) {
+        if ($isBackUrl){
+            $order = new WC_Order($orderId);
+            wp_redirect($this->get_return_url($order));
+        }
+        elseif ($isTransaction) {
             $this->add_log('ITN');
             $this->gateway_process_response();
         } elseif ($isCheckout) {
