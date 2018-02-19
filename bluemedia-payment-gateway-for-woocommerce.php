@@ -10,11 +10,11 @@
  * @see       http://english.bluemedia.pl/project/payment_gateway_on-line_payment_processing/ (English)
  * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
  * @since     2015-02-28
- * @version   v1.2.2
+ * @version   v1.2.3
  *
  * Plugin Name:       System płatności online Blue Media dla WooCommerce
  * Description:       Easily enable Blue Media Payment Gateway with WooCommerce
- * Version:           1.2.2
+ * Version:           1.2.3
  * Author:            Piotr Żuralski
  * Author URI:        http://zuralski.net/
  * License:           GNU General Public License, version 3 (GPL-3.0)
@@ -58,7 +58,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
      * @see       http://bluemedia.pl/projekty/payment_gateway_bramka_platnicza_do_realizowania_platnosci_online (Polish)
      * @since     2015-02-28
      *
-     * @version   v1.2.2
+     * @version   v1.2.3
      */
     class BlueMedia_Payment_Gateway
     {

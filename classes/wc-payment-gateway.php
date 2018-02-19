@@ -92,9 +92,14 @@ class WC_Bluepayment_gateway
                         'status_date' => $gateway['statusDate'],
                         'mode' => $this->blue_media_settings['mode']
                     );
+
+                    $gateway_id = esc_sql($data['gateway_id']);
+                    $mode = esc_sql($this->blue_media_settings['mode']);
+
                     $gateway_db = $wpdb->get_results(
-                        "SELECT * FROM $table_name WHERE gateway_id = '{$data['gateway_id']}' AND mode ='{$this->blue_media_settings['mode']}'"
+                        "SELECT * FROM $table_name WHERE gateway_id = '$gateway_id' AND mode ='$mode'"
                     );
+
                     if ($gateway_db){
                         $inserted_ids[] = $gateway_db[0]->entity_id;
                         $wpdb->update($table_name,
