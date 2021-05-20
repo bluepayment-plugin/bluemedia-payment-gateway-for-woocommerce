@@ -1,0 +1,49 @@
+# Create a pod containing the PHP-FPM application (my-php-app)
+# and nginx, each mounting the `shared-files` volume to their
+# respective /var/www/html directories.
+
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: bluepayment-wc-test
+  labels:
+    app: bluepayment-wc
+  namespace: bm-ecommerce-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bluepayment-wc
+  template:
+    metadata:
+      labels:
+        app: bluepayment-wc
+    spec:
+      volumes:
+      - name: php-configmap-wc
+        configMap:
+          name: php-configmap-wc
+
+      imagePullSecrets:
+      - name: gitlabbsbox-wc
+
+      containers:
+      # Our PHP-FPM application
+      - name: web
+        image: gitlab.bsbox.pl:5005/ecommerce/woocommerce/bluepayment:latest
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: app-wp-secret
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: php-configmap-wc
+          mountPath: /usr/local/etc/php/conf.d
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - "/bin/sh"
+              - "-c"
+              - "mkdir -p wp-content/uploads/wc-logs; chown -R www-data:www-data wp-content"
