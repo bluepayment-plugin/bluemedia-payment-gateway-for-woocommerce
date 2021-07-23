@@ -118,4 +118,4 @@ Pliki te zawierają logi błędów, które mogą wystąpić podczas procesu
 Dane te mogą się okazać przydatne przy zgłaszaniu problemów z działaniem wtyczki. 
    
 ## Kontakt i wsparcie
-W razie jakichkolwiek problemów technicznych proszę o kontakt z [Blue Media](https://developers.bluemedia.pl/kontakt).
+W razie jakichkolwiek problemów technicznych prosimy o [kontakt](https://developers.bluemedia.pl/kontakt).
