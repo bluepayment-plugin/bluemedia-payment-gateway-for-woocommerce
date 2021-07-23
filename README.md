@@ -116,6 +116,3 @@ https://domena-sklepu.pl/?wc-api=wc_payment_gateway_bluemedia
 Pliki te zawierają logi błędów, które mogą wystąpić podczas procesu płatności. W plikach dostępne są również informacje dotyczące każdej wykonanej płatności za pomocą wtyczki BlueMedia. 
 
 Dane te mogą się okazać przydatne przy zgłaszaniu problemów z działaniem wtyczki. 
-   
-## Kontakt i wsparcie
-W razie jakichkolwiek problemów technicznych prosimy o [kontakt](https://developers.bluemedia.pl/kontakt).
