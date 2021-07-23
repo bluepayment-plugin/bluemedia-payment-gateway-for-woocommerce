@@ -30,15 +30,15 @@ Do najważniejszych funkcji modułu zalicza się:
 
 ### Instalacja manualna
 
-1.	Kliknij Wyślij wtyczkę na serwer.
-2.	Wybierz plik z wtyczką z rozszerzeniem .zip
-3.	Kliknij Zainstaluj teraz, żeby wgrać wtyczkę do systemu.
+1. Kliknij Wyślij wtyczkę na serwer.
+2. Wybierz plik z wtyczką z rozszerzeniem .zip
+3. Kliknij Zainstaluj teraz, żeby wgrać wtyczkę do systemu.
 
 ### Instalacja automatyczna
 
-1.	Użyj wyszukiwarki, żeby odnaleźć wtyczkę Blue Media płatności online.
-2.	Kliknij Zainstaluj teraz.
-3.	Zostaniesz przekierowany na stronę z listą zainstalowanych wtyczek.
+1. Użyj wyszukiwarki, żeby odnaleźć wtyczkę Blue Media płatności online.
+2. Kliknij Zainstaluj teraz.
+3. Zostaniesz przekierowany na stronę z listą zainstalowanych wtyczek.
 
 Po zakończonej instalacji – aktywuj wtyczkę i kliknij Konfiguracja, żeby przejść do panelu konfiguracyjnego wtyczki. 
 
@@ -48,10 +48,10 @@ Po zakończonej instalacji – aktywuj wtyczkę i kliknij Konfiguracja, żeby pr
 
 ## Konfiguracja
 
-1.	Przejdź do zakładki WooCommerce ➝ Ustawienia ➝ Płatności.
-2.	Wybierz System płatności Blue Media, żeby przejść do konfiguracji.
+1. Przejdź do zakładki WooCommerce ➝ Ustawienia ➝ Płatności.
+2. Wybierz System płatności Blue Media, żeby przejść do konfiguracji.
 
-#### Konfiguracja podstawowych pól wtyczki
+### Konfiguracja podstawowych pól wtyczki
 
 1.	Przy nazwie System płatności Blue Media ustaw Włącz, dzięki temu Twoi klienci będą mogli już korzystać z płatności internetowych.
 2.	W polu Tytuł wpisz nazwę płatności, czyli np.: Płatności Blue Media.
