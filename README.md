@@ -57,8 +57,8 @@ Po zakończonej instalacji – aktywuj wtyczkę i kliknij Konfiguracja, żeby pr
 2.	W polu Tytuł wpisz nazwę płatności, czyli np.: Płatności Blue Media.
 3.	W polu Opis dodaj opis używanej bramki płatności, czyli System płatności Blue Media – Twoi klienci będą widzieć tę nazwę składając zamówienie i wybierając metodę płatności.
 4.	W polu Domena Systemu płatności Blue Media uzupełni testowy lub produkcyjny adres URL bramki płatniczej:
-- testowy: https://oplacasie-accept.bm.pl
-- produkcyjny https://oplacasie.bm.pl
+- testowy: pay-accept.bm.pl
+- produkcyjny pay.bm.pl
 	
 W momencie, gdy skończysz już sprawdzać, czy wszystko działa prawidłowo – zmień tryb na produkcyjny, wówczas płatności na Twojej stronie będą w 100% aktywne.
 
