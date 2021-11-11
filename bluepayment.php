@@ -9,7 +9,7 @@
  * @copyright Blue Media S.A.
  * @license   http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  * @see       https://bluemedia.pl/oferta/platnosci/platnosci-online/wtyczki
- * @version   v2.2.3
+ * @version   v2.2.4
  *
  * Plugin Name:           Blue Media online payment system for WooCommerce
  * Description:           Easily enable Blue Media Payment Gateway with WooCommerce
@@ -19,7 +19,7 @@
  * License URI:           http://opensource.org/licenses/GPL-3.0
  * Domain Path:           /i18n/languages/
  * Text Domain:           bluepayment-gateway-for-woocommerce
- * Version:               2.2.3
+ * Version:               2.2.4
  * WC tested up to:       4.0
  * WC requires at least:  2.1
  * Tested up to:          5.4
