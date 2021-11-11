@@ -510,5 +510,10 @@ msgstr ""
 msgid "Order status"
 msgstr ""
 
+#. bluepayment/bluepayment.php:516
 msgid "Payment in progress"
+msgstr ""
+
+#. bluepayment/bluepayment.php:517
+msgid "pending"
 msgstr ""

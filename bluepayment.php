@@ -9,7 +9,7 @@
  * @copyright Blue Media S.A.
  * @license   http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  * @see       https://bluemedia.pl/oferta/platnosci/platnosci-online/wtyczki
- * @version   v2.2.2
+ * @version   v2.2.3
  *
  * Plugin Name:           Blue Media online payment system for WooCommerce
  * Description:           Easily enable Blue Media Payment Gateway with WooCommerce
@@ -19,7 +19,7 @@
  * License URI:           http://opensource.org/licenses/GPL-3.0
  * Domain Path:           /i18n/languages/
  * Text Domain:           bluepayment-gateway-for-woocommerce
- * Version:               2.2.2
+ * Version:               2.2.3
  * WC tested up to:       4.0
  * WC requires at least:  2.1
  * Tested up to:          5.4
@@ -509,11 +509,18 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
             $order_status = $order->get_status();
 
             $message = OrderStatusMessageDictionary::getMessage($order_status);
+            $displayed_order_status = "";
+
+            if ($message) {
+                $displayed_order_status = __("Payment in progress");
+            } else if ($order_status == "pending") {
+                $displayed_order_status = __("pending");
+            }
 
             $order_status_message = sprintf(
                 '%s: %s',
                 __("Order status", 'bluepayment-gateway-for-woocommerce'),
-                $message ? __($message.'.order.thankyou', 'bluepayment-gateway-for-woocommerce') : $order_status
+                $displayed_order_status
             );
 
             require_once dirname(__FILE__) . '/template/_partials/order/thank-you-order-status-message.tpl.php';

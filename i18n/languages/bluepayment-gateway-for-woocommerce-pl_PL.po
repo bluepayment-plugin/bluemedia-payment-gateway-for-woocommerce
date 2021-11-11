@@ -556,4 +556,8 @@ msgid "Order status"
 msgstr "Status Twojego zamówienia"
 
 msgid "Payment in progress"
-msgstr "Płatność w przygotowaniu"
+msgstr "Płatność w trakcie realizacji"
+
+#. bluepayment/bluepayment.php:517
+msgid "pending"
+msgstr "Płatność w trakcie realizacji"
