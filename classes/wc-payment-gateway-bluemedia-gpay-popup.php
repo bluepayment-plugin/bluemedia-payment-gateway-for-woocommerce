@@ -72,7 +72,7 @@ final class WC_Payment_Gateway_BlueMedia_GPay_Popup extends WC_Payment_Gateway
             'bmTotalPrice'     => $bmTotalPrice,
         ];
 
-        $this->logger->log('[BM Bluepayment] GPay Merchant Params:' . json_encode($merchantDebugParams));
+        $this->logger->log('[BM Bluepayment] GPay Merchant Params:' . json_encode($merchantDebugParams, JSON_PRETTY_PRINT));
 
         $gateway = new Gateway(
             $bmServiceId,
@@ -123,7 +123,7 @@ final class WC_Payment_Gateway_BlueMedia_GPay_Popup extends WC_Payment_Gateway
             'bmAuthJwt' => $bmAuthJwt,
         ];
 
-        $this->logger->log('[BM Bluepayment] GPay Merchant Response:' . json_encode($merchantDebugResponse));
+        $this->logger->log('[BM Bluepayment] GPay Merchant Response:' . json_encode($merchantDebugResponse, JSON_PRETTY_PRINT));
 
         require_once dirname(__FILE__) . '/../template/_partials/order/bluemedia-gpay-popup.tpl.php';
         return;

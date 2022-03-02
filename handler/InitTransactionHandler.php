@@ -14,7 +14,7 @@ final class InitTransactionHandler extends GatewayHandler implements HandlerInte
         } catch (Exception $exception) {
             $response = ['reason' => $exception->getMessage()];
             $this->logger->log('[BM Bluepayment] Error when calling init transaction in BlueMedia gateway');
-            $this->logger->log('[BM Bluepayment] Transaction data:' . json_encode($params->toArray()));
+            $this->logger->log('[BM Bluepayment] Transaction data:' . json_encode($params->toArray(), JSON_PRETTY_PRINT));
             $this->logger->log((string) $exception);
         }
 

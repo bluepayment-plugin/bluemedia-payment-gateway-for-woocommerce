@@ -9,7 +9,7 @@
  * @copyright Blue Media S.A.
  * @license   http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  * @see       https://bluemedia.pl/oferta/platnosci/platnosci-online/wtyczki
- * @version   v2.2.4
+ * @version   v3.0.0
  *
  * Plugin Name:           Blue Media online payment system for WooCommerce
  * Description:           Easily enable Blue Media Payment Gateway with WooCommerce
@@ -19,7 +19,7 @@
  * License URI:           http://opensource.org/licenses/GPL-3.0
  * Domain Path:           /i18n/languages/
  * Text Domain:           bluepayment-gateway-for-woocommerce
- * Version:               2.2.4
+ * Version:               3.0.0
  * WC tested up to:       4.0
  * WC requires at least:  2.1
  * Tested up to:          5.4
@@ -139,8 +139,55 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
             add_filter('woocommerce_add_to_cart_product_id', [$this, 'cleanOrderedCart']);
             add_filter('woocommerce_thankyou_order_received_text', [$this, 'woo_change_order_received_text']);
             add_action('woocommerce_thankyou', [$this, 'woo_display_order_status_message'], 1);
+            add_filter('woocommerce_payment_gateways', [$this, 'addPaymentGatewayList'], 1000);
+            add_filter('woocommerce_available_payment_gateways', [$this, 'conditionally_hide_smartney'], 100, 1 );
+
         }
 
+        function conditionally_hide_smartney( $available_gateways ) {
+
+            if( is_wc_endpoint_url( 'order-pay' ) ) {
+
+                $order = wc_get_order( get_query_var('order-pay') );
+                foreach( $available_gateways as $gateways_id => $gateways ){
+                    if( $gateways_id == 'bluemedia_payment_gateway_smartney_popup'
+                        && $order->has_status('pending')
+                        && !$this->is_smartney_available_for_total()) {
+                        unset($available_gateways[$gateways_id]);
+                    }
+                }
+            }
+
+            elseif( is_checkout() && !is_wc_endpoint_url() ) {
+
+                if( isset($available_gateways['bluemedia_payment_gateway_smartney_popup'])
+                    && !$this->is_smartney_available_for_total()) {
+                    unset($available_gateways['bluemedia_payment_gateway_smartney_popup']);
+                }
+            }
+            return $available_gateways;
+        }
+
+        function is_smartney_available_for_total(): bool
+        {
+            global $wp;
+            $shouldBeAdded = false;
+
+            if (isset($wp->query_vars['order-pay'])) {
+                $orderId = $wp->query_vars['order-pay'];
+                $order = wc_get_order( $orderId );
+                $total = $order->get_total();
+                var_dump($total);
+            } elseif (!empty(WC()->cart)) {
+                $total = WC()->cart->total;
+            }
+
+            if (isset($total) && $total>=Gateway::GATEWAY_SMARTNEY_MIN && $total<Gateway::GATEWAY_SMARTNEY_MAX) {
+                $shouldBeAdded = true;
+            }
+
+            return $shouldBeAdded;
+        }
         /**
          * Get WooCommerce Version Number
          * http://wpbackoffice.com/get-current-woocommerce-version-number/.
@@ -306,7 +353,6 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
             }
 
             load_plugin_textdomain('bluepayment-gateway-for-woocommerce', false, dirname(plugin_basename(__FILE__)) . '/i18n/languages/');
-            add_filter('woocommerce_payment_gateways', [$this, 'addPaymentGatewayList'], 1000);
         }
 
         public function activate()
@@ -347,10 +393,7 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
                 $paymentGateways->addPaymentMethod(new BlikZeroPaymentMethod());
                 $paymentGateways->addPaymentMethod(new BlueMediaCardPaymentMethod());
                 $paymentGateways->addPaymentMethod(new BlueMediaInstallmentPaymentMethod());
-                if ($this->smartney_should_be_visible()) {
-                    $paymentGateways->addPaymentMethod(new SmartneyPopupPaymentMethod());
-                }
-
+                $paymentGateways->addPaymentMethod(new SmartneyPopupPaymentMethod());
 
                 return  array_merge(
                     $methods,
@@ -362,27 +405,6 @@ if (!class_exists('BlueMedia_Payment_Gateway')) {
                 $methods,
                 $paymentGateways->handle([])
             );
-        }
-
-        public function smartney_should_be_visible(): bool
-        {
-            global $wp;
-            $shouldBeAdded = false;
-
-            if (isset($wp->query_vars['order-pay'])) {
-                $orderId = $wp->query_vars['order-pay'];
-                $order = wc_get_order( $orderId );
-                $total = $order->get_total();
-            } elseif (!empty(WC()->cart)) {
-                $total = WC()->cart->total;
-            }
-
-            if (isset($total) && $total>=Gateway::GATEWAY_SMARTNEY_MIN && $total<Gateway::GATEWAY_SMARTNEY_MAX) {
-                $shouldBeAdded = true;
-            }
-
-            return $shouldBeAdded;
-
         }
 
         public function bluemedia_edit_background_payments_channels()

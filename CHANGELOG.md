@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.0.0] 2022.01.28
+### Fixed
+- Fixed guzzle version
+
+## [2.2.5] 2021.11.15
+### Fixed
+- Smarney visible on available payment methods (WooCommerce settings)
+
+## [2.2.4] 2021.10.25
+### Changed
+- Translation on order's final page changed
+
 ## [2.2.2] 2021.05.10
 ### Fixed
 - Fixed big amount (more than 1000)

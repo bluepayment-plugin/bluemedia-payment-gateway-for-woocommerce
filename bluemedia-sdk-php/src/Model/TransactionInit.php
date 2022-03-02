@@ -18,9 +18,9 @@ class TransactionInit extends AbstractModel
     /**
      * Service id.
      *
-     * @var int
+     * @var string
      */
-    protected $serviceId;
+    protected $serviceId ='';
 
     /**
      * Transaction order id.
@@ -411,14 +411,14 @@ class TransactionInit extends AbstractModel
     /**
      * Set serviceId.
      *
-     * @param int $serviceId
+     * @param string $serviceId
      *
      * @return $this
      */
     public function setServiceId($serviceId)
     {
         Validator::validateServiceId($serviceId);
-        $this->serviceId = (int)$serviceId;
+        $this->serviceId = (string)$serviceId;
 
         return $this;
     }
@@ -426,7 +426,7 @@ class TransactionInit extends AbstractModel
     /**
      * Return serviceId.
      *
-     * @return int | null
+     * @return string | null
      */
     public function getServiceId()
     {

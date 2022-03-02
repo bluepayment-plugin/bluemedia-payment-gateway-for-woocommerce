@@ -239,9 +239,7 @@ class Validator
      */
     public static function validateServiceId($value)
     {
-        $valueLength = mb_strlen($value);
-
-        if (!(is_numeric($value) && $valueLength >= 1 && $valueLength <= 10)) {
+        if (!(is_numeric($value) || self::validateStringLength($value, 10))) {
             throw new InvalidArgumentException('Wrong ServiceId format, requires max 10 characters');
         }
     }

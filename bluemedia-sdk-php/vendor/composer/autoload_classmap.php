@@ -23,4 +23,5 @@ return array(
     'BlueMedia\\OnlinePayments\\Util\\Sorter' => $baseDir . '/src/Util/Sorter.php',
     'BlueMedia\\OnlinePayments\\Util\\Validator' => $baseDir . '/src/Util/Validator.php',
     'BlueMedia\\OnlinePayments\\Util\\XMLParser' => $baseDir . '/src/Util/XMLParser.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
 );
