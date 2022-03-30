@@ -58,7 +58,7 @@ class Gateway
     /** @var string */
     private $response = '';
 
-    /** @var int */
+    /** @var string */
     protected static $serviceId = 0;
 
     /** @var string */
@@ -255,7 +255,7 @@ class Gateway
     /**
      * Initialize.
      *
-     * @param int    $serviceId
+     * @param string $serviceId
      * @param string $hashingSalt
      * @param string $mode
      * @param string $hashingAlgorithm

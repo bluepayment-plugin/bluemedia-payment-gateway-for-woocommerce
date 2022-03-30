@@ -19,7 +19,7 @@
  * License URI:           http://opensource.org/licenses/GPL-3.0
  * Domain Path:           /i18n/languages/
  * Text Domain:           bluepayment-gateway-for-woocommerce
- * Version:               3.0.0
+ * Version:               3.1.0
  * WC tested up to:       4.0
  * WC requires at least:  2.1
  * Tested up to:          5.4

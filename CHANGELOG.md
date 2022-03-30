@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.1.0] 2022.03.30
+### Fixed
+- Fixed payment's status bug
+
 ## [3.0.0] 2022.01.28
 ### Fixed
 - Fixed guzzle version
