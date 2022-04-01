@@ -377,6 +377,10 @@ class Gateway
 
         if ($transactionHash === $transaction->getHash()) {
             $confirmationStatus = self::STATUS_CONFIRMED;
+        } else {
+            Logger::log(Logger::DEBUG,
+                'Wygenerowany z danych zamówienia hash: '. $transactionHash.
+                ' nie jest równy hashowi pobranemu ze zbudowanego ITN: '. $transaction->getHash());
         }
         if (!$transactionConfirmed) {
             $confirmationStatus = self::STATUS_NOT_CONFIRMED;

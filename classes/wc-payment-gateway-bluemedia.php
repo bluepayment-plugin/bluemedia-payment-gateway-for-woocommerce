@@ -391,11 +391,19 @@ final class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
 
             $sourceData = (new BMTransactionBuilder())->build($orderInfo, $serviceId);
 
-            if (!empty($sourceData->getServiceId()) && $sourceData->getServiceId() !== $transaction->getServiceId()) {
+            if (!empty($sourceData->getServiceId()) && $sourceData->getServiceId() != $transaction->getServiceId()) {
+                $this->logger->log(
+                    'ServiceID pobrany z zamówienia: '. $sourceData->getServiceId().
+                    ' nie jest równy ServiceID pobranemu ze zbudowanego ITN: '. $transaction->getServiceId()
+                );
                 $isDataConsistent = false;
             }
 
-            if (!empty($sourceData->getAmount()) && $sourceData->getAmount() !== $transaction->getAmount()) {
+            if (!empty($sourceData->getAmount()) && $sourceData->getAmount() != $transaction->getAmount()) {
+                $this->logger->log(
+                        'Kwota zamówienia pobrana z zamówienia: '. $sourceData->getAmount().
+                        ' nie jest równa kwocie ze zbudowanego ITN: '. $transaction->getAmount()
+                );
                 $isDataConsistent = false;
             }
 
