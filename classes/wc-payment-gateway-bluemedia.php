@@ -243,7 +243,7 @@ final class WC_Payment_Gateway_BlueMedia extends WC_Payment_Gateway
 		$actualCurrency = get_woocommerce_currency();
 		$currenciesList = array_keys((new CurrencyDictionary())->getAvailableCurrencies());
 
-		// sprawdz czy aktualna waluta jest obsługiwana przez Blue Media a także czy wprowadzone są ustawiania
+		// sprawdz, czy aktualna waluta jest obsługiwana przez Blue Media a także czy wprowadzone są ustawiania
         if (in_array($actualCurrency, $currenciesList)
             && !empty($this->settings["service_id_$actualCurrency"])
             && !empty($this->settings["hash_key_$actualCurrency"])
