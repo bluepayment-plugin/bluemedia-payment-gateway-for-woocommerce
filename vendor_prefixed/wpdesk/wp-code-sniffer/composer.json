@@ -1,0 +1,42 @@
+{
+    "name": "wpdesk\/wp-code-sniffer",
+    "description": "Library for WP Desk Coding Standards in plugins.",
+    "license": "MIT",
+    "keywords": [
+        "wordpress",
+        "code sniffer",
+        "admin",
+        "phpcs"
+    ],
+    "homepage": "https:\/\/gitlab.com\/wpdesk\/wp-code-sniffer",
+    "type": "phpcodesniffer-standard",
+    "prefer-stable": true,
+    "version": "1.2.3",
+    "authors": [
+        {
+            "name": "grola",
+            "email": "grola@wpdesk.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "dealerdirect\/phpcodesniffer-composer-installer": "0.6|^0.7",
+        "squizlabs\/php_codesniffer": "^3.6",
+        "wp-coding-standards\/wpcs": "^2.3",
+        "phpcompatibility\/phpcompatibility-wp": "^2.1.1"
+    },
+    "require-dev": {
+        "roave\/security-advisories": "dev-latest"
+    },
+    "scripts": {
+        "install-codestandards": [
+            "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+        ],
+        "pre-package-install": [
+            "@install-codestandards"
+        ],
+        "post-package-update": [
+            "@install-codestandards"
+        ]
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "name": "wpdesk\/wp-basic-requirements",
+    "authors": [
+        {
+            "name": "Krzysiek",
+            "email": "krzysiek@wpdesk.pl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "php": ">=5.5",
+        "phpunit\/phpunit": "<7",
+        "wp-coding-standards\/wpcs": "^0.14.1",
+        "squizlabs\/php_codesniffer": "^3.0.2",
+        "mockery\/mockery": "*",
+        "10up\/wp_mock": "*",
+        "wimg\/php-compatibility": "^8"
+    },
+    "autoload": {},
+    "autoload-dev": {
+        "classmap": [
+            "src",
+            "tests"
+        ]
+    },
+    "extra": {
+        "text-domain": "wp-basic-requirements",
+        "translations-folder": "lang",
+        "po-files": {
+            "pl_PL": "wp-basic-requirements-pl_PL.po"
+        }
+    },
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpunit-unit": "phpunit --configuration phpunit-unit.xml --coverage-text --colors=never",
+        "phpunit-unit-fast": "phpunit --configuration phpunit-unit.xml --no-coverage",
+        "phpunit-integration": "phpunit --configuration phpunit-integration.xml --coverage-text --colors=never",
+        "phpunit-integration-fast": "phpunit --configuration phpunit-integration.xml --no-coverage",
+        "docs": "apigen generate"
+    }
+}

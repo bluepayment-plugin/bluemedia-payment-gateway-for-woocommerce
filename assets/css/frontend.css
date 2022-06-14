@@ -1,0 +1,41 @@
+.payment_box.payment_method_bluemedia ul.woocommerce-shipping-methods {
+    grid-template-areas:
+        'blik'
+        'carts'
+        'pbl'
+        'wallets'
+        'fr'
+        'installment';
+    grid-template-rows: auto;
+    grid-auto-columns: auto;
+    display: grid;
+}
+
+ul.woocommerce-shipping-methods .bm-group-blik {
+    grid-area: blik;
+}
+
+ul.woocommerce-shipping-methods .bm-group-karta-platnicza {
+    grid-area: carts;
+}
+
+ul.woocommerce-shipping-methods .bm-group-portfel-elektroniczny {
+    grid-area: wallets;
+}
+
+ul.woocommerce-shipping-methods .bm-group-pbl {
+    grid-area: pbl;
+}
+
+ul.woocommerce-shipping-methods .bm-group-raty-online {
+    grid-area: installment;
+}
+
+ul.woocommerce-shipping-methods .bm-group-szybki-przelew {
+    grid-area: fr;
+}
+
+.bm-payment-channel-item.selected {
+    border: 1px solid #3d9cd2 !important;
+    padding: 5px;
+}
