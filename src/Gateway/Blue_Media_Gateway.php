@@ -75,8 +75,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id,
 			[ $this, 'process_admin_options' ] );
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'payment_scripts' ] );
-
 		if ( is_object( WC()->session ) && ! wp_doing_ajax() ) {
 			if ( ! empty( WC()->session->get( 'bm_order_payment_params' ) ) ) {
 
@@ -210,7 +208,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 			'gateway_host'     => [
 				'title'       => __( 'Gateway host',
 					Plugin::TEXTDOMAIN ),
-				'description' => __( 'For a store operating in production mode the address is: https://pay.bm.pl and for test mode: https://pay-accept.bm.pl',
+				'description' => __( 'For a store operating in production mode the address is: https://pay.bm.pl/ and for test mode: https://pay-accept.bm.pl/',
 					Plugin::TEXTDOMAIN ),
 				'type'        => 'text',
 			],

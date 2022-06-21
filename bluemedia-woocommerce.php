@@ -4,7 +4,7 @@
  * Plugin URI:
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.0.0
+ * Version: 4.0.2
  * Author: INSPIRE LABS
  * Author URI: https://inspirelabs.pl/
  * Text Domain: empik-woocommerce
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-$plugin_version = '4.0.0';
+$plugin_version = '4.0.2';
 
 $plugin_name        = 'Blue Media Woocommerce';
 $plugin_class_name  = '\Inspire_Labs\BM_Woocommerce\Plugin';

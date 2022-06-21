@@ -59,8 +59,8 @@ msgstr "Klucz współdzielony"
 msgid "Gateway host"
 msgstr "Adres modułu płatności"
 
-msgid "For a store operating in production mode the address is: https://pay.bm.pl and for test mode: https://pay-accept.bm.pl"
-msgstr "Dla sklepu działającego w trybie produkcyjnym adres to: https://pay.bm.pl, a dla trybu testowego: https://pay-accept.bm.pl"
+msgid "For a store operating in production mode the address is: https://pay.bm.pl/ and for test mode: https://pay-accept.bm.pl/"
+msgstr "Dla sklepu działającego w trybie produkcyjnym adres to: https://pay.bm.pl/, a dla trybu testowego: https://pay-accept.bm.pl"
 
 msgid "Contains numbers and lowercase letters. It is used to verify communication with the payment gateway. It should not be made available to the public"
 msgstr "Zawiera cyfry i małe litery. Służy do weryfikacji komunikacji z bramką płatności. Nie powinien być udostępniany publicznie."
