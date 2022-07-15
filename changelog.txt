@@ -1,5 +1,5 @@
-*** plugin-template Changelog ***
+*** Blue Media Woocommerce Changelog ***
 
-## [1.0.0] - 2017-06-20
-### Added
-- use https://keepachangelog.com/en/1.0.0/ standards in your changelog
+## [4.0.3] - 2017-06-20
+### Fixed
+- Show API errors only if BLUE_MEDIA_DEBUG constant is defined
