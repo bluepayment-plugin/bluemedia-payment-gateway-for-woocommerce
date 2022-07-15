@@ -131,7 +131,7 @@ class Plugin extends AbstractPlugin
 
 		$alerts       = new Alerts();
 		$last_api_err = get_option( 'bm_api_last_error' );
-		if ( ! empty( $last_api_err ) ) {
+		if ( ! empty( $last_api_err ) && defined( 'BLUE_MEDIA_DEBUG' ) ) {
 			$alerts->add_error( 'Blue Media: ' . $last_api_err );
 		}
 
@@ -196,7 +196,6 @@ class Plugin extends AbstractPlugin
 	}
 
 
-
 	/**
 	 * Short description
 	 *
@@ -238,7 +237,7 @@ class Plugin extends AbstractPlugin
 		update_option( Plugin::APP_PREFIX . '_is_registered', false );
 	}
 
-	public function wp_enqueue_scripts(){
+	public function wp_enqueue_scripts() {
 		wp_enqueue_style( 'bm_front_css',
 			BM_PLUGIN_URL . 'assets/css/frontend.css'
 		);
