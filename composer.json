@@ -1,0 +1,26 @@
+{
+  "name": "inspirelabs/bluemedia-woocommerce",
+  "authors": [
+	{
+	  "name": "iLabs",
+	  "email": "biuro@inspirelabs.pl"
+	}
+  ],
+  "autoload": {
+	"psr-4": {
+	  "Inspire_Labs\\BM_Woocommerce\\": "src/"
+	}
+  },
+  "require": {
+	"php": ">=7.0"
+  },
+  "require-dev": {
+  },
+  "extra": {
+	"text-domain": "bm-woocommerce",
+	"translations-folder": "lang",
+	"po-files": {
+	  "pl_PL": "pl_PL.po"
+	}
+  }
+}

@@ -10,6 +10,10 @@ use WC_Payment_Gateway;
 
 class Blue_Media_Gateway extends WC_Payment_Gateway {
 
+	const GATEWAY_PRODUCTION = 'https://pay.bm.pl/';
+
+	const GATEWAY_SANDBOX = 'https://pay-accept.bm.pl/';
+
 	/**
 	 * Whether or not logging is enabled
 	 *
@@ -27,6 +31,11 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 */
 	private $service_id;
 
+	/**
+	 * @var bool
+	 */
+	private $testmode;
+
 
 	/**
 	 * Class constructor, more about it in Step 3
@@ -34,8 +43,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 * @throws Exception
 	 */
 	public function __construct() {
-
-
 		$this->id           = 'bluemedia';
 		$this->icon
 		                    = BM_WOOCOMMERCE_PLUGIN_URL
@@ -56,11 +63,13 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		$this->init_form_fields();
 		$this->init_settings();
 
-		$this->gateway_url     = $this->get_option( 'gateway_host' );
 		$this->title           = $this->get_option( 'title' );
 		$this->description     = $this->get_option( 'description' );
 		$this->enabled         = $this->get_option( 'enabled' );
 		$this->testmode        = 'yes' === $this->get_option( 'testmode' );
+		$this->gateway_url     = $this->testmode
+			? self::GATEWAY_SANDBOX
+			: self::GATEWAY_PRODUCTION;
 		$this->private_key     = $this->testmode
 			? $this->get_option( 'test_private_key' )
 			: $this->get_option( 'private_key' );
@@ -70,7 +79,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		$this->service_id      = $this->testmode
 			? $this->get_option( 'test_service_id' )
 			: $this->get_option( 'service_id' );
-
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id,
 			[ $this, 'process_admin_options' ] );
@@ -204,13 +212,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				'description' => __( 'Contains numbers and lowercase letters. It is used to verify communication with the payment gateway. It should not be made available to the public',
 					Plugin::TEXTDOMAIN ),
 				'type'        => 'password',
-			],
-			'gateway_host'     => [
-				'title'       => __( 'Gateway host',
-					Plugin::TEXTDOMAIN ),
-				'description' => __( 'For a store operating in production mode the address is: https://pay.bm.pl/ and for test mode: https://pay-accept.bm.pl/',
-					Plugin::TEXTDOMAIN ),
-				'type'        => 'text',
 			],
 		];
 
@@ -478,7 +479,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		WC_Order $wc_order,
 		int $payment_channel = 0
 	): array {
-		$params = [
+		$params              = [
 			'ServiceID'   => $this->service_id,
 			'OrderID'     => $wc_order->get_id(),
 			'Amount'      => $wc_order->get_total(),
@@ -520,9 +521,9 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	public
 	function gateway_list(): array {
 
-		if ( time()
-		     - (int) get_option( 'bm_gateway_list_cache_time' )
-		     > 600//10 minutes cache
+		if ( defined( 'BLUE_MEDIA_DISABLE_CACHE' ) || time()
+		                                              - (int) get_option( 'bm_gateway_list_cache_time' )
+		                                              > 600//10 minutes cache
 		) {
 			$gateway_list_cache = $this->api_get_gateway_list();
 

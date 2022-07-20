@@ -4,13 +4,13 @@
  * Plugin URI:
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.0.3
+ * Version: 4.0.4
  * Author: INSPIRE LABS
  * Author URI: https://inspirelabs.pl/
- * Text Domain: empik-woocommerce
- * Domain Path: /languages/
+ * Text Domain: bm_woocommerce
+ * Domain Path: /lang/
  *
- * Copyright 2021 INSPIRE LABS SP. Z O.O.
+ * Copyright 2022 INSPIRE LABS SP. Z O.O.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,35 +27,21 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-$plugin_version = '4.0.3';
-
-$plugin_name        = 'Blue Media Woocommerce';
-$plugin_class_name  = '\Inspire_Labs\BM_Woocommerce\Plugin';
-$plugin_text_domain = 'bm-woocommerce';
-$product_id         = 'bm-woocommerce';
-$plugin_file        = __FILE__;
-$plugin_dir         = dirname( __FILE__ );
+$plugin_file = __FILE__;
+$plugin_dir  = dirname( __FILE__ );
 
 define( 'BM_PLUGIN_URL',
 	plugin_dir_url( $plugin_file )
 );
 
-$requirements = [
-	'php'     => '7.2',
-	'wp'      => '5.0',
-	'plugins' => [
-		[
-			'name'      => 'woocommerce/woocommerce.php',
-			'nice_name' => 'WooCommerce',
-			'version'   => '4.7',
-		],
-	],
-];
+add_action( 'plugins_loaded', function () {
+	load_plugin_textdomain( 'bm-woocommerce', false,
+		basename( dirname( __FILE__ ) ) . '/lang/' );
+} );
 
 define( 'BM_WOOCOMMERCE_PLUGIN_PATH',
 	plugin_dir_path( __FILE__ )
@@ -69,5 +55,6 @@ define( 'BM_WOOCOMMERCE_PLUGIN_URL',
 	plugin_dir_url( __FILE__ )
 );
 
-require __DIR__
-        . '/vendor_prefixed/wpdesk/wp-plugin-flow/src/plugin-init-php52.php';
+require_once __DIR__ . '/vendor/autoload.php';
+
+( new \Inspire_Labs\BM_Woocommerce\Plugin() )->init();

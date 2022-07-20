@@ -1,5 +1,9 @@
 *** Blue Media Woocommerce Changelog ***
 
-## [4.0.3] - 2017-06-20
+## [4.0.3] - 2022-07-15
 ### Fixed
 - Show API errors only if BLUE_MEDIA_DEBUG constant is defined
+
+## [4.0.4] - 2022-07-20
+### Fixed
+- Plugin boilerplate refactor

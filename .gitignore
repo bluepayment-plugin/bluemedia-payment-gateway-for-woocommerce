@@ -1,0 +1,9 @@
+/vendor/
+/vendor_prefixed/
+.idea
+build-coverage
+.DS_Store
+.commit
+
+/assets/**/*.min.css
+/assets/**/*.min.js
