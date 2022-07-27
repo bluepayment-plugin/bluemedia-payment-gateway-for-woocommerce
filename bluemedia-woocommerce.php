@@ -4,7 +4,7 @@
  * Plugin URI:
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.0.4
+ * Version: 4.0.5
  * Author: INSPIRE LABS
  * Author URI: https://inspirelabs.pl/
  * Text Domain: bm_woocommerce

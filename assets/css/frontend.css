@@ -39,3 +39,8 @@ ul.woocommerce-shipping-methods .bm-group-szybki-przelew {
     border: 1px solid #3d9cd2 !important;
     padding: 5px;
 }
+
+.payment_method_bluemedia img{
+    width: 42px!important;
+    height: 26px!important;
+}
