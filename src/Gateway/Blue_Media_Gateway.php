@@ -98,8 +98,8 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 			 <input type='hidden' name='ServiceID'  value='%s' />
 			 <input type='hidden' name='OrderID'  value='%s' />
 			 <input type='hidden' name='Amount'  value='%s' />
-			 <input type='hidden' name='Description'  value='%s' />
 			 <input type='hidden' name='GatewayID'  value='%s' />
+			 <input type='hidden' name='CustomerEmail'  value='%s' />
 			 <input type='hidden' name='Hash'  value='%s' /></form>
 <script type='text/javascript'>
         document.getElementById('paymentForm').submit();
@@ -108,8 +108,8 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 						$params['ServiceID'],
 						$params['OrderID'],
 						$params['Amount'],
-						$params['Description'],
 						! empty( $params['GatewayID'] ) ? $params['GatewayID'] : '0',
+						$params['CustomerEmail'],
 						$params['Hash'] );
 				}
 				update_post_meta( $params['OrderID'],
@@ -318,6 +318,14 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 						$init_params     = get_post_meta( $wc_order_id,
 							'bm_transaction_init_params', true );
 
+						update_option( 'bm_api_last_error',
+							sprintf( '[%s server time] [BlueMedia ITN debug] [Transaction from ITN: %s] [Init params meta: %s]',
+								date( "Y-m-d H:i:s", time() ),
+								json_encode( $transaction ),
+								json_encode( $init_params )
+							)
+						);
+
 						if ( ! is_array( $init_params ) ) {
 							throw new Exception(
 								'Blue Media Woocommerce webhook error - transaction (ID: '
@@ -479,13 +487,23 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		WC_Order $wc_order,
 		int $payment_channel = 0
 	): array {
-		$params              = [
-			'ServiceID'   => $this->service_id,
-			'OrderID'     => $wc_order->get_id(),
-			'Amount'      => $wc_order->get_total(),
-			'Description' => 'description test',
+
+		// get price (type "string") and check if it has dot in it
+		// because some shops in Woocommerce settings
+		// set rounded prices
+		$price = $wc_order->get_total();
+		if ( stripos( $price, "." ) === false ) {
+			$price = sprintf( "%.2f", $price );
+		}
+
+		$params = [
+			'ServiceID'     => $this->service_id,
+			'OrderID'       => $wc_order->get_id(),
+			'Amount'        => $price,
+			'GatewayID'     => $payment_channel,
+			'CustomerEmail' => $wc_order->get_billing_email(),
 		];
-		$params['GatewayID'] = $payment_channel;
+
 
 		$params_hash = $this->hash_transaction_parameters(
 			$params
@@ -662,7 +680,6 @@ data-index="0" id="bm-gateway-id-%s" class="shipping_method" value="%s">
 				$channel->iconURL,
 				$channel->gatewayID,
 				$channel->gatewayName
-
 			);
 
 			$grouped[ $channel->gatewayType ][] = $channelHtml;
@@ -670,16 +687,18 @@ data-index="0" id="bm-gateway-id-%s" class="shipping_method" value="%s">
 		$other_groups_key = 6;
 		$grouped_sorted   = $grouped;
 		foreach ( $grouped as $k => $group ) {
-			if ( $k === 'BLIK' ) {
+			if ( $k === 'PBL' ) {
 				$this->repositionArrayElement( $grouped_sorted, $k, 0 );
-			} elseif ( $k === 'Karta płatnicza' ) {
+			} elseif ( $k === 'BLIK' ) {
 				$this->repositionArrayElement( $grouped_sorted, $k, 1 );
-			} elseif ( $k === 'Portfel elektroniczny' ) {
+			} elseif ( $k === 'Karta płatnicza' ) {
 				$this->repositionArrayElement( $grouped_sorted, $k, 2 );
-			} elseif ( $k === 'FR' ) {
+			} elseif ( $k === 'Portfel elektroniczny' ) {
 				$this->repositionArrayElement( $grouped_sorted, $k, 3 );
-			} elseif ( $k === 'Raty online' ) {
+			} elseif ( $k === 'FR' ) {
 				$this->repositionArrayElement( $grouped_sorted, $k, 4 );
+			} elseif ( $k === 'Raty online' ) {
+				$this->repositionArrayElement( $grouped_sorted, $k, 5 );
 			}
 		}
 

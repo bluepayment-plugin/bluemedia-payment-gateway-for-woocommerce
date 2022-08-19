@@ -42,8 +42,11 @@ class Plugin extends Ilabs_Plugin
 			//$this->init_admin_features();
 		}
 
+        add_action( 'template_redirect', array( $this, 'return_redirect_handler') );
 
-		add_action( 'woocommerce_after_register_post_type', function () {
+        add_filter( 'woocommerce_cancel_unpaid_order', array( $this, 'bm_woocommerce_cancel_unpaid_order_filter' ), 10, 2 );
+
+		/*add_action( 'woocommerce_after_register_post_type', function () {
 			if ( isset( $_GET['bm_gateway_return'] ) ) {
 
 				$finish_url = get_option( sprintf( 'bm_order_id_%s_finish_url',
@@ -56,7 +59,7 @@ class Plugin extends Ilabs_Plugin
 				wp_redirect( $finish_url );
 				exit;
 			}
-		} );
+		} );*/
 
 		if ( ! empty( get_option( 'bm_order_received_url' ) )
 		     && empty( get_option( 'bm_payment_start' ) ) ) {
@@ -158,6 +161,46 @@ class Plugin extends Ilabs_Plugin
 			1.1,
 			true );
 	}
+
+    /**
+     * [JIRA] (WOOCOMERCE-17) Błąd przekierowania
+     */
+    public function return_redirect_handler() {
+        // do nothing if we are not on the order received page
+        /* if( ! is_wc_endpoint_url( 'order-received' ) || empty( $_GET[ 'key' ] ) ) {
+             return;
+         }*/
+
+        if ( isset( $_GET['bm_gateway_return'] ) ) {
+
+            $order = null;
+
+            if( isset( $_GET['OrderID'] ) ) {
+                $order = wc_get_order( $_GET['OrderID'] );
+            }
+
+            if( isset( $_GET['key'] ) ) {
+                $order_id = wc_get_order_id_by_order_key( $_GET['key'] );
+                $order = wc_get_order( $order_id );
+            }
+
+            if( $order ) {
+                $finish_url = $order->get_checkout_order_received_url();
+                wp_redirect( $finish_url );
+                exit;
+            }
+        }
+    }
+
+    /**
+     * [JIRA] (WOOCOMERCE-26) Błędnie przydzielane statusy dla transkacji nie opłaconych w ciągu godziny.
+     */
+    public function bm_woocommerce_cancel_unpaid_order_filter( $string, $order ){
+        if( 'bluemedia' === $order->get_payment_method() ) {
+            return false;
+        }
+        return $string;
+    }
 }
 
 

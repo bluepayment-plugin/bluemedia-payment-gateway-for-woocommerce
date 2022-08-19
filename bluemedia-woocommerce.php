@@ -1,16 +1,16 @@
 <?php
 /**
  * Plugin Name: Blue Media Woocommerce
- * Plugin URI:
+ * Plugin URI: https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.0.6
- * Author: INSPIRE LABS
- * Author URI: https://inspirelabs.pl/
+ * Version: 4.0.7
+ * Author: iLabs LTD
+ * Author URI: iLabs.dev
  * Text Domain: bm_woocommerce
  * Domain Path: /lang/
  *
- * Copyright 2022 INSPIRE LABS SP. Z O.O.
+ * Copyright 2022 iLabs LTD
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

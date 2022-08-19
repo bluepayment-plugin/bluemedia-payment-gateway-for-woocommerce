@@ -1,8 +1,8 @@
 === Blue Media Woocommerce ===
-Contributors: InspireLabs
+Contributors: iLabs LTD
 Tags: woocommerce, bluemedia
 Requires at least: 4.1
-Tested up to: 5.9.2
+Tested up to: 6.0.1
 Stable tag: 1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
