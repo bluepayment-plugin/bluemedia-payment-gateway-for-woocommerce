@@ -102,10 +102,10 @@ Pola dostępne wyłącznie dla waluty PLN:
 Upewnij się, że w panelach administracyjnych Blue Media https://oplacasie.bm.pl oraz https://oplacasie-accept.bm.pl poniższe pola zawierają poprawne adresy sklepu.
 
 ●	Konfiguracja adresu powrotu do płatności
-https://domena-sklepu.pl/?wc-api=wc_payment_gateway_bluemedia&thank_you_page=1 
+https://domena-sklepu.pl/?bm_gateway_return
 
 ●	Konfiguracja adresu, na który jest wysyłany ITN
-https://domena-sklepu.pl/?wc-api=wc_payment_gateway_bluemedia 
+https://domena-sklepu.pl/?wc-api=wc_gateway_bluemedia
   
 ## Logi
 
