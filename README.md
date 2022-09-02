@@ -57,6 +57,12 @@ Powyższe pola uzupełnisz danymi, które otrzymasz od Blue Media S.A. Jeśli je
 W momencie, gdy skończysz już sprawdzać, czy wszystko działa prawidłowo – wyłącz tryb testowy, wówczas płatności na Twojej stronie będą w 100% aktywne.
 Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 
+![Widok pól do uzupełnienia](/assets/img/screenshot_1.png)
+*Widok pól do uzupełnienia*
+
+
+![Dostępne metody płatności](/assets/img/screenshot_2.png)
+*Dostępne metody płatności*
 
 ### Konfiguracja adresów URL
 	 	 	 		
