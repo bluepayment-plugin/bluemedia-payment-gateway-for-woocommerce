@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.0.7
+ * Version: 4.0.8
  * Author: iLabs LTD
  * Author URI: iLabs.dev
  * Text Domain: bm_woocommerce
