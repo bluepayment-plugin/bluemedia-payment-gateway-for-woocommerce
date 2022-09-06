@@ -58,11 +58,12 @@ W momencie, gdy skończysz już sprawdzać, czy wszystko działa prawidłowo –
 Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 
 ![Widok pól do uzupełnienia](/assets/img/screenshot_1.png)
-*Widok pól do uzupełnienia*
+<em>Widok pól do uzupełnienia<em>
 
 
 ![Dostępne metody płatności](/assets/img/screenshot_2.png)
-*Dostępne metody płatności*
+
+<em>Dostępne metody płatności</em>
 
 ### Konfiguracja adresów URL
 	 	 	 		
