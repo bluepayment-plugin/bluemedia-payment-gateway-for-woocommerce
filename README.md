@@ -11,7 +11,7 @@ Do najważniejszych funkcji modułu zalicza się:
 - obsługę powiadomień o statusie transakcji (notyfikacje XML)
 - obsługę zakupów bez rejestracji w serwisie
 - obsługę dwóch trybów działania – testowego i produkcyjnego (dla każdego z nich wymagane są osobne dane kont, po które zwróć się do nas)
-- obsługę popularnych metod płatności, w tym Google Pay, Pay Smartney (płatności odroczone – które pozwalają Twoim klientom płacić za zakupy w wygodny sposób
+- obsługę popularnych metod płatności, które pozwalają Twoim klientom płacić za zakupy w wygodny sposób
 - możliwość korzystania z BLIKA na dwa sposoby (z przekierowaniem na stronę eblik.pl lub jako BLIK 0)
 - wybór banku po stronie sklepu i bezpośrednie przekierowanie do płatności w wybranym banku
 
