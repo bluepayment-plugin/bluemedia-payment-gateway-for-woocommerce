@@ -1,6 +1,55 @@
 .bm-disabled {
-	color: #DCDAD1;
-	padding: 2px;
-	margin: 0 0 0 0;
-	background-image: none;
+    color: #DCDAD1;
+    padding: 2px;
+    margin: 0 0 0 0;
+    background-image: none;
 }
+
+
+.bm-modalbackground {
+    position: relative;
+}
+
+.bm-modal-content {
+    padding: 0px 30px 30px 30px;
+    display: none;
+    position: fixed;
+    width: 33.333%;!important;
+    top: 20%;!important;
+    left: 33.3333%;!important;
+    background: white;!important;
+    z-index: 2;!important;
+}
+
+.bm-close {
+    font-size: 40px;
+    margin: 5px;
+    right: 0;
+    position: absolute;
+    cursor: pointer;
+}
+
+.bm-modal-content p {
+    font-weight: bold;
+    font-size: 15px;
+    margin: 20px 0px;
+}
+
+.bm-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 1;
+}
+
+.bm-modal-overlay.active {
+    display: block !important;
+}
+
+

@@ -1,10 +1,12 @@
 <?php
 /**
- * Plugin Name: Blue Media Woocommerce
+ * Plugin Name: Blue Media
  * Plugin URI: https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.0.10
+ * Version: 4.1.2
+ * Tested up to: 6.0.2
+ * Requires PHP: 7.2.0
  * Author: iLabs LTD
  * Author URI: iLabs.dev
  * Text Domain: bm_woocommerce
@@ -31,30 +33,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-$plugin_file = __FILE__;
-$plugin_dir  = dirname( __FILE__ );
-
-define( 'BM_PLUGIN_URL',
-	plugin_dir_url( $plugin_file )
-);
-
-add_action( 'plugins_loaded', function () {
-	load_plugin_textdomain( 'bm-woocommerce', false,
-		basename( dirname( __FILE__ ) ) . '/lang/' );
-} );
-
-define( 'BM_WOOCOMMERCE_PLUGIN_PATH',
-	plugin_dir_path( __FILE__ )
-);
-
-define( 'BM_WOOCOMMERCE_PLUGIN_BASENAME',
-	plugin_basename( __FILE__ )
-);
-
-define( 'BM_WOOCOMMERCE_PLUGIN_URL',
-	plugin_dir_url( __FILE__ )
-);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-( new \Inspire_Labs\BM_Woocommerce\Plugin() )->init();
+function blue_media(): Ilabs\BM_Woocommerce\Plugin {
+	return new Ilabs\BM_Woocommerce\Plugin();
+}
+
+$config = [
+	'__FILE__'    => __FILE__,
+	'slug'        => 'bm_woocommerce',
+	'lang_dir'    => 'lang',
+	'text_domain' => 'bm-woocommerce',
+];
+
+blue_media()->execute( $config );

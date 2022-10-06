@@ -17,13 +17,13 @@ Do najważniejszych funkcji modułu zalicza się:
 
 ### Wymagania
 
-- WordPress – przetestowane na wersjach od 4.4 do 6.0.1
-- Wtyczka WooCommerce – przetestowano na wersjach od 2.1 do 6.8.0
+- WordPress – przetestowane na wersjach od 4.4 do 6.0.2
+- Wtyczka WooCommerce – przetestowano na wersjach od 4.1 do 6.9.4
 - PHP minimum 7.2 - wersja zalecana przez Woocommerce
 
 ## Instalacja modułu
 1. Pobierz wtyczkę.
-2. Zaloguj się do swojego panelu administracyjnego w serwisie WordPress – używając loginu i hasła. 
+2. Zaloguj się do swojego panelu administracyjnego w serwisie WordPress – używając loginu i hasła.
 3. W menu po lewej stronie wybierz Wtyczki ➝ Dodaj nową.
 4. Zainstaluj wtyczkę wybierając jedną z poniższych metod.
 
@@ -50,7 +50,7 @@ Do najważniejszych funkcji modułu zalicza się:
 6.	W polu “Testowy identyfikator serwisu” wpisz Twój testowy identyfikator serwisu.
 
 7.	W polu “Testowy klucz współdzielony” wpisz Twój testowy klucz współdzielony.
-W polu “Identyfikator serwisu” wpisz identyfikator serwisu.
+      W polu “Identyfikator serwisu” wpisz identyfikator serwisu.
 8.	W polu “Klucz współdzielony” wpisz klucz współdzielony.
 
 Powyższe pola uzupełnisz danymi, które otrzymasz od Blue Media S.A. Jeśli jeszcze ich nie masz - skontaktuj się z nami.
@@ -66,7 +66,7 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 <em>Dostępne metody płatności</em>
 
 ### Konfiguracja adresów URL
-	 	 	 		
+
 Upewnij się, że w panelach administracyjnych Blue Media https://oplacasie.bm.pl oraz https://oplacasie-accept.bm.pl poniższe pola zawierają poprawne adresy sklepu.
 
 ●	Konfiguracja adresu powrotu do płatności
@@ -74,13 +74,13 @@ https://domena-sklepu.pl/?bm_gateway_return
 
 ●	Konfiguracja adresu, na który jest wysyłany ITN
 https://domena-sklepu.pl/?wc-api=wc_gateway_bluemedia
-  
+
 ## Logi
 
 1.	Przejdź do zakładki WooCommerce ➝ Status ➝ Logi.
 
-2.	Rozwiń listę w prawym górnym rogu witryny, a znajdziesz tam pliki w formacie bluemedia_payment_gateway-YYYY-MM-DD-hash.log 
+2.	Rozwiń listę w prawym górnym rogu witryny, a znajdziesz tam pliki w formacie bluemedia_payment_gateway-YYYY-MM-DD-hash.log
 
-Pliki te zawierają logi błędów, które mogą wystąpić podczas procesu płatności. W plikach dostępne są również informacje dotyczące każdej wykonanej płatności za pomocą wtyczki BlueMedia. 
+Pliki te zawierają logi błędów, które mogą wystąpić podczas procesu płatności. W plikach dostępne są również informacje dotyczące każdej wykonanej płatności za pomocą wtyczki BlueMedia.
 
 Dane te mogą się okazać przydatne przy zgłaszaniu problemów z działaniem wtyczki. 

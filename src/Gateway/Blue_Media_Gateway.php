@@ -1,9 +1,9 @@
 <?php
 
-namespace Inspire_Labs\BM_Woocommerce\Gateway;
+namespace Ilabs\BM_Woocommerce\Gateway;
 
 use Exception;
-use Inspire_Labs\BM_Woocommerce\Plugin;
+use Ilabs\BM_Woocommerce\Plugin;
 use SimpleXMLElement;
 use WC_Order;
 use WC_Payment_Gateway;
@@ -13,13 +13,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	const GATEWAY_PRODUCTION = 'https://pay.bm.pl/';
 
 	const GATEWAY_SANDBOX = 'https://pay-accept.bm.pl/';
-
-	/**
-	 * Whether or not logging is enabled
-	 *
-	 * @var bool
-	 */
-	public static $log_enabled = false;
 
 	/**
 	 * @var string
@@ -38,28 +31,26 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 
 	/**
-	 * Class constructor, more about it in Step 3
 	 *
 	 * @throws Exception
 	 */
 	public function __construct() {
 		$this->id           = 'bluemedia';
 		$this->icon
-		                    = BM_WOOCOMMERCE_PLUGIN_URL
-		                      . 'assets/img/logo-blue-media.svg';
+		                    = blue_media()->get_plugin_images_url()
+		                      . '/logo-blue-media.svg';
 		$this->has_fields
 		                    = true;
 		$this->method_title = __( 'Blue Media',
-			Plugin::TEXTDOMAIN );
+			'bm-woocommerce' );
 		$this->method_description
 		                    = __( 'Description of Blue Media payment gateway',
-			Plugin::TEXTDOMAIN );
+			'bm-woocommerce' );
 
 		$this->supports = [
 			'products',
 		];
-
-
+		//tracking ID
 		$this->init_form_fields();
 		$this->init_settings();
 
@@ -126,93 +117,126 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 	}
 
-	/**
-	 * Logging method.
-	 *
-	 * @param string $message Log message.
-	 * @param string $level Optional. Default 'info'. Possible values:
-	 *                        emergency|alert|critical|error|warning|notice|info|debug.
-	 */
-	public static function log( $message, $level = 'info' ) {
-		if ( self::$log_enabled ) {
-			if ( empty( self::$log ) ) {
-				self::$log = wc_get_logger();
-			}
-			self::$log->log( $level, $message, [ 'source' => 'paypal' ] );
-		}
-	}
-
 
 	/**
 	 * @return void
+	 * @throws Exception
 	 */
 	public function init_form_fields() {
 		$this->form_fields = [
 			'whitelabel'       => [
 				'title'       => __( 'Gateway mode',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'label'       => __( 'Enable whitelabel mode',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Gateway mode',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			],
 			'title'            => [
 				'title'    => __( 'Title',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'type'     => 'text',
 				'default'  => __( 'Blue Media gateway',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'desc_tip' => true,
 			],
 			'description'      => [
 				'title'   => __( 'Description',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'type'    => 'textarea',
 				'default' => __( 'Lorem Ipsum',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 			],
 			'testmode'         => [
 				'title'       => __( 'Sandbox mode',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'label'       => __( 'Enable Sandbox mode',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'type'        => 'checkbox',
 				'description' => __( 'If you do not select this the shop will run on production',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'default'     => 'yes',
 				'desc_tip'    => true,
 			],
 			'test_service_id'  => [
 				'title'       => __( 'Test Service ID',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'description' => __( 'It contains only numbers. It is different for each shop',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'type'        => 'text',
 			],
 			'test_private_key' => [
 				'title'       => __( 'Test Private Key',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'description' => __( 'Contains numbers and lowercase letters. It is used to verify communication with the payment gateway. It should not be made available to the public',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'type'        => 'password',
 			],
 			'service_id'       => [
 				'title'       => __( 'Service ID',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'description' => __( 'It contains only numbers. It is different for each shop',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'type'        => 'text',
 			],
 			'private_key'      => [
 				'title'       => __( 'Production private Key',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'description' => __( 'Contains numbers and lowercase letters. It is used to verify communication with the payment gateway. It should not be made available to the public',
-					Plugin::TEXTDOMAIN ),
+					'bm-woocommerce' ),
 				'type'        => 'password',
 			],
+
+
+			'ga4_tracking_id'                 => [
+				'title'       => __( 'Google Analitics Tracking ID',
+					'bm-woocommerce' ),
+				'description' => ( function () {
+					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
+					$desc_link_text = __( 'Where can I find the Measurement ID?', 'bm-woocommerce' );
+
+					return "$desc <a id='bm_ga_help_modal' href='#'>$desc_link_text</a>";
+				} )(),
+				'type'        => 'text',
+			],
+			'wc_payment_statuses'             => [
+				'title'       => __( 'Payment statuses',
+					'bm-woocommerce' ),
+				'description' => __( '',
+					'bm-woocommerce' ),
+				'type'        => 'title',
+			],
+			'wc_payment_status_on_bm_pending' => [
+				'title'       => __( 'Payment pending',
+					'bm-woocommerce' ),
+				'description' => __( '',
+					'bm-woocommerce' ),
+				'type'        => 'select',
+				'options'     => wc_get_order_statuses(),
+				'default'     => 'wc-pending',
+			],
+			'wc_payment_status_on_bm_success' => [
+				'title'       => __( 'Payment success',
+					'bm-woocommerce' ),
+				'description' => __( '',
+					'bm-woocommerce' ),
+				'type'        => 'select',
+				'options'     => wc_get_order_statuses(),
+				'default'     => 'wc-completed',
+			],
+			'wc_payment_status_on_bm_failure' => [
+				'title'       => __( 'Payment failure',
+					'bm-woocommerce' ),
+				'description' => __( '',
+					'bm-woocommerce' ),
+				'type'        => 'select',
+				'options'     => wc_get_order_statuses(),
+				'default'     => 'wc-failed',
+			],
+
 		];
 
 	}
@@ -233,7 +257,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 *
 	 * @return array
 	 */
-	public function process_payment( $order_id ) {
+	public function process_payment( $order_id ): array {
 		global $woocommerce;
 
 		$payment_channel = (int) $_POST['bm-payment-channel'] ?? null;
@@ -340,7 +364,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 							ob_start();
 							header( 'HTTP/1.0 401 Unauthorized' );
 							echo __( 'validate_itn_params - not valid',
-								Plugin::APP_PREFIX );
+								esc_attr( blue_media()->get_from_config( 'slug' ) ) );
 							exit;
 						}
 
@@ -379,24 +403,27 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 						ob_start();
 						header( 'HTTP/1.0 401 Unauthorized' );
 						echo __( 'validate_itn_hash - not valid',
-							Plugin::APP_PREFIX );
+							'bm-woocommerce' );
 						exit;
 					}
 
 					foreach ( $order_success_to_update as $wc_order ) {
-						$wc_order->set_status( 'completed' );
+						$new_status = $this->get_option( 'wc_payment_status_on_bm_success', 'completed' );
+						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus SUCCESS' );
 						$wc_order->save();
 					}
 
 					foreach ( $order_pending_to_update as $wc_order ) {
-						$wc_order->set_status( 'pending' );
+						$new_status = $this->get_option( 'wc_payment_status_on_bm_pending', 'pending' );
+						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus PENDING' );
 						$wc_order->save();
 					}
 
 					foreach ( $order_failure_to_update as $wc_order ) {
-						$wc_order->set_status( 'failed' );
+						$new_status = $this->get_option( 'wc_payment_status_on_bm_failure', 'failed' );
+						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus FAILURE' );
 						$wc_order->save();
 					}
@@ -729,7 +756,7 @@ data-index="0" id="bm-gateway-id-%s" class="shipping_method" value="%s">
 		int $order
 	): void {
 		if ( ( $a = array_search( $key, array_keys( $array ) ) ) === false ) {
-			throw new \Exception( "The {$key} cannot be found in the given array." );
+			throw new Exception( "The {$key} cannot be found in the given array." );
 		}
 		$p1    = array_splice( $array, $a, 1 );
 		$p2    = array_splice( $array, 0, $order );

@@ -4,17 +4,17 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd599ae42e08674a0e2cc56e067ffa2fa
+class ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1
 {
     public static $prefixLengthsPsr4 = array (
         'I' => 
         array (
-            'Inspire_Labs\\BM_Woocommerce\\' => 28,
+            'Ilabs\\BM_Woocommerce\\' => 21,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Inspire_Labs\\BM_Woocommerce\\' => 
+        'Ilabs\\BM_Woocommerce\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
@@ -22,18 +22,111 @@ class ComposerStaticInitd599ae42e08674a0e2cc56e067ffa2fa
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Inspire_Labs\\BM_Woocommerce\\Alerts' => __DIR__ . '/../..' . '/src/Alerts.php',
-        'Inspire_Labs\\BM_Woocommerce\\Gateway\\Blue_Media_Gateway' => __DIR__ . '/../..' . '/src/Gateway/Blue_Media_Gateway.php',
-        'Inspire_Labs\\BM_Woocommerce\\Plugin' => __DIR__ . '/../..' . '/src/Plugin.php',
-        'Inspire_Labs\\BM_Woocommerce\\Plugin\\Ilabs_Plugin' => __DIR__ . '/../..' . '/src/Plugin/Ilabs_Plugin.php',
+        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Event' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Event.php',
+        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Ga4_Dto_Interface' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Ga4_Dto_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Item_DTO' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Item_DTO.php',
+        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Item_In_Cart_DTO' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Item_In_Cart_DTO.php',
+        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\List_Item_DTO' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/List_Item_DTO.php',
+        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Payload_DTO' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Payload_DTO.php',
+        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Purchase_Event_Params_DTO' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Purchase_Event_Params_DTO.php',
+        'Ilabs\\BM_Woocommerce\\Domain\\Model\\Package' => __DIR__ . '/../..' . '/src/Domain/Model/Package.php',
+        'Ilabs\\BM_Woocommerce\\Domain\\Service\\Ga4\\Add_Product_To_Cart_Use_Case' => __DIR__ . '/../..' . '/src/Domain/Service/Ga4/Add_Product_To_Cart_Use_Case.php',
+        'Ilabs\\BM_Woocommerce\\Domain\\Service\\Ga4\\Click_On_Product_Use_Case' => __DIR__ . '/../..' . '/src/Domain/Service/Ga4/Click_On_Product_Use_Case.php',
+        'Ilabs\\BM_Woocommerce\\Domain\\Service\\Ga4\\Complete_Transation_Use_Case' => __DIR__ . '/../..' . '/src/Domain/Service/Ga4/Complete_Transation_Use_Case.php',
+        'Ilabs\\BM_Woocommerce\\Domain\\Service\\Ga4\\Ga4_Use_Case_Interface' => __DIR__ . '/../..' . '/src/Domain/Service/Ga4/Ga4_Use_Case_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Domain\\Service\\Ga4\\Initiate_Checkout_Use_Case' => __DIR__ . '/../..' . '/src/Domain/Service/Ga4/Initiate_Checkout_Use_Case.php',
+        'Ilabs\\BM_Woocommerce\\Domain\\Service\\Ga4\\Remove_Product_From_Cart_Use_Case' => __DIR__ . '/../..' . '/src/Domain/Service/Ga4/Remove_Product_From_Cart_Use_Case.php',
+        'Ilabs\\BM_Woocommerce\\Domain\\Service\\Ga4\\View_Product_On_List_Use_Case' => __DIR__ . '/../..' . '/src/Domain/Service/Ga4/View_Product_On_List_Use_Case.php',
+        'Ilabs\\BM_Woocommerce\\Gateway\\Blue_Media_Gateway' => __DIR__ . '/../..' . '/src/Gateway/Blue_Media_Gateway.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Abstract_Ilabs_Plugin' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Abstract_Ilabs_Plugin.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Alerts' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Alerts.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Common\\Wc_Helpers' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Common/Wc_Helpers.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Environment' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Environment.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Abstracts\\Abstract_Action' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Abstracts/Abstract_Action.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Abstracts\\Abstract_Condition' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Abstracts/Abstract_Condition.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Abstracts\\Abstract_Event' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Abstracts/Abstract_Event.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Action\\Action' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Action/Action.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Action\\Copy' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Action/Copy.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Action\\Output_Template' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Action/Output_Template.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Cache' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Cache.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\Is_Admin' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/Is_Admin.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Not_Ajax' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Not_Ajax.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Product' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Product.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Shop' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Shop.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Request_Key_Exist' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Request_Key_Exist.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Request_Value_Equals' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Request_Value_Equals.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\On' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/On.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Save_Post' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Save_Post.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Save_Wc_Order_Post' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Save_Wc_Order_Post.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Add_To_Cart' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Add_To_Cart.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Before_Checkout_Form' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Before_Checkout_Form.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Before_Settings' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Before_Settings.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Before_Shop_Loop_Item' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Before_Shop_Loop_Item.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Before_Single_Product' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Before_Single_Product.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Checkout_Page' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Checkout_Page.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Checkout_Update_Order_Meta' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Checkout_Update_Order_Meta.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_New_Order' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_New_Order.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Order_Status_Changed' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Order_Status_Changed.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wc_Remove_Cart_Item' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wc_Remove_Cart_Item.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wp' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wp.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wp_Admin_Footer' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wp_Admin_Footer.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wp_Cron_Every_N_Minutes' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wp_Cron_Every_N_Minutes.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wp_Footer' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wp_Footer.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event\\Wp_Init' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event/Wp_Init.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event_Chain' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event_Chain.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Event_Chain_Item' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Event_Chain_Item.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Action_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Action_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Cache_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Cache_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Condition_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Condition_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Event_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Event_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Post_Readable_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Post_Readable_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Post_Writable_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Post_Writable_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Readable_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Readable_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Wc_Cart_Aware_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Wc_Cart_Aware_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Wc_Order_Aware_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Wc_Order_Aware_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Wc_Product_Aware_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Wc_Product_Aware_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Interfaces\\Writable_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Interfaces/Writable_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Storage\\Readable\\Option' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Storage/Readable/Option.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Storage\\Readable\\Readable_Post_Meta' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Storage/Readable/Readable_Post_Meta.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Storage\\Writable\\Option' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Storage/Writable/Option.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Storage\\Writable\\Writable_Post_Meta' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Storage/Writable/Writable_Post_Meta.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Traits\\Actions' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Traits/Actions.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Traits\\Conditions' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Traits/Conditions.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Traits\\Events' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Traits/Events.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Wc_Session_Cache' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Wc_Session_Cache.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Wp_Options_Based_Cache' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Wp_Options_Based_Cache.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Fields\\Checkbox' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Fields/Checkbox.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Fields\\Decimal' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Fields/Decimal.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Fields\\Group' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Fields/Group.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Fields\\Number' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Fields/Number.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Fields\\Select' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Fields/Select.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Fields\\Text' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Fields/Text.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Fields\\Text_Area' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Fields/Text_Area.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Field_Checkbox_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Field_Checkbox_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Field_Decimal_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Field_Decimal_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Field_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Field_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Field_Number_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Field_Number_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Field_Select_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Field_Select_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Field_Text_Area_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Field_Text_Area_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Field_Text_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Field_Text_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Group_Ajax' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Group_Ajax.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Interfaces\\Group_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Interfaces/Group_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Woocommerce\\Field' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Woocommerce/Field.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Presentation\\Woocommerce\\Meta_Box' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Presentation/Woocommerce/Meta_Box.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Request' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Request.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Request_Filter_Interface' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Request_Filter_Interface.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Security_Request_Filter' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Security_Request_Filter.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Tools' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Tools.php',
+        'Ilabs\\BM_Woocommerce\\Plugin' => __DIR__ . '/../..' . '/src/Plugin.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd599ae42e08674a0e2cc56e067ffa2fa::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd599ae42e08674a0e2cc56e067ffa2fa::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitd599ae42e08674a0e2cc56e067ffa2fa::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1::$classMap;
 
         }, null, ClassLoader::class);
     }

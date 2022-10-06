@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Inspire_Labs\\BM_Woocommerce\\' => array($baseDir . '/src'),
+    'Ilabs\\BM_Woocommerce\\' => array($baseDir . '/src'),
 );

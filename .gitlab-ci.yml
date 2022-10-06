@@ -1,0 +1,23 @@
+stages:
+  - deploy
+
+cache:
+  untracked: true
+
+variables:
+  GIT_STRATEGY: fetch
+  DEST_DIRECTORY: /var/www/woocommerce-plugins
+  DEST_PLUGIN_DIRECTORY: /wp-content/plugins/bluemedia-woocommerce/
+
+deploy to stage:
+  stage: deploy
+  script:
+    - ssh -i /home/deploy_sc_testbox/.ssh/id_rsa 'deploy_sc_testbox@95.217.159.175' "sudo chown -R deploy_sc_testbox:www-data ${DEST_DIRECTORY};"
+    - echo ${DEST_DIRECTORY}${DEST_PLUGIN_DIRECTORY}
+    #- ssh -i /home/deploy_sc_testbox/.ssh/id_rsa 'deploy_sc_testbox@95.217.159.175' "sudo rm -rf ${DEST_DIRECTORY}${DEST_PLUGIN_DIRECTORY}*.*;"
+    - rsync --delete -rlD --exclude='.git' --exclude='.gitlab-ci.yml' ./ -e "ssh -i /home/deploy_sc_testbox/.ssh/id_rsa" deploy_sc_testbox@95.217.159.175:${DEST_DIRECTORY}${DEST_PLUGIN_DIRECTORY}
+    - ssh -i /home/deploy_sc_testbox/.ssh/id_rsa 'deploy_sc_testbox@95.217.159.175' "cd ${DEST_DIRECTORY}${DEST_PLUGIN_DIRECTORY}; rm -rf vendor/; rm -rf vendor_prefixed/; exit"
+    - ssh -i /home/deploy_sc_testbox/.ssh/id_rsa 'deploy_sc_testbox@95.217.159.175' "cd ${DEST_DIRECTORY}${DEST_PLUGIN_DIRECTORY}; /usr/bin/php7.4 /usr/local/bin/composer dump-autoload -o; exit"
+    - ssh -i /home/deploy_sc_testbox/.ssh/id_rsa 'deploy_sc_testbox@95.217.159.175' "cd /var/www/${CI_PROJECT_NAME}; sudo chown -R www-data:www-data ${DEST_DIRECTORY};"
+  only:
+    - master
