@@ -83,7 +83,7 @@ class Plugin extends Abstract_Ilabs_Plugin
 
         $this->implement_ga4();
         $this->implement_settings_modal();
-        //$this->implement_settings_banner();
+        $this->implement_settings_banner();
     }
 
     /**
@@ -160,6 +160,7 @@ class Plugin extends Abstract_Ilabs_Plugin
                     new Initiate_Checkout_Use_Case($cart_aware_interface->get_cart()));
             })
             ->on_wc_order_status_changed()
+	        ->when_is_frontend()
             ->when(function (Wc_Order_Status_Changed $event) {
                 return $event->get_new_status() === 'completed';
             })

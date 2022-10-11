@@ -36,6 +36,7 @@ return array(
     'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Cache' => $baseDir . '/src/Ilabs_Plugin/Event_Chain/Cache.php',
     'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\Is_Admin' => $baseDir . '/src/Ilabs_Plugin/Event_Chain/Condition/Is_Admin.php',
     'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When' => $baseDir . '/src/Ilabs_Plugin/Event_Chain/Condition/When.php',
+    'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Frontend' => $baseDir . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Frontend.php',
     'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Not_Ajax' => $baseDir . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Not_Ajax.php',
     'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Product' => $baseDir . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Product.php',
     'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Shop' => $baseDir . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Shop.php',

@@ -4,6 +4,7 @@ namespace Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Traits;
 
 use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Condition\Is_Admin;
 use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Condition\When;
+use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Condition\When_Is_Frontend;
 use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Condition\When_Is_Not_Ajax;
 use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Condition\When_Is_Product;
 use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Condition\When_Is_Shop;
@@ -68,6 +69,14 @@ trait Conditions
     {
         $this->get_event_chain()
             ->add_condition(new When_Is_Not_Ajax());
+
+        return $this->get_event_chain();
+    }
+
+	public function when_is_frontend(): Event_Chain
+    {
+        $this->get_event_chain()
+            ->add_condition(new When_Is_Frontend());
 
         return $this->get_event_chain();
     }

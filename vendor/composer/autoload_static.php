@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1
+class ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44
 {
     public static $prefixLengthsPsr4 = array (
         'I' => 
@@ -51,6 +51,7 @@ class ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1
         'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Cache' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Cache.php',
         'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\Is_Admin' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/Is_Admin.php',
         'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When.php',
+        'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Frontend' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Frontend.php',
         'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Not_Ajax' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Not_Ajax.php',
         'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Product' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Product.php',
         'Ilabs\\BM_Woocommerce\\Ilabs_Plugin\\Event_Chain\\Condition\\When_Is_Shop' => __DIR__ . '/../..' . '/src/Ilabs_Plugin/Event_Chain/Condition/When_Is_Shop.php',
@@ -124,9 +125,9 @@ class ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit05a5cfcb240784909cb56339d49f1bf1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44::$classMap;
 
         }, null, ClassLoader::class);
     }
