@@ -45,7 +45,7 @@ class Item_In_Cart_DTO implements Ga4_Dto_Interface {
 			'id'       => $this->id,
 			'name'     => $this->name,
 			'brand'    => $this->brand,
-			'category' => $this->category,
+			'category' => $this->category ?: '',
 			'variant'  => $this->variant,
 			'quantity' => $this->quantity,
 			'price'    => $this->price,
@@ -95,16 +95,16 @@ class Item_In_Cart_DTO implements Ga4_Dto_Interface {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function get_category(): string {
+	public function get_category(): ?string {
 		return $this->category;
 	}
 
 	/**
-	 * @param string $category
+	 * @param string|null $category
 	 */
-	public function set_category( string $category ): void {
+	public function set_category( ?string $category ): void {
 		$this->category = $category;
 	}
 

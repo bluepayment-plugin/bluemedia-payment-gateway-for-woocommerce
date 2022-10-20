@@ -54,7 +54,7 @@ class List_Item_DTO implements Ga4_Dto_Interface {
 			'id'            => $this->id,
 			'name'          => $this->name,
 			'brand'         => $this->brand,
-			'category'      => $this->category,
+			'category'      => $this->category ?: '',
 			'variant'       => $this->variant,
 			'quantity'      => $this->quantity,
 			'price'         => $this->price,
@@ -112,23 +112,23 @@ class List_Item_DTO implements Ga4_Dto_Interface {
 	}
 
 	/**
-	 * @param string $brand
+	 * @param string|null $brand
 	 */
-	public function set_brand( string $brand ): void {
+	public function set_brand( ?string $brand ): void {
 		$this->brand = $brand;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_category(): string {
+	public function get_category(): ?string {
 		return $this->category;
 	}
 
 	/**
-	 * @param string $category
+	 * @param string|null $category
 	 */
-	public function set_category( string $category ): void {
+	public function set_category( ?string $category ): void {
 		$this->category = $category;
 	}
 

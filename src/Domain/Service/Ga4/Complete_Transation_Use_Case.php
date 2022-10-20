@@ -2,7 +2,7 @@
 
 namespace Ilabs\BM_Woocommerce\Domain\Service\Ga4;
 
-use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Event;
+use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Event_DTO;
 use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Item_DTO;
 use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Item_In_Cart_DTO;
 use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Payload_DTO;
@@ -26,10 +26,10 @@ class Complete_Transation_Use_Case implements Ga4_Use_Case_Interface {
 
 
 	/**
-	 * @return Event
+	 * @return Event_DTO
 	 */
-	private function create_dto(): Event {
-		$dto = new Event();
+	private function create_dto(): Event_DTO {
+		$dto = new Event_DTO();
 
 		$dto->set_name( 'purchase' );
 
@@ -66,7 +66,7 @@ class Complete_Transation_Use_Case implements Ga4_Use_Case_Interface {
 	}
 
 	public function get_ga4_payload_array(): array {
-		// TODO: Implement get_ga4_payload_array() method.
+		return $this->get_ga4_payload_dto()->to_array();
 	}
 
 	public function get_ga4_payload_dto(): Payload_DTO {
@@ -78,6 +78,6 @@ class Complete_Transation_Use_Case implements Ga4_Use_Case_Interface {
 	}
 
 	public function get_event_name(): string {
-		// TODO: Implement get_event_name() method.
+		return 'purchase';
 	}
 }

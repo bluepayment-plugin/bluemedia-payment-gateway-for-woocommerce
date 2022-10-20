@@ -75,28 +75,28 @@ class Item_DTO implements Ga4_Dto_Interface{
 	/**
 	 * @return string
 	 */
-	public function get_brand(): string {
+	public function get_brand(): ?string {
 		return $this->brand;
 	}
 
 	/**
-	 * @param string $brand
+	 * @param string|null $brand
 	 */
-	public function set_brand( string $brand ): void {
+	public function set_brand( ?string $brand ): void {
 		$this->brand = $brand;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_category(): string {
+	public function get_category(): ?string {
 		return $this->category;
 	}
 
 	/**
-	 * @param string $category
+	 * @param string|null $category
 	 */
-	public function set_category( string $category ): void {
+	public function set_category( ?string $category ): void {
 		$this->category = $category;
 	}
 

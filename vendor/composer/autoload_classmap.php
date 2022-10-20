@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Event' => $baseDir . '/src/Data/Remote/Ga4/Dto/Event.php',
+    'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Event_DTO' => $baseDir . '/src/Data/Remote/Ga4/Dto/Event_DTO.php',
     'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Ga4_Dto_Interface' => $baseDir . '/src/Data/Remote/Ga4/Dto/Ga4_Dto_Interface.php',
     'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Item_DTO' => $baseDir . '/src/Data/Remote/Ga4/Dto/Item_DTO.php',
     'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Item_In_Cart_DTO' => $baseDir . '/src/Data/Remote/Ga4/Dto/Item_In_Cart_DTO.php',

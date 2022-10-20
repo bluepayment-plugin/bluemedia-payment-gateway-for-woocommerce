@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44
+class ComposerStaticInit6d364367608d3393334826d57b29e844
 {
     public static $prefixLengthsPsr4 = array (
         'I' => 
@@ -22,7 +22,7 @@ class ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Event' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Event.php',
+        'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Event_DTO' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Event_DTO.php',
         'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Ga4_Dto_Interface' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Ga4_Dto_Interface.php',
         'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Item_DTO' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Item_DTO.php',
         'Ilabs\\BM_Woocommerce\\Data\\Remote\\Ga4\\Dto\\Item_In_Cart_DTO' => __DIR__ . '/../..' . '/src/Data/Remote/Ga4/Dto/Item_In_Cart_DTO.php',
@@ -125,9 +125,9 @@ class ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3d7209fb544c2c36709a5e34bd8b9e44::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6d364367608d3393334826d57b29e844::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6d364367608d3393334826d57b29e844::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6d364367608d3393334826d57b29e844::$classMap;
 
         }, null, ClassLoader::class);
     }
