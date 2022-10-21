@@ -53,3 +53,7 @@
 ## [4.1.5] - 2022-10-20
 ### Fixed
 - Fatal error in Item_In_Cart_DTO.php
+
+## [4.1.6] - 2022-10-21
+### Updated
+- Documentation

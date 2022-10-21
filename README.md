@@ -2,7 +2,13 @@
 
 ## Podstawowe informacje
 
-BluePayment to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce). Jeżeli jeszcze nie masz wtyczki, możesz ją pobrać [tutaj.](https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce/archive/refs/heads/master.zip)
+BluePayment to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce). Jeżeli jeszcze nie masz wtyczki, możesz ją pobrać [tutaj.](https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce/releases)
+
+Należy zawsze pobierać najnowsze wydanie oznaczone etykietą "latest" (plik z ikonką paczki, zobacz poniższy screen).
+
+![Instrukcja pobierania archiwum z wtyczką](/assets/img/screenshot_3.png)
+<em>Instrukcja pobierania archiwum z wtyczką<em>
+
 
 ### Główne funkcje
 
