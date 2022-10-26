@@ -6,7 +6,6 @@ use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Item_In_Cart_DTO;
 use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Payload_DTO;
 use Ilabs\BM_Woocommerce\Ilabs_Plugin\Common\Wc_Helpers;
 use WC_Cart;
-use WC_Order;
 
 class Initiate_Checkout_Use_Case implements Ga4_Use_Case_Interface {
 
@@ -30,9 +29,9 @@ class Initiate_Checkout_Use_Case implements Ga4_Use_Case_Interface {
 
 			$item_dto = new Item_In_Cart_DTO();
 			$item_dto->set_name( $wc_product->get_name() );
-			$item_dto->set_price( $wc_product->get_price( null ) );
+			$item_dto->set_price( (float) $wc_product->get_price( null ) );
 			$item_dto->set_quantity( (int) $wc_product->get_stock_quantity( null ) );
-			$item_dto->set_variant( 0 );//todo wyjaśnić
+			$item_dto->set_variant( '' );//todo wyjaśnić
 			$item_dto->set_category( ( function () use ( $wc_product ) {
 				$term = get_term( $wc_product->get_category_ids()[0], 'product_cat' );
 
