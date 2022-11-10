@@ -4,9 +4,9 @@
  * Plugin URI: https://wordpress.org/plugins/platnosci-online-blue-media
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.1.8
- * Tested up to: 6.0.2
- * Requires PHP: 7.2.0
+ * Version: 4.1.10
+ * Tested up to: 6.1
+ * Requires PHP: 7.4
  * Author: iLabs LTD
  * Author URI: iLabs.dev
  * Text Domain: bm_woocommerce

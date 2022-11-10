@@ -2,7 +2,7 @@
 Contributors: inspirelabs
 Tags: woocommerce, bluemedia
 Requires at least: 4.1
-Tested up to: 6.0.2
+Tested up to: 6.1
 Stable tag: 4.1.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -19,14 +19,14 @@ Do najważniejszych funkcji modułu zalicza się:
 - obsługę zakupów bez rejestracji w serwisie
 - obsługę dwóch trybów działania – testowego i produkcyjnego (dla każdego z nich wymagane są osobne dane kont, po które zwróć się do nas)
 - obsługę popularnych metod płatności, które pozwalają Twoim klientom płacić za zakupy w wygodny sposób
-- możliwość korzystania z BLIKA na dwa sposoby (z przekierowaniem na stronę eblik.pl lub jako BLIK 0)
+- możliwość korzystania z BLIKA.
 - wybór banku po stronie sklepu i bezpośrednie przekierowanie do płatności w wybranym banku
 
 Wymagania
 
-- WordPress – przetestowane na wersjach od 4.4 do 6.0.2
+- WordPress – przetestowane na wersjach od 4.4 do 6.1
 - Wtyczka WooCommerce – przetestowano na wersjach od 4.1 do 6.9.4
-- PHP minimum 7.2 - wersja zalecana przez Woocommerce
+- PHP minimum 7.4 - minimalna wersja wymagana przez Woocommerce
 
 == Installation	 ==
 
@@ -65,5 +65,11 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 
 == Changelog ==
 
-= 1.0 =
-* Pierwsze wydanie!
+= 4.1.8 =
+* First release on wp.org
+
+= 4.1.9 =
+* Updated documentation
+
+= 4.1.10 =
+* Updated documentation
