@@ -23,9 +23,9 @@ Do najważniejszych funkcji modułu zalicza się:
 
 ### Wymagania
 
-- WordPress – przetestowane na wersjach od 4.4 do 6.1
-- Wtyczka WooCommerce – przetestowano na wersjach od 4.1 do 7.1
-- PHP minimum 7.4 - minimalna wersja wymagana przez Woocommerce
+- WordPress – przetestowane na wersjach od 4.4 do 6.1.1
+- Wtyczka WooCommerce – przetestowano na wersjach od 4.1 do 7.1.1
+- PHP minimum 7.4
 
 ## Instalacja modułu
 1. Pobierz wtyczkę.
@@ -76,10 +76,14 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 Upewnij się, że w panelach administracyjnych Blue Media https://oplacasie.bm.pl oraz https://oplacasie-accept.bm.pl poniższe pola zawierają poprawne adresy sklepu.
 
 ●	Konfiguracja adresu powrotu do płatności
-https://domena-sklepu.pl/?bm_gateway_return
+{URL Twojego sklepu}/?bm_gateway_return
+
+Przykład: https://mój-sklep.com/?bm_gateway_return
 
 ●	Konfiguracja adresu, na który jest wysyłany ITN
-https://domena-sklepu.pl/?wc-api=wc_gateway_bluemedia
+{URL Twojego sklepu}/?wc-api=wc_gateway_bluemedia
+
+Przykład: https://mój-sklep.com/?wc-api=wc_gateway_bluemedia
 
 ## Logi
 

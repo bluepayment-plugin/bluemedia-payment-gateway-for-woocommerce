@@ -8,7 +8,29 @@
   ],
   "autoload": {
     "psr-4": {
-      "Ilabs\\BM_Woocommerce\\": "src/"
+      "Ilabs\\BM_Woocommerce\\": "src/",
+      "Isolated\\BlueMedia\\Ilabs\\Ilabs_Plugin\\": "vendor/ilabs/ilabs-plugin/src"
     }
-  }
+  },
+  "require": {
+    "br33f/php-ga4-mp": "^0.1.2",
+    "ilabs/ilabs-plugin": "1.*"
+  },
+
+  "repositories": [
+    {
+      "type": "package",
+      "package": [
+        {
+          "name": "ilabs/ilabs-plugin",
+          "version": "1.0.0",
+          "type": "wordpress-plugin",
+          "dist": {
+            "type": "zip",
+            "url": "ilabs-dev/setup/packages/ilabs-plugin.zip"
+          }
+        }
+      ]
+    }
+  ]
 }

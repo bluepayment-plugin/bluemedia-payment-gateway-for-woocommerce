@@ -73,3 +73,14 @@
 ## [4.1.10] - 2022-11-10
 ### Updated
 - Documentation
+
+## [4.1.11] - 2023-01-12
+### Updated
+- Ga4 integration
+- Docs
+### Fixed
+- Unpaid order cancel feature
+- Minor fixes
+- Admin panel fixes
+### Added
+- Payment channels grouping refactor

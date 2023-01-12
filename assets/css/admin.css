@@ -152,3 +152,38 @@
     color: #0068B4;
 }
 
+/* label text under the radio buttons start*/
+label[for=no], label[for=yes]  {
+    top: 37px;
+    position: absolute;
+}
+
+input#yes[name="woocommerce_bluemedia_testmode"] {
+    margin-right: 20px;
+}
+
+@media screen and (max-width: 782px) {
+    label[for=no], label[for=yes]  {
+        top: 46px;
+    }
+}
+/* label text under the radio buttons end */
+
+.p-info {
+    margin-left: 234px;
+    display: block;
+}
+
+.woocommerce table.form-table .woocommerce-help-tip {
+    margin: 0px 0px 1px 4px !important;
+}
+
+.woocommerce table.form-table th label .woocommerce-help-tip {
+    margin: 0px 0px 1px 4px !important;
+    position: relative !important;
+    right: unset !important;
+    top: unset !important;
+}
+.wc-wp-version-gte-53 .woocommerce table.form-table th label .woocommerce-help-tip {
+    margin: 0px 0px 1px 4px !important;
+}

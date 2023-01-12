@@ -1,3 +1,7 @@
+/vendor/
+/vendor_prefixed/
+/ilabs-dev/setup/temp
+/ilabs-dev/build
 .idea
 build-coverage
 .DS_Store

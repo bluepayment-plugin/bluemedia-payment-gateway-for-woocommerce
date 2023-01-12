@@ -33,6 +33,11 @@ class Item_DTO implements Ga4_Dto_Interface{
 	 */
 	private $price;
 
+	/**
+	 * @var int
+	 */
+	private $quantity;
+
 	public function to_array(): array {
 		return [
 			'id'       => $this->id,
@@ -126,5 +131,19 @@ class Item_DTO implements Ga4_Dto_Interface{
 	 */
 	public function set_price( float $price ): void {
 		$this->price = $price;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_quantity(): int {
+		return $this->quantity;
+	}
+
+	/**
+	 * @param int $quantity
+	 */
+	public function set_quantity( int $quantity ): void {
+		$this->quantity = $quantity;
 	}
 }

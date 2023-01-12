@@ -36,11 +36,125 @@ ul.woocommerce-shipping-methods .bm-group-szybki-przelew {
 }
 
 .bm-payment-channel-item.selected {
-    border: 1px solid #3d9cd2 !important;
-    padding: 5px;
+    border: 1px solid #87CA8D !important;
 }
 
 .payment_method_bluemedia img{
-    width: 42px!important;
-    height: 26px!important;
+    width: 100px!important;
+    height: 80px;
+    object-fit: contain;
+}
+
+.bm-payment-channel-item {
+    display: grid;
+    grid-template-rows: auto;
+    align-items: center;
+    grid-template-areas: 'box ico name';
+    grid-auto-columns: auto auto 1fr;
+}
+
+.bm-payment-channel-item > input.bm-payment-channel {
+    grid-area: box;
+    height: 20px;
+    width: 20px;
+}
+
+span.bm-payment-channel-method-logo {
+    grid-area: ico;
+    top: unset !important;
+}
+
+#payment .payment_methods li img {
+    float: unset !important;
+    max-height: unset !important;
+    box-sizing: border-box;
+}
+
+.bm-payment-channel-method-logo img {
+    max-width: unset !important;
+    max-height: unset !important;
+}
+
+#payment .payment_methods li label {
+    grid-area: name;
+}
+
+#shipping_method > div > h5 {
+    display: none;
+}
+
+li.bm-payment-channel-item {
+    margin: 8px 0px;
+}
+
+#payment .payment_methods > .wc_payment_method.payment_method_bluemedia > label {
+    display: grid;
+    grid-template-rows: auto;
+    align-items: center;
+    grid-template-areas: 'box ico name';
+    grid-auto-columns: auto auto 1fr;
+}
+
+#payment .payment_methods > .wc_payment_method.payment_method_bluemedia > label > img {
+    margin-right: 15px;
+    grid-area: ico;
+}
+
+ul#shipping_method input:focus {
+    outline-color: unset !important;
+    outline: unset !important;
+}
+
+.bm-group-przelew-internetowy h5 {
+    display: block !important;
+}
+
+.bm-payment-channel-item > input[type=radio] {
+    margin-left: 1.2rem;
+    display: block !important;
+}
+
+.bm-group-expandable-wrapper {
+    display: none;
+}
+
+.bm-group-expandable-wrapper.active {
+    display: block;
+}
+
+span.bm-payment-channel-group-method-logo {
+    grid-area: ico;
+    top: unset !important;
+}
+
+.bm-payment-channel-group-method-logo img {
+    max-width: unset !important;
+    max-height: unset !important;
+}
+
+.bm-payment-channel-group-item {
+    display: grid;
+    grid-template-rows: auto;
+    align-items: center;
+    grid-template-areas: 'box ico name';
+    grid-auto-columns: auto auto 1fr;
+}
+
+.bm-payment-channel-group-item > input.bm-payment-channel-group {
+    grid-area: box;
+    height: 20px;
+    width: 20px;
+	display: block !important;
+}
+
+li.bm-payment-channel-group-item {
+    margin: 8px 0px;
+}
+
+.wc_payment_method.payment_method_bluemedia {
+  background: #fff !important;
+}
+
+.bm-payment-channel-group-item > input[type="radio"] {
+    margin-left: 1.2em;
 }

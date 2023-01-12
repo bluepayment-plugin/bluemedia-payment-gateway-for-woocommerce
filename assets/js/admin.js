@@ -1,11 +1,23 @@
 jQuery(document).ready(function () {
-    let checkbox = jQuery('#woocommerce_bluemedia_testmode');
+    //var radio = jQuery('#woocommerce_bluemedia_testmode');
 
-    setupView('checked' === checkbox.attr('checked'));
+    function api_fields_logic(radio_val) {
+        switch (radio_val) {
+            case 'yes':
+                setupView(true);
+                break;
+            default:
+                setupView(false);
+                break;
+        }
+    }
 
-    jQuery(checkbox.change(function () {
-        setupView(this.checked);
-    }));
+    api_fields_logic(jQuery('input[type=radio][name=woocommerce_bluemedia_testmode]:checked').val());
+
+    jQuery('input[type=radio][name=woocommerce_bluemedia_testmode]').on('change', function () {
+        api_fields_logic(jQuery(this).val());
+    });
+
 
     function setupView(isChecked) {
         if (true === isChecked) {
@@ -22,7 +34,7 @@ jQuery(document).ready(function () {
     }
 
 
-    jQuery('#bm_ga_help_modal').click(function (e) {
+    jQuery('.bm_ga_help_modal').click(function (e) {
         e.preventDefault()
         jQuery('.bm-modal-content').show();
         jQuery('body').toggleClass('bm-modalbackground');

@@ -3,21 +3,22 @@
 namespace Ilabs\BM_Woocommerce;
 
 use Exception;
+use Ilabs\BM_Woocommerce\Data\Remote\Ga4_Service_Client;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Add_Product_To_Cart_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Click_On_Product_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Complete_Transation_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Ga4_Use_Case_Interface;
-use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Initiate_Checkout_Use_Case;
+use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Init_Checkout_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Remove_Product_From_Cart_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\View_Product_On_List_Use_Case;
-use Ilabs\BM_Woocommerce\Ilabs_Plugin\Abstract_Ilabs_Plugin;
-use Ilabs\BM_Woocommerce\Ilabs_Plugin\Alerts;
-use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Event\Wc_Add_To_Cart;
-use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Event\Wc_Order_Status_Changed;
-use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Event\Wc_Remove_Cart_Item;
-use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Cart_Aware_Interface;
-use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Order_Aware_Interface;
-use Ilabs\BM_Woocommerce\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Product_Aware_Interface;
+use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Abstract_Ilabs_Plugin;
+use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Alerts;
+use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Event\Wc_Add_To_Cart;
+use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Event\Wc_Order_Status_Changed;
+use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Event\Wc_Remove_Cart_Item;
+use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Cart_Aware_Interface;
+use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Order_Aware_Interface;
+use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Product_Aware_Interface;
 
 class Plugin extends Abstract_Ilabs_Plugin {
 
@@ -35,9 +36,11 @@ class Plugin extends Abstract_Ilabs_Plugin {
 			1.1,
 			true );
 
-		if ( ! empty( get_option( $this->get_plugin_prefix() . '_ga4_tracking_id' ) ) ) {
+		$ga4_tracking_id = ( new Ga4_Service_Client() )->get_tracking_id();
+
+		if ( $ga4_tracking_id ) {
 			wp_enqueue_script( $this->get_plugin_prefix() . '_ga4',
-				'https://www.googletagmanager.com/gtag/js?id=' . get_option( $this->get_plugin_prefix() . '_ga4_tracking_id' ),
+				"https://www.googletagmanager.com/gtag/js?id=$ga4_tracking_id",
 				[],
 				1.1,
 				true );
@@ -45,7 +48,7 @@ class Plugin extends Abstract_Ilabs_Plugin {
 			wp_localize_script( $this->get_plugin_prefix() . '_front_js',
 				'blueMedia',
 				[
-					'ga4TrackingId' => get_option( $this->get_plugin_prefix() . '_ga4_tracking_id' ),
+					'ga4TrackingId' => $ga4_tracking_id,
 				]
 			);
 		}
@@ -56,30 +59,48 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	 * @throws Exception
 	 */
 	public function enqueue_dashboard_scripts() {
-		wp_enqueue_script( $this->get_plugin_prefix() . '_admin_js',
-			$this->get_plugin_js_url() . '/admin.js',
-			[ 'jquery' ],
-			1.1,
-			true );
 
-		wp_enqueue_style( $this->get_plugin_prefix() . '_admin_css',
-			$this->get_plugin_css_url() . '/admin.css'
-		);
+        $current_screen = get_current_screen();
+
+        if ( is_a( $current_screen, 'WP_Screen' ) && 'woocommerce_page_wc-settings' === $current_screen->id ) {
+            if ( isset($_GET['tab']) && $_GET['tab'] == 'checkout' ) {
+                if ( isset($_GET['section']) && $_GET['section'] == 'bluemedia' ) {
+
+                    wp_enqueue_script($this->get_plugin_prefix() . '_admin_js',
+                        $this->get_plugin_js_url() . '/admin.js',
+                        ['jquery'],
+                        1.1,
+                        true);
+
+                    wp_enqueue_style($this->get_plugin_prefix() . '_admin_css',
+                        $this->get_plugin_css_url() . '/admin.css'
+                    );
+                }
+            }
+        }
 	}
 
 	/**
 	 * @throws Exception
 	 */
 	protected function before_init() {
-		$tracking_id = $this->get_request()->get_by_key( 'woocommerce_bluemedia_ga4_tracking_id' );
-
-		if ( $tracking_id ) {
-			update_option( $this->get_plugin_prefix() . '_ga4_tracking_id', $tracking_id );
-		}
-
 		$this->implement_ga4();
 		$this->implement_settings_modal();
 		$this->implement_settings_banner();
+
+
+		add_action( 'bm_cancel_failed_pending_order_after_one_hour', function ( $order_id ) {
+			$order = wc_get_order( $order_id );
+			wp_clear_scheduled_hook( 'bm_cancel_failed_pending_order_after_one_hour', [ $order_id ] );
+			if ( $order->has_status( [ 'pending' ] ) ) {
+				$order->update_status( 'cancelled' );
+				$order->add_order_note( __( 'Unpaid order cancelled - time limit reached.', 'bm-woocommerce' ) );
+				$order->save();
+			}
+
+		} );
+
+
 	}
 
 	/**
@@ -102,18 +123,27 @@ class Plugin extends Abstract_Ilabs_Plugin {
 		$settings_modal
 			->on_wp_admin_footer()
 			->action( function () {
-				echo '<div class="bm-modal-content">
-    <span class="bm-close">&times;</span>
-    <p>Google Analytics 4</p>
-<ul>
-<li>' . __( 'Go to "Administrator" in the lower left corner.', 'bm-woocommerce' ) . '</li>
-<li>' . __( 'In the "Services" section, click "Data Streams".', 'bm-woocommerce' ) . '</li>
-<li>' . __( 'Click the name of the data stream.', 'bm-woocommerce' ) . '</li>
-<li>' . __( 'Your measurement ID is in the upper right corner (eg G-QCX4K9GSPC).', 'bm-woocommerce' ) . '</li>
-</ul>    
+                $current_screen = get_current_screen();
 
-  </div><div class="bm-modal-overlay"></div>';
-			} )->execute();
+                if ( is_a( $current_screen, 'WP_Screen' ) && 'woocommerce_page_wc-settings' === $current_screen->id ) {
+                    if ( isset($_GET['tab']) && $_GET['tab'] == 'checkout' ) {
+                        if ( isset($_GET['section']) && $_GET['section'] == 'bluemedia' ) {
+				            echo '<div class="bm-modal-content">
+                                    <span class="bm-close">&times;</span>
+                                    <p>Google Analytics 4</p>
+                                <ul>
+                                <li>' . __( 'Go to "Administrator" in the lower left corner.', 'bm-woocommerce' ) . '</li>
+                                <li>' . __( 'In the "Services" section, click "Data Streams".', 'bm-woocommerce' ) . '</li>
+                                <li>' . __( 'Click the name of the data stream.', 'bm-woocommerce' ) . '</li>
+                                <li>' . __( 'Your measurement ID is in the upper right corner (eg G-QCX4K9GSPC).', 'bm-woocommerce' ) . '</li>
+                                </ul>    
+                                
+                                  </div><div class="bm-modal-overlay"></div>';
+                        }
+                    }
+                }
+            } )->execute();
+
 	}
 
 	/**
@@ -121,68 +151,89 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	 * @throws Exception
 	 */
 	private function implement_ga4() {
-		$ga4                            = blue_media()->get_event_chain();
-		$ga4_task_queue                 = $ga4->get_wc_session_cache( 'ga_tasks' );
-		$ga4_complete_transaction_cache = $ga4->get_wp_options_based_cache( 'complete_transaction' );
+
+		$ga4_Service_Client = new Ga4_Service_Client();
+
+		if ( ! $ga4_Service_Client->get_tracking_id()
+		     || ! $ga4_Service_Client->get_client_id()
+		     || ! $ga4_Service_Client->get_api_secret() ) {
+			return;
+		}
+
+		$ga4                      = blue_media()->get_event_chain();
+		$ga4_task_queue           = $ga4->get_wc_session_cache( 'ga4_tasks' );
+		$ga4_list_items_dto_queue = $ga4->get_wc_session_cache( 'ga4_list_items_dto_queue' );
 
 		$ga4
+			->on_wp()
+			->when_is_frontend()
+			->action( function () use ( $ga4_task_queue ) {
+				$ga4_task_queue->clear();
+			} )
 			->on_wc_before_shop_loop_item()
 			->when_is_shop()
-			->action( function ( Wc_Product_Aware_Interface $product_aware_interface ) use ( $ga4_task_queue ) {
-				$ga4_task_queue->push(
-					new View_Product_On_List_Use_Case( $product_aware_interface->get_product() ) );
+			->action( function ( Wc_Product_Aware_Interface $product_aware_interface ) use ( $ga4_list_items_dto_queue
+			) {
+				//view_item_list
+				$ga4_list_items_dto_queue->push(
+					( new View_Product_On_List_Use_Case( $product_aware_interface->get_product() ) )->create_dto() );
+
 			} )
 			->on_wc_before_single_product()
 			->action( function ( Wc_Product_Aware_Interface $product_aware_interface ) use ( $ga4_task_queue ) {
+				//view_item
 				$ga4_task_queue->push(
-					new Click_On_Product_Use_Case( $product_aware_interface->get_product() ) );
+					( new Ga4_Service_Client )->view_item_event_export_array(
+						( new Click_On_Product_Use_Case( $product_aware_interface->get_product() ) )
+					) );
 			} )
 			->on_wc_add_to_cart()
 			->action( function ( Wc_Add_To_Cart $event ) use ( $ga4_task_queue ) {
-				$ga4_task_queue->push(
-					new Add_Product_To_Cart_Use_Case( $event->get_product(), $event->get_quantity() ) );
+				//add_to_cart
+				( new Ga4_Service_Client() )->add_to_cart_event( new Add_Product_To_Cart_Use_Case( $event->get_product(),
+					$event->get_quantity() ) );
 			} )
 			->on_wc_remove_cart_item()
 			->action( function ( Wc_Remove_Cart_Item $event ) use ( $ga4_task_queue ) {
-				$ga4_task_queue->push(
-					new Remove_Product_From_Cart_Use_Case( $event->get_product() ) );
+				//remove_from_cart
+				( new Ga4_Service_Client() )->remove_from_cart_event( new Remove_Product_From_Cart_Use_Case
+				( $event->get_product(), $event->get_quantity() ) );
 			} )
 			->on_wc_checkout_page()
 			->when_is_not_ajax()
 			->action( function ( Wc_Cart_Aware_Interface $cart_aware_interface ) use ( $ga4_task_queue ) {
-				$ga4_task_queue->push(
-					new Initiate_Checkout_Use_Case( $cart_aware_interface->get_cart() ) );
+				//begin_checkout
+				if ( $cart_aware_interface->get_cart()->get_cart_contents_count() > 0 ) {
+					$ga4_task_queue->push(
+						( new Ga4_Service_Client )->init_checkout_event_export_array(
+							( new Init_Checkout_Use_Case( $cart_aware_interface->get_cart() ) )
+						) );
+				}
 			} )
 			->on_wc_order_status_changed()
 			->when( function ( Wc_Order_Status_Changed $event ) {
 				return $event->get_new_status() === 'completed';
 			} )
-			->action( function ( Wc_Order_Aware_Interface $order_aware_interface ) use ( $ga4_complete_transaction_cache ) {
-				$ga4_complete_transaction_cache->push( new Complete_Transation_Use_Case( $order_aware_interface->get_order() ) );
+			->action( function ( Wc_Order_Aware_Interface $order_aware_interface ) {
+				//purchase
+				( new Ga4_Service_Client() )->purchase_event( new Complete_Transation_Use_Case( $order_aware_interface->get_order() ) );
 			} )
 			->on_wp_footer()
 			->when_is_not_ajax()
-			->action( function () use ( $ga4_task_queue, $ga4_complete_transaction_cache ) {
-				$tasks = [];
-				$push  = false;
+			->when_is_frontend()
+			->action( function () use ( $ga4_task_queue, $ga4_list_items_dto_queue ) {
+				if ( $ga4_list_items_dto_queue->get() ) {
+					$view_Product_On_List_Use_Case = new View_Product_On_List_Use_Case( null );
+					$payload                       = $view_Product_On_List_Use_Case->get_ga4_payload_dto();
+					$payload->set_items( $ga4_list_items_dto_queue->get() );
+					$view_Product_On_List_Use_Case->set_payload( $payload );
+					$ga4_task_queue->push( ( new Ga4_Service_Client() )->view_item_list_event_export_array( $view_Product_On_List_Use_Case ) );
+					$ga4_list_items_dto_queue->clear();
+				}
+
 				if ( $ga4_task_queue->get() ) {
-					foreach ( $ga4_task_queue->get() as $ga4_Use_Case_Interface ) /* @var $ga4_Use_Case_Interface Ga4_Use_Case_Interface */ {
-						$tasks[] = $ga4_Use_Case_Interface->get_ga4_payload_array();
-					}
-					$push = true;
-				}
-
-				if ( $ga4_complete_transaction_cache->get() ) {
-					foreach ( $ga4_complete_transaction_cache->get() as $ga4_Use_Case_Interface ) /* @var $ga4_Use_Case_Interface Ga4_Use_Case_Interface */ {
-						$tasks[] = $ga4_Use_Case_Interface->get_ga4_payload_array();
-					}
-					$push = true;
-				}
-
-				if ( $push ) {
-					echo "<script>var blue_media_ga4_tasks = '" . wp_json_encode( $tasks ) . "'</script>";
+					echo "<script>var blue_media_ga4_tasks = '" . wp_json_encode( $ga4_task_queue->get() ) . "'</script>";
 					$ga4_task_queue->clear();
-					$ga4_complete_transaction_cache->clear();
 				}
 
 			} )->execute();
@@ -193,7 +244,7 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	}
 
 	protected function plugins_loaded_hooks() {
-		// TODO: Implement plugins_loaded_hooks() method.
+
 	}
 
 

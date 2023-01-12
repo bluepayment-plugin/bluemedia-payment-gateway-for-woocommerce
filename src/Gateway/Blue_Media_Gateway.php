@@ -3,6 +3,9 @@
 namespace Ilabs\BM_Woocommerce\Gateway;
 
 use Exception;
+use Ilabs\BM_Woocommerce\Domain\Model\White_Label\Expandable_Group;
+use Ilabs\BM_Woocommerce\Domain\Model\White_Label\Expandable_Group_Interface;
+use Ilabs\BM_Woocommerce\Domain\Service\White_Label\Group_Mapper;
 use Ilabs\BM_Woocommerce\Plugin;
 use SimpleXMLElement;
 use WC_Order;
@@ -54,10 +57,11 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		$this->init_form_fields();
 		$this->init_settings();
 
-		$this->title           = $this->get_option( 'title' );
-		$this->description     = $this->get_option( 'description' );
-		$this->enabled         = $this->get_option( 'enabled' );
-		$this->testmode        = 'yes' === $this->get_option( 'testmode' );
+		$this->title       = $this->get_option( 'title' );
+		$this->description = $this->get_option( 'description' );
+		$this->enabled     = $this->get_option( 'enabled' );
+		$this->testmode    = 'yes' === $this->get_option( 'testmode', 'no' );
+
 		$this->gateway_url     = $this->testmode
 			? self::GATEWAY_SANDBOX
 			: self::GATEWAY_PRODUCTION;
@@ -113,8 +117,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 
 		$this->webhook();
-
-
 	}
 
 
@@ -124,7 +126,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 */
 	public function init_form_fields() {
 		$this->form_fields = [
-			'whitelabel'       => [
+			'whitelabel'      => [
 				'title'       => __( 'Gateway mode',
 					'bm-woocommerce' ),
 				'label'       => __( 'Enable whitelabel mode',
@@ -135,7 +137,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				'default'     => 'no',
 				'desc_tip'    => true,
 			],
-			'title'            => [
+			'title'           => [
 				'title'    => __( 'Title',
 					'bm-woocommerce' ),
 				'type'     => 'text',
@@ -143,29 +145,50 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 					'bm-woocommerce' ),
 				'desc_tip' => true,
 			],
-			'description'      => [
+			'description'     => [
 				'title'   => __( 'Description',
 					'bm-woocommerce' ),
 				'type'    => 'textarea',
 				'default' => __( 'Lorem Ipsum',
 					'bm-woocommerce' ),
 			],
+			'testmode_header' => [
+				'title' => __( 'Test environment',
+					'bm-woocommerce' ),
+				'type'  => 'title',
+			],
 			'testmode'         => [
 				'title'       => __( 'Sandbox mode',
 					'bm-woocommerce' ),
 				'label'       => __( 'Enable Sandbox mode',
 					'bm-woocommerce' ),
-				'type'        => 'checkbox',
-				'description' => __( 'If you do not select this the shop will run on production',
+				'type'  => 'radio',
+				'default'  => 'no',
+				'options'  => [
+					'yes' => __( 'Yes', 'bm-woocommerce' ),
+					'no'  => __( 'No', 'bm-woocommerce' ),
+				],
+				'description' => __( 'It allows you to check the module\'s operation without having to pay for the order (no order fees are charged in the test mode).',
 					'bm-woocommerce' ),
-				'default'     => 'yes',
-				'desc_tip'    => true,
+				'desc_tip' => true,
 			],
+
+			'testmode_info' => [
+				'title'       => __( '',
+					'bm-woocommerce' ),
+				'description' => "<span class='p-info'>" .__( 'The service ID and shared key for the test environment are different from production data.',
+						'bm-woocommerce' )
+				                 . '<br>' . __( 'To get the data for the test environment,',
+						'bm-woocommerce' ) . '<a href="https://developers.bluemedia.pl/kontakt?mtm_campaign=woocommerce_developers_formularz&mtm_source=woocommerce_backoffice&mtm_medium=hiperlink">'
+				                 . ' ' . __( 'please contact us.', 'bm-woocommerce' ) . '</a></span>',
+				'type'        => 'title',
+			],
+
+
 			'test_service_id'  => [
 				'title'       => __( 'Test Service ID',
 					'bm-woocommerce' ),
-				'description' => __( 'It contains only numbers. It is different for each shop',
-					'bm-woocommerce' ),
+				'description' => __( 'It contains only numbers. It is different for each shop.', 'bm-woocommerce' ),
 				'type'        => 'text',
 			],
 			'test_private_key' => [
@@ -198,7 +221,29 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
 					$desc_link_text = __( 'Where can I find the Measurement ID?', 'bm-woocommerce' );
 
-					return "$desc <a id='bm_ga_help_modal' href='#'>$desc_link_text</a>";
+					return "$desc <a class='bm_ga_help_modal' href='#'>$desc_link_text</a>";
+				} )(),
+				'type'        => 'text',
+			],
+			'ga4_api_secret'                  => [
+				'title'       => __( 'Google Analitics Api secret',
+					'bm-woocommerce' ),
+				'description' => ( function () {
+					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
+					$desc_link_text = __( 'Where can I find the Measurement ID?', 'bm-woocommerce' );
+
+					return "$desc <a class='bm_ga_help_modal' href='#'>$desc_link_text</a>";
+				} )(),
+				'type'        => 'password',
+			],
+			'ga4_client_id'                   => [
+				'title'       => __( 'Google Analitics Client ID',
+					'bm-woocommerce' ),
+				'description' => ( function () {
+					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
+					$desc_link_text = __( 'Where can I find the Measurement ID?', 'bm-woocommerce' );
+
+					return "$desc <a class='bm_ga_help_modal' href='#'>$desc_link_text</a>";
 				} )(),
 				'type'        => 'text',
 			],
@@ -243,6 +288,74 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 
 	/**
+	 * Generate Select HTML.
+	 *
+	 * @param string $key Field key.
+	 * @param array $data Field data.
+	 *
+	 * @return string
+	 * @since  1.0.0
+	 */
+	public function generate_radio_html( $key, $data ) {
+		$field_key = $this->get_field_key( $key );
+		$defaults  = [
+			'title'             => '',
+			'disabled'          => false,
+			'class'             => '',
+			'css'               => '',
+			'placeholder'       => '',
+			'type'              => 'text',
+			'desc_tip'          => false,
+			'description'       => '',
+			'custom_attributes' => [],
+			'options'           => [],
+		];
+
+		$data  = wp_parse_args( $data, $defaults );
+		$value = $this->get_option( $key );
+
+		ob_start();
+		?>
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post( $data['title'] ); ?><?php echo $this->get_tooltip_html( $data ); // WPCS: XSS ok. ?></label>
+            </th>
+            <td class="forminp">
+                <fieldset>
+                    <legend class="screen-reader-text"><span><?php echo wp_kses_post( $data['title'] ); ?></span>
+                    </legend>
+					<?php foreach ( (array) $data['options'] as $option_key => $option_value ) : ?>
+				<?php if ( is_array( $option_value ) ) : ?>
+
+                    <optgroup label="<?php echo esc_attr( $option_key ); ?>">
+						<?php foreach ( $option_value as $option_key_inner => $option_value_inner ) : ?>
+                            <label for="<?php echo esc_attr( $option_key ); ?>"><?php echo esc_html( $option_value_inner ); ?></label>
+                            <input id="<?php echo esc_attr( $option_key ); ?>" type="radio"
+                                   name="<?php echo esc_attr( $field_key ); ?>"
+                                   value="<?php echo esc_attr( $option_key_inner ); ?>" <?php checked( (string) $option_key_inner,
+								esc_attr( $value ) ); ?>>
+						<?php endforeach; ?>
+                    </optgroup>
+				<?php else : ?>
+                    <label for="<?php echo esc_attr( $option_key ); ?>"><?php echo esc_html( $option_value ); ?></label>
+                    <input id="<?php echo esc_attr( $option_key ); ?>" type="radio"
+                           name="<?php echo esc_attr( $field_key ); ?>"
+                           value="<?php echo esc_attr( $option_key ); ?>" <?php checked( (string) $option_key,
+						esc_attr( $value ) ); ?>>
+						<?php endif; ?>
+						<?php endforeach; ?>
+                    </input>
+					<?php echo $this->get_description_html( $data ); // WPCS: XSS ok. ?>
+                </fieldset>
+            </td>
+        </tr>
+		<?php
+
+		return ob_get_clean();
+	}
+
+
+	/**
 	 * @return void
 	 * @throws Exception
 	 */
@@ -271,15 +384,30 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 		WC()->session->set( 'bm_order_payment_params', $params );
 
+		$this->schedule_remove_unpaid_orders( $order_id );
 
 		$order = wc_get_order( $order_id );
+		$order->set_status( 'pending' );
+		$order->save();
 
 		return [
 			'result'   => 'success',
 			'redirect' => $this->get_return_url( $order ),
 		];
 
+	}
 
+	private function schedule_remove_unpaid_orders( int $order_id ) {
+		$woocommerce_hold_stock_minutes = (int) get_option( 'woocommerce_hold_stock_minutes' );
+
+		if ( $woocommerce_hold_stock_minutes > 0 ) {
+			$woocommerce_hold_stock_minutes *= 60;
+			if ( ! wp_next_scheduled( 'bm_cancel_failed_pending_order_after_one_hour', [ $order_id ] ) ) {
+				wp_schedule_single_event( time() + $woocommerce_hold_stock_minutes,
+					'bm_cancel_failed_pending_order_after_one_hour',
+					[ $order_id ] );
+			}
+		}
 	}
 
 	/**
@@ -349,6 +477,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 								json_encode( $init_params )
 							)
 						);
+
 
 						if ( ! is_array( $init_params ) ) {
 							throw new Exception(
@@ -565,11 +694,11 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 */
 	public
 	function gateway_list(): array {
-
 		if ( defined( 'BLUE_MEDIA_DISABLE_CACHE' ) || time()
 		                                              - (int) get_option( 'bm_gateway_list_cache_time' )
 		                                              > 600//10 minutes cache
 		) {
+
 			$gateway_list_cache = $this->api_get_gateway_list();
 
 			update_option( 'bm_gateway_list_cache', $gateway_list_cache );
@@ -584,6 +713,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				update_option( 'bm_api_last_error', '' );
 			}
 		}
+
 
 		return $gateway_list_cache;
 	}
@@ -685,58 +815,65 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		array $channels
 	) {
 
+		$group_arr = ( new Group_Mapper( $channels ) )->map();
+
 		echo '<div class="bm-payment-channels-wrapper">';
 		echo '<ul id="shipping_method" class="woocommerce-shipping-methods">';
 
-		$output  = '';
-		$grouped = [];
-		foreach ( $channels as $channel ) {
-			$channelHtml = sprintf( '
-<li class="bm-payment-channel-item"><input
-type="radio"
-name="bm-payment-channel"
-onclick="addCurrentClass()"
-data-index="0" id="bm-gateway-id-%s" class="shipping_method" value="%s">
-<span class="easypack-shipping-method-logo">
-		<img style="" src="%s">
-		</span>
-<label for="bm-gateway-id-%s">%s</label>
-		</li>',
-				$channel->gatewayID,
-				$channel->gatewayID,
-				$channel->iconURL,
-				$channel->gatewayID,
-				$channel->gatewayName
-			);
+		foreach ( $group_arr as $group ) {
+			$expandable_Group = $group instanceof Expandable_Group;
 
-			$grouped[ $channel->gatewayType ][] = $channelHtml;
-		}
-		$other_groups_key = 6;
-		$grouped_sorted   = $grouped;
-		foreach ( $grouped as $k => $group ) {
-			if ( $k === 'PBL' ) {
-				$this->repositionArrayElement( $grouped_sorted, $k, 0 );
-			} elseif ( $k === 'BLIK' ) {
-				$this->repositionArrayElement( $grouped_sorted, $k, 1 );
-			} elseif ( $k === 'Karta płatnicza' ) {
-				$this->repositionArrayElement( $grouped_sorted, $k, 2 );
-			} elseif ( $k === 'Portfel elektroniczny' ) {
-				$this->repositionArrayElement( $grouped_sorted, $k, 3 );
-			} elseif ( $k === 'FR' ) {
-				$this->repositionArrayElement( $grouped_sorted, $k, 4 );
-			} elseif ( $k === 'Raty online' ) {
-				$this->repositionArrayElement( $grouped_sorted, $k, 5 );
+			printf( "<div class='bm-group-%s%s'><li><ul>",
+				$group->get_slug(), $expandable_Group ? ' bm-group-expandable' : '' );
+
+
+			if ( $expandable_Group ) {
+				// add radio before "PRZELEW INTERNETOWY" logo to add possibility
+				// show-hide list of banks
+				printf( "<li class='bm-payment-channel-group-item'>
+                                <input type='radio' name='bm-payment-channel-group' id='bm-gateway-bank-group'>
+                                <span class='bm-payment-channel-group-method-logo'>
+                                <img src='%s'></span>
+								<label for='bm-gateway-bank-group'>%s</label>
+								</li>
+                                ",
+					$group->get_icon(), $group->get_name() );
+
+				echo "<div class='bm-group-expandable-wrapper'>";
 			}
-		}
 
-		foreach ( $grouped_sorted as $k => $group ) {
-			printf( "<div class='bm-group-%s'><h5>%s</h5><li><ul>",
-				sanitize_title( $k ), $k );
-			foreach ( $group as $item ) {
-				printf( $item );
+
+			foreach ( $group->get_items() as $item ) {
+
+				printf( '
+                    <li class="bm-payment-channel-item">
+                    <input
+                    type="radio"
+                    name="bm-payment-channel"
+                    onclick="addCurrentClass()"
+                    data-index="0" id="bm-gateway-id-%s" class="shipping_method" value="%s">
+                    <span class="bm-payment-channel-method-logo">
+                            <img style="" src="%s">
+                            </span>
+                    <label for="bm-gateway-id-%s">%s</label>
+                            </li>',
+					$item->get_id(),
+					$item->get_id(),
+					$item->get_icon(),
+					$item->get_id(),
+					$item->get_name()
+				);
+
+
+			}
+			if ( $expandable_Group ) {
+				echo '</div>';
 			}
 			printf( "</li></ul></div>" );
+
+
 		}
+
 		echo '</ul></div>';
 	}
 
