@@ -19,6 +19,7 @@ use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Event\Wc_Remove_Cart_Item;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Cart_Aware_Interface;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Order_Aware_Interface;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Product_Aware_Interface;
+use WC_Session_Handler;
 
 class Plugin extends Abstract_Ilabs_Plugin {
 
@@ -248,11 +249,14 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	}
 
 
+	/**
+	 * @throws Exception
+	 */
 	public function init() {
 
 		add_filter( 'woocommerce_get_checkout_order_received_url',
 			function ( $return_url, $order ) {
-				update_option( 'bm_order_received_url', $return_url );
+				$this->update_payment_cache( 'bm_order_received_url', $return_url );
 
 				return $return_url;
 			}, 10, 2 );
@@ -267,12 +271,11 @@ class Plugin extends Abstract_Ilabs_Plugin {
 			[ $this, 'bm_woocommerce_cancel_unpaid_order_filter' ], 10, 2 );
 
 
-		if ( ! empty( get_option( 'bm_order_received_url' ) )
-		     && empty( get_option( 'bm_payment_start' ) ) ) {
+		if ( ! empty( $this->get_from_payment_cache( 'bm_order_received_url' ) )
+		     && empty( $this->get_from_payment_cache('bm_payment_start') ) ) {
 
-			update_option( 'bm_order_received_url', null );
-			update_option( 'bm_payment_start', null );
-			die;
+			$this->update_payment_cache( 'bm_order_received_url', null );
+			$this->update_payment_cache( 'bm_payment_start', null );
 		}
 
 		$alerts       = new Alerts();
@@ -335,5 +338,29 @@ class Plugin extends Abstract_Ilabs_Plugin {
 		}
 
 		return $string;
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function update_payment_cache(string $key, $value){
+		$session = WC()->session;
+		if (!$session){
+			$session = new WC_Session_Handler();
+			$session->init();
+		}
+		$session->set($this->get_from_config('slug') . '_' . $key, $value);
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function get_from_payment_cache(string $key){
+		$session = WC()->session;
+		if (!$session){
+			$session = new WC_Session_Handler();
+			$session->init();
+		}
+		return $session->get($this->get_from_config('slug') . '_' . $key);
 	}
 }

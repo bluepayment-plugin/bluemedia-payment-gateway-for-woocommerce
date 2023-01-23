@@ -2,22 +2,7 @@
 
 namespace Ilabs\BM_Woocommerce\Data\Remote;
 
-use Br33f\Ga4\MeasurementProtocol\Dto\Common\UserProperties;
-use Br33f\Ga4\MeasurementProtocol\Dto\Common\UserProperty;
-use Br33f\Ga4\MeasurementProtocol\Dto\Event\AddToCartEvent;
-use Br33f\Ga4\MeasurementProtocol\Dto\Event\BeginCheckoutEvent;
-use Br33f\Ga4\MeasurementProtocol\Dto\Event\PurchaseEvent;
-use Br33f\Ga4\MeasurementProtocol\Dto\Event\RemoveFromCartEvent;
-use Br33f\Ga4\MeasurementProtocol\Dto\Event\ViewItemListEvent;
-use Br33f\Ga4\MeasurementProtocol\Exception\HydrationException;
-use Br33f\Ga4\MeasurementProtocol\Exception\ValidationException;
-use Br33f\Ga4\MeasurementProtocol\Service;
-use Br33f\Ga4\MeasurementProtocol\Dto\Request\BaseRequest;
-use Br33f\Ga4\MeasurementProtocol\Dto\Event\ViewItemEvent;
-use Br33f\Ga4\MeasurementProtocol\Dto\Parameter\ItemParameter;
-use Exception;
 use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Item_DTO;
-use Ilabs\BM_Woocommerce\Data\Remote\Ga4\Dto\Item_In_Cart_DTO;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Add_Product_To_Cart_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Click_On_Product_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Complete_Transation_Use_Case;
@@ -25,9 +10,22 @@ use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Init_Checkout_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Remove_Product_From_Cart_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\View_Product_On_List_Use_Case;
 
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Dto\Event\AddToCartEvent;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Dto\Event\BeginCheckoutEvent;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Dto\Event\PurchaseEvent;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Dto\Event\RemoveFromCartEvent;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Dto\Event\ViewItemEvent;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Dto\Event\ViewItemListEvent;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Dto\Parameter\ItemParameter;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Dto\Request\BaseRequest;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Exception\ValidationException;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Service;
+use Isolated\Blue_Media\Isolated_Php_ga4_mp\Br33f\Ga4\MeasurementProtocol\Exception\HydrationException;
+
+
 class Ga4_Service_Client {
 
-	static  $wc_bm_settings = null;
+	static $wc_bm_settings = null;
 
 
 	public function __construct() {
@@ -60,20 +58,9 @@ class Ga4_Service_Client {
 	 * @throws ValidationException
 	 */
 	public function add_to_cart_event( Add_Product_To_Cart_Use_Case $add_product_to_cart_use_case ) {
-		$ga4Service         = new Service( $this->get_api_secret(), $this->get_tracking_id() );
-		$baseRequest        = new BaseRequest( $this->get_client_id() );
-
-		/*$user_property = new UserProperty();
-		$user_property->setName('user_pseudo_id');
-		$user_property->setValue(6666666666666666);
-
-
-		$baseRequest->addUserProperty($user_property);*/
-
-
-		//$user_properties->addUserProperty();
-
-		//$baseRequest->setUserProperties()
+		$ga4Service  = new Service( $this->get_api_secret(), $this->get_tracking_id() );
+		$baseRequest = new BaseRequest( $this->get_client_id() );
+		$baseRequest->setClientId( $this->get_user_id() );
 		$addToCartEventData = new AddToCartEvent();
 		$addToCartEventData
 			->setValue( $add_product_to_cart_use_case->get_ga4_payload_dto()->get_value() )
@@ -99,7 +86,11 @@ class Ga4_Service_Client {
 		}
 
 		$baseRequest->addEvent( $addToCartEventData );
+		$guzzle = $ga4Service->getHttpClient();
+
 		$ga4Service->send( $baseRequest );
+
+
 	}
 
 	/**
@@ -107,8 +98,9 @@ class Ga4_Service_Client {
 	 * @throws ValidationException
 	 */
 	public function remove_from_cart_event( Remove_Product_From_Cart_Use_Case $remove_product_from_cart_use_case ) {
-		$ga4Service                  = new Service( $this->get_api_secret(), $this->get_tracking_id() );
-		$baseRequest                 = new BaseRequest( $this->get_client_id() );
+		$ga4Service  = new Service( $this->get_api_secret(), $this->get_tracking_id() );
+		$baseRequest = new BaseRequest( $this->get_client_id() );
+		$baseRequest->setClientId( $this->get_user_id() );
 		$remove_from_cart_event_data = new RemoveFromCartEvent();
 
 
@@ -141,8 +133,9 @@ class Ga4_Service_Client {
 	}
 
 	public function purchase_event( Complete_Transation_Use_Case $complete_transaction_use_case ) {
-		$ga4Service          = new Service( $this->get_api_secret(), $this->get_tracking_id() );
-		$baseRequest         = new BaseRequest( $this->get_client_id() );
+		$ga4Service  = new Service( $this->get_api_secret(), $this->get_tracking_id() );
+		$baseRequest = new BaseRequest( $this->get_client_id() );
+		$baseRequest->setClientId( $this->get_user_id() );
 		$purchase_event_data = new PurchaseEvent();
 
 		$purchase_event_data
@@ -267,5 +260,16 @@ class Ga4_Service_Client {
 		$base_request->addEvent( $init_checkout_event_data );
 
 		return $base_request->export();
+	}
+
+	private function get_user_id(): string {
+		$from_cookie = $_COOKIE['_ga'];
+		$exploded    = explode( '.', $from_cookie );
+
+		if ( $exploded ) {
+			return $exploded[2] . '.' . $exploded[3];
+		}
+
+		return (string) $from_cookie;
 	}
 }

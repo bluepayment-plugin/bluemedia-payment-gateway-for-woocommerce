@@ -84,3 +84,8 @@
 - Admin panel fixes
 ### Added
 - Payment channels grouping refactor
+
+## [4.1.12] - 2023-01-23
+### Fixed
+- Minor fixes
+- Fix Google Analitics module: submit proper value of pseudo_user_id field

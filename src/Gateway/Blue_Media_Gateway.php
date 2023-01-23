@@ -109,7 +109,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				}
 				update_post_meta( $params['OrderID'],
 					'bm_transaction_init_params', $params );
-				update_option( 'bm_payment_start', '1' );
+				blue_media()->update_payment_cache( 'bm_payment_start', '1' );
 			}
 
 
@@ -157,26 +157,26 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 					'bm-woocommerce' ),
 				'type'  => 'title',
 			],
-			'testmode'         => [
+			'testmode'        => [
 				'title'       => __( 'Sandbox mode',
 					'bm-woocommerce' ),
 				'label'       => __( 'Enable Sandbox mode',
 					'bm-woocommerce' ),
-				'type'  => 'radio',
-				'default'  => 'no',
-				'options'  => [
+				'type'        => 'radio',
+				'default'     => 'no',
+				'options'     => [
 					'yes' => __( 'Yes', 'bm-woocommerce' ),
 					'no'  => __( 'No', 'bm-woocommerce' ),
 				],
 				'description' => __( 'It allows you to check the module\'s operation without having to pay for the order (no order fees are charged in the test mode).',
 					'bm-woocommerce' ),
-				'desc_tip' => true,
+				'desc_tip'    => true,
 			],
 
 			'testmode_info' => [
 				'title'       => __( '',
 					'bm-woocommerce' ),
-				'description' => "<span class='p-info'>" .__( 'The service ID and shared key for the test environment are different from production data.',
+				'description' => "<span class='p-info'>" . __( 'The service ID and shared key for the test environment are different from production data.',
 						'bm-woocommerce' )
 				                 . '<br>' . __( 'To get the data for the test environment,',
 						'bm-woocommerce' ) . '<a href="https://developers.bluemedia.pl/kontakt?mtm_campaign=woocommerce_developers_formularz&mtm_source=woocommerce_backoffice&mtm_medium=hiperlink">'

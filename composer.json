@@ -13,10 +13,9 @@
     }
   },
   "require": {
-    "br33f/php-ga4-mp": "^0.1.2",
+    "ilabs/isolated-php-ga4-mp": "0.1.2",
     "ilabs/ilabs-plugin": "1.*"
   },
-
   "repositories": [
     {
       "type": "package",
@@ -28,6 +27,19 @@
           "dist": {
             "type": "zip",
             "url": "ilabs-dev/setup/packages/ilabs-plugin.zip"
+          }
+        }
+      ]
+    },
+    {
+      "type": "package",
+      "package": [
+        {
+          "name": "ilabs/isolated-php-ga4-mp",
+          "version": "0.1.2",
+          "dist": {
+            "type": "zip",
+            "url": "ilabs-dev/setup/packages/isolated-php-ga4-mp.zip"
           }
         }
       ]

@@ -3,7 +3,7 @@ Contributors: inspirelabs
 Tags: woocommerce, bluemedia
 Requires at least: 4.1
 Tested up to: 6.1
-Stable tag: 4.1.3
+Stable tag: 4.1.12
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -26,7 +26,7 @@ Wymagania
 
 - WordPress – przetestowane na wersjach od 4.4 do 6.1
 - Wtyczka WooCommerce – przetestowano na wersjach od 4.1 do 6.9.4
-- PHP minimum 7.4 - minimalna wersja wymagana przez Woocommerce
+- +
 
 == Installation	 ==
 
