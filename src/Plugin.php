@@ -24,6 +24,34 @@ use WC_Session_Handler;
 class Plugin extends Abstract_Ilabs_Plugin {
 
 	/**
+	 * @var string
+	 */
+	private $blue_media_currency;
+
+
+	/**
+	 * @throws Exception
+	 */
+	protected function before_init() {
+		$this->implement_ga4();
+		$this->implement_settings_modal();
+		$this->implement_settings_banner();
+
+		add_action( 'bm_cancel_failed_pending_order_after_one_hour', function ( $order_id ) {
+			$order = wc_get_order( $order_id );
+			wp_clear_scheduled_hook( 'bm_cancel_failed_pending_order_after_one_hour', [ $order_id ] );
+			if ( $order->has_status( [ 'pending' ] ) ) {
+				$order->update_status( 'cancelled' );
+				$order->add_order_note( __( 'Unpaid order cancelled - time limit reached.', 'bm-woocommerce' ) );
+				$order->save();
+			}
+
+		} );
+
+
+	}
+
+	/**
 	 * @throws Exception
 	 */
 	public function enqueue_frontend_scripts() {
@@ -61,48 +89,27 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	 */
 	public function enqueue_dashboard_scripts() {
 
-        $current_screen = get_current_screen();
+		$current_screen = get_current_screen();
 
-        if ( is_a( $current_screen, 'WP_Screen' ) && 'woocommerce_page_wc-settings' === $current_screen->id ) {
-            if ( isset($_GET['tab']) && $_GET['tab'] == 'checkout' ) {
-                if ( isset($_GET['section']) && $_GET['section'] == 'bluemedia' ) {
+		if ( is_a( $current_screen, 'WP_Screen' ) && 'woocommerce_page_wc-settings' === $current_screen->id ) {
+			if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'checkout' ) {
+				if ( isset( $_GET['section'] ) && $_GET['section'] == 'bluemedia' ) {
 
-                    wp_enqueue_script($this->get_plugin_prefix() . '_admin_js',
-                        $this->get_plugin_js_url() . '/admin.js',
-                        ['jquery'],
-                        1.1,
-                        true);
+					wp_enqueue_script( $this->get_plugin_prefix() . '_admin_js',
+						$this->get_plugin_js_url() . '/admin.js',
+						[ 'jquery' ],
+						1.1,
+						true );
 
-                    wp_enqueue_style($this->get_plugin_prefix() . '_admin_css',
-                        $this->get_plugin_css_url() . '/admin.css'
-                    );
-                }
-            }
-        }
-	}
-
-	/**
-	 * @throws Exception
-	 */
-	protected function before_init() {
-		$this->implement_ga4();
-		$this->implement_settings_modal();
-		$this->implement_settings_banner();
-
-
-		add_action( 'bm_cancel_failed_pending_order_after_one_hour', function ( $order_id ) {
-			$order = wc_get_order( $order_id );
-			wp_clear_scheduled_hook( 'bm_cancel_failed_pending_order_after_one_hour', [ $order_id ] );
-			if ( $order->has_status( [ 'pending' ] ) ) {
-				$order->update_status( 'cancelled' );
-				$order->add_order_note( __( 'Unpaid order cancelled - time limit reached.', 'bm-woocommerce' ) );
-				$order->save();
+					wp_enqueue_style( $this->get_plugin_prefix() . '_admin_css',
+						$this->get_plugin_css_url() . '/admin.css'
+					);
+				}
 			}
-
-		} );
-
-
+		}
 	}
+
+
 
 	/**
 	 * @throws Exception
@@ -124,26 +131,27 @@ class Plugin extends Abstract_Ilabs_Plugin {
 		$settings_modal
 			->on_wp_admin_footer()
 			->action( function () {
-                $current_screen = get_current_screen();
+				$current_screen = get_current_screen();
 
-                if ( is_a( $current_screen, 'WP_Screen' ) && 'woocommerce_page_wc-settings' === $current_screen->id ) {
-                    if ( isset($_GET['tab']) && $_GET['tab'] == 'checkout' ) {
-                        if ( isset($_GET['section']) && $_GET['section'] == 'bluemedia' ) {
-				            echo '<div class="bm-modal-content">
+				if ( is_a( $current_screen, 'WP_Screen' ) && 'woocommerce_page_wc-settings' === $current_screen->id ) {
+					if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'checkout' ) {
+						if ( isset( $_GET['section'] ) && $_GET['section'] == 'bluemedia' ) {
+							echo '<div class="bm-modal-content">
                                     <span class="bm-close">&times;</span>
                                     <p>Google Analytics 4</p>
                                 <ul>
                                 <li>' . __( 'Go to "Administrator" in the lower left corner.', 'bm-woocommerce' ) . '</li>
                                 <li>' . __( 'In the "Services" section, click "Data Streams".', 'bm-woocommerce' ) . '</li>
                                 <li>' . __( 'Click the name of the data stream.', 'bm-woocommerce' ) . '</li>
-                                <li>' . __( 'Your measurement ID is in the upper right corner (eg G-QCX4K9GSPC).', 'bm-woocommerce' ) . '</li>
+                                <li>' . __( 'Your measurement ID is in the upper right corner (eg G-QCX4K9GSPC).',
+									'bm-woocommerce' ) . '</li>
                                 </ul>    
                                 
                                   </div><div class="bm-modal-overlay"></div>';
-                        }
-                    }
-                }
-            } )->execute();
+						}
+					}
+				}
+			} )->execute();
 
 	}
 
@@ -253,6 +261,18 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	 * @throws Exception
 	 */
 	public function init() {
+		$this->blue_media_currency = $this->resolve_blue_media_currency_symbol();
+
+		if ( ! $this->blue_media_currency ) {
+			$alerts = new Alerts();
+			$msg    = sprintf(
+				__( 'The selected currency is not supported by the Blue Media payment gateway. The gateway has been disabled',
+					'bm-woocommerce' )
+			);
+			$alerts->add_error( 'Blue Media: ' . $msg );
+
+			return;
+		}
 
 		add_filter( 'woocommerce_get_checkout_order_received_url',
 			function ( $return_url, $order ) {
@@ -271,11 +291,13 @@ class Plugin extends Abstract_Ilabs_Plugin {
 			[ $this, 'bm_woocommerce_cancel_unpaid_order_filter' ], 10, 2 );
 
 
-		if ( ! empty( $this->get_from_payment_cache( 'bm_order_received_url' ) )
-		     && empty( $this->get_from_payment_cache('bm_payment_start') ) ) {
+		if (!is_admin()){
+			if ( ! empty( $this->get_from_payment_cache( 'bm_order_received_url' ) )
+			     && empty( $this->get_from_payment_cache( 'bm_payment_start' ) ) ) {
 
-			$this->update_payment_cache( 'bm_order_received_url', null );
-			$this->update_payment_cache( 'bm_payment_start', null );
+				$this->update_payment_cache( 'bm_order_received_url', null );
+				$this->update_payment_cache( 'bm_payment_start', null );
+			}
 		}
 
 		$alerts       = new Alerts();
@@ -343,24 +365,49 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	/**
 	 * @throws Exception
 	 */
-	public function update_payment_cache(string $key, $value){
+	public function update_payment_cache( string $key, $value ) {
 		$session = WC()->session;
-		if (!$session){
+		if ( ! $session ) {
 			$session = new WC_Session_Handler();
 			$session->init();
 		}
-		$session->set($this->get_from_config('slug') . '_' . $key, $value);
+		$session->set( $this->get_from_config( 'slug' ) . '_' . $key, $value );
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public function get_from_payment_cache(string $key){
+	public function get_from_payment_cache( string $key ) {
 		$session = WC()->session;
-		if (!$session){
+		if ( ! $session ) {
 			$session = new WC_Session_Handler();
 			$session->init();
 		}
-		return $session->get($this->get_from_config('slug') . '_' . $key);
+
+		return $session->get( $this->get_from_config( 'slug' ) . '_' . $key );
+	}
+
+	public function resolve_blue_media_currency_symbol(): ?string {
+		switch ( get_woocommerce_currency() ) {
+			case 'EUR':
+				return 'EUR';
+			case 'RON':
+				return 'RON';
+			case 'HUF':
+				return 'HUF';
+			case 'CZK':
+				return 'CZK';
+			case 'PLN':
+				return 'PLN';
+			default:
+				return null;
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_blue_media_currency(): string {
+		return $this->blue_media_currency;
 	}
 }

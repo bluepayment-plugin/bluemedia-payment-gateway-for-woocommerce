@@ -75,6 +75,9 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 			? $this->get_option( 'test_service_id' )
 			: $this->get_option( 'service_id' );
 
+
+		//var_dump($this->private_key);die;
+
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id,
 			[ $this, 'process_admin_options' ] );
 
@@ -87,6 +90,13 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				WC()->session->set( 'bm_order_payment_params', null );
 				WC()->session->save_data();
 
+				/*
+				 * PlatformName (nazwa platofrmy, np. PrestaShop)
+
+PlatformVersion (wersja platformy, np. 1.7.1.6)
+
+PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
+				 */
 
 				if ( is_array( $params ) ) {
 					printf( "<form method='post' id='paymentForm' action='%s'>
@@ -94,7 +104,11 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 			 <input type='hidden' name='OrderID'  value='%s' />
 			 <input type='hidden' name='Amount'  value='%s' />
 			 <input type='hidden' name='GatewayID'  value='%s' />
+			 <input type='hidden' name='Currency'  value='%s' />
 			 <input type='hidden' name='CustomerEmail'  value='%s' />
+			 <input type='hidden' name='PlatformName'  value='%s' />
+			 <input type='hidden' name='PlatformVersion'  value='%s' />
+			 <input type='hidden' name='PlatformPluginVersion'  value='%s' />
 			 <input type='hidden' name='Hash'  value='%s' /></form>
 <script type='text/javascript'>
         document.getElementById('paymentForm').submit();
@@ -104,7 +118,11 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 						$params['OrderID'],
 						$params['Amount'],
 						! empty( $params['GatewayID'] ) ? $params['GatewayID'] : '0',
+						blue_media()->resolve_blue_media_currency_symbol(),
 						$params['CustomerEmail'],
+						$params['PlatformName'],
+						$params['PlatformVersion'],
+						$params['PlatformPluginVersion'],
 						$params['Hash'] );
 				}
 				update_post_meta( $params['OrderID'],
@@ -215,7 +233,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 
 			'ga4_tracking_id'                 => [
-				'title'       => __( 'Google Analitics Tracking ID',
+				'title'       => __( 'Google Analytics Tracking ID',
 					'bm-woocommerce' ),
 				'description' => ( function () {
 					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
@@ -226,7 +244,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				'type'        => 'text',
 			],
 			'ga4_api_secret'                  => [
-				'title'       => __( 'Google Analitics Api secret',
+				'title'       => __( 'Google Analytics Api secret',
 					'bm-woocommerce' ),
 				'description' => ( function () {
 					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
@@ -237,7 +255,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				'type'        => 'password',
 			],
 			'ga4_client_id'                   => [
-				'title'       => __( 'Google Analitics Client ID',
+				'title'       => __( 'Google Analytics Client ID',
 					'bm-woocommerce' ),
 				'description' => ( function () {
 					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
@@ -637,6 +655,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 * @param int $payment_channel
 	 *
 	 * @return array
+	 * @throws Exception
 	 */
 	private
 	function prepare_initial_transaction_parameters(
@@ -653,11 +672,15 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		}
 
 		$params = [
-			'ServiceID'     => $this->service_id,
-			'OrderID'       => $wc_order->get_id(),
-			'Amount'        => $price,
-			'GatewayID'     => $payment_channel,
-			'CustomerEmail' => $wc_order->get_billing_email(),
+			'ServiceID'             => $this->service_id,
+			'OrderID'               => $wc_order->get_id(),
+			'Amount'                => $price,
+			'GatewayID'             => $payment_channel,
+			'Currency'              => blue_media()->resolve_blue_media_currency_symbol(),
+			'CustomerEmail'         => $wc_order->get_billing_email(),
+			'PlatformName'          => 'Woocommerce',
+			'PlatformVersion'       => WC_VERSION,
+			'PlatformPluginVersion' => blue_media()->get_plugin_version(),
 		];
 
 
@@ -725,7 +748,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	function api_get_gateway_list(): ?array {
 		$service_id = $this->service_id;
 		$message_id = substr( bin2hex( random_bytes( 32 ) ), 32 );
-		$currencies = 'PLN';
+		$currencies = blue_media()->resolve_blue_media_currency_symbol();
 
 		$params = [
 			'ServiceID'  => $service_id,
@@ -751,6 +774,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				'body'    => json_encode( $params ),
 			]
 		);
+
 
 		if ( is_wp_error( $result ) ) {
 			update_option( 'bm_api_last_error',

@@ -8,41 +8,36 @@
   ],
   "autoload": {
     "psr-4": {
-      "Ilabs\\BM_Woocommerce\\": "src/",
-      "Isolated\\BlueMedia\\Ilabs\\Ilabs_Plugin\\": "vendor/ilabs/ilabs-plugin/src"
+      "Ilabs\\BM_Woocommerce\\": "src",
+      "Isolated\\BlueMedia\\Ilabs\\Ilabs_Plugin\\": "vendor/isolated-ilabs-plugin/ilabs-plugin/src"
     }
-  },
-  "require": {
-    "ilabs/isolated-php-ga4-mp": "0.1.2",
-    "ilabs/ilabs-plugin": "1.*"
   },
   "repositories": [
     {
       "type": "package",
-      "package": [
-        {
-          "name": "ilabs/ilabs-plugin",
-          "version": "1.0.0",
-          "type": "wordpress-plugin",
-          "dist": {
-            "type": "zip",
-            "url": "ilabs-dev/setup/packages/ilabs-plugin.zip"
-          }
+      "package": {
+        "name": "isolated-ilabs-plugin/ilabs-plugin",
+        "version": "1.0.11",
+        "dist": {
+          "type": "zip",
+          "url": "ilabs/setup/isolated_dependencies/isolated-ilabs-plugin-1.0.11.zip"
         }
-      ]
+      }
     },
     {
       "type": "package",
-      "package": [
-        {
-          "name": "ilabs/isolated-php-ga4-mp",
-          "version": "0.1.2",
-          "dist": {
-            "type": "zip",
-            "url": "ilabs-dev/setup/packages/isolated-php-ga4-mp.zip"
-          }
+      "package": {
+        "name": "isolated-br33f-php-ga4-mp/isolated-php-ga4-mp",
+        "version": "0.1.2",
+        "dist": {
+          "type": "zip",
+          "url": "ilabs/setup/isolated_dependencies/isolated-php-ga4-mp-0.1.2.zip"
         }
-      ]
+      }
     }
-  ]
+  ],
+  "require": {
+    "isolated-ilabs-plugin/ilabs-plugin": "1.0.11",
+    "isolated-br33f-php-ga4-mp/isolated-php-ga4-mp": "0.1.2"
+  }
 }

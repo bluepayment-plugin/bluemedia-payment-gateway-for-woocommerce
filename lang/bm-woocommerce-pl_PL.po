@@ -48,13 +48,13 @@ msgid "Test Service ID"
 msgstr "Testowy identyfikator serwisu"
 
 msgid "Test Private Key"
-msgstr "Testowy klucz współdzielony"
+msgstr "Testowy Klucz konfiguracyjny (hash)"
 
 msgid "Service ID"
 msgstr "Identyfikator serwisu"
 
 msgid "Production private Key"
-msgstr "Klucz współdzielony"
+msgstr "Klucz konfiguracyjny (hash)"
 
 msgid "Gateway host"
 msgstr "Adres modułu płatności"
@@ -68,8 +68,11 @@ msgstr "Zawiera cyfry i małe litery. Służy do weryfikacji komunikacji z bramk
 msgid "It contains only numbers. It is different for each shop"
 msgstr "Zawiera tylko cyfry. Jest inny dla każdego sklepu."
 
-msgid "Google Analitics Tracking ID"
-msgstr "Klucz śledzący Google Analitics"
+msgid "It contains only numbers. It is different for each shop."
+msgstr "Zawiera tylko cyfry. Jest inny dla każdego sklepu."
+
+msgid "Google Analytics Tracking ID"
+msgstr "Klucz konfiguracyjny (hash)"
 
 msgid "Payment statuses"
 msgstr "Statusy płatności"
@@ -117,13 +120,13 @@ msgid "Test environment"
 msgstr "Środowisko testowe"
 
 msgid "It contains only numbers. It is different for each shop. The service ID and shared key for the test environment are different from production data. To get the data for the test environment, "
-msgstr "Zawiera tylko cyfry. Jest inny dla każdego sklepu. Identyfikator serwisu i klucz współdzielony dla środowiska testowego różnią się od danych produkcyjnych.<br> Żeby uzyskać dane dla środowiska testowego, "
+msgstr "Zawiera tylko cyfry. Jest inny dla każdego sklepu. Identyfikator serwisu i klucz konfiguracyjny (hash) dla środowiska testowego różnią się od danych produkcyjnych.<br> Żeby uzyskać dane dla środowiska testowego, "
 
 msgid "The service ID and shared key for the test environment are different from production data. To get the data for the test environment, "
-msgstr "Identyfikator serwisu i klucz współdzielony dla środowiska testowego różnią się od danych produkcyjnych. Żeby uzyskać dane dla środowiska testowego, "
+msgstr "Identyfikator serwisu i klucz konfiguracyjny (hash) dla środowiska testowego różnią się od danych produkcyjnych. Żeby uzyskać dane dla środowiska testowego, "
 
 msgid "The service ID and shared key for the test environment are different from production data."
-msgstr "Identyfikator serwisu i klucz współdzielony dla środowiska testowego różnią się od danych produkcyjnych."
+msgstr "Identyfikator serwisu i klucz konfiguracyjny (hash) dla środowiska testowego różnią się od danych produkcyjnych."
 
 msgid "please contact us."
 msgstr "skontaktuj się z nami."
@@ -131,9 +134,8 @@ msgstr "skontaktuj się z nami."
 msgid "To get the data for the test environment, please contact us."
 msgstr "Żeby uzyskać dane dla środowiska testowego, skontaktuj się z nami."
 
+msgid "It allows you to check the module's operation without having to pay for the order (no order fees are charged in the test mode)."
+msgstr "Pozwala on na sprawdzenie działania modułu bez konieczności opłacania zamówienia (w trybie testowym nie są pobierane żadne opłaty za zamówienie)."
+
 msgid "To get the data for the test environment,"
 msgstr "Żeby uzyskać dane dla środowiska testowego,"
-
-
-msgid "It allows you to check the module\'s operation without having to pay for the order (no order fees are charged in the test mode)."
-msgstr "Pozwala on na sprawdzenie działania modułu bez konieczności opłacania zamówienia (w trybie testowym nie są pobierane żadne opłaty za zamówienie)."
