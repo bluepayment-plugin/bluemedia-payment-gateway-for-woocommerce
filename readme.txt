@@ -3,7 +3,7 @@ Contributors: inspirelabs
 Tags: woocommerce, bluemedia
 Requires at least: 4.1
 Tested up to: 6.1
-Stable tag: 4.1.14
+Stable tag: 4.1.15
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 

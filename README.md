@@ -2,10 +2,11 @@
 
 ## Podstawowe informacje
 
-BluePayment to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce). Jeżeli jeszcze nie masz wtyczki, możesz ją pobrać [tutaj.](https://pl.wordpress.org/plugins/platnosci-online-blue-media/)
+BluePayment to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce). Jeżeli jeszcze nie masz wtyczki, możesz ją pobrać [tutaj.](https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce/releases)
 
+Należy zawsze pobierać najnowsze wydanie oznaczone etykietą "latest" (plik z ikonką paczki, zobacz poniższy screen).
 
-![Instrukcja pobierania archiwum z wtyczką](/assets/img/screenshot_11.png)
+![Instrukcja pobierania archiwum z wtyczką](/assets/img/screenshot_3.png)
 <em>Instrukcja pobierania archiwum z wtyczką<em>
 
 
@@ -26,25 +27,17 @@ Do najważniejszych funkcji modułu zalicza się:
 - Wtyczka WooCommerce – przetestowano na wersjach od 4.1 do 7.3.0
 - PHP minimum 7.2
 
-### Instalacja wtyczki z katalogu wtyczek Wordpressa (zalecane)
-1. Zaloguj się do swojego panelu administracyjnego w serwisie WordPress – używając loginu i hasła.
-2. W menu po lewej stronie wybierz Wtyczki ➝ Dodaj nową.
-3. Wpisz "Blue Media" w pole wyszukiwania. Powinieneś zobaczyć wtyczkę Blue Media jako jedną z pierwszych (jak na zrzucie ekranu).
-4. Kliknij "zainstaluj" a następnie "włącz"
+## Instalacja modułu
+1. Pobierz wtyczkę.
+2. Zaloguj się do swojego panelu administracyjnego w serwisie WordPress – używając loginu i hasła.
+3. W menu po lewej stronie wybierz Wtyczki ➝ Dodaj nową.
+4. Zainstaluj wtyczkę wybierając jedną z poniższych metod.
 
-![Wyszukiwanie wtyczki w katalogu](/assets/img/screenshot_10.png)
+### Instalacja wtyczki
 
-### Instalacja wtyczki z archiwum zip
-
-1. Przejdź na stronę wtyczki: https://pl.wordpress.org/plugins/platnosci-online-blue-media/
-2. Kliknij "Pobierz".
-3. Zaloguj się do swojego panelu administracyjnego w serwisie WordPress – używając loginu i hasła.
-4. W menu po lewej stronie wybierz Wtyczki ➝ Dodaj nową.
-5. Kliknij "Wyślij wtyczkę na serwer".
-6. Wybierz pobrany w punkcie 2 plik z wtyczką z rozszerzeniem .zip
-7. Kliknij "Zainstaluj", żeby wgrać wtyczkę do systemu.
-8. Po instalacji klikjnij "Włącz"
-
+1. Kliknij Wyślij wtyczkę na serwer.
+2. Wybierz plik z wtyczką z rozszerzeniem .zip
+3. Kliknij Zainstaluj teraz, żeby wgrać wtyczkę do systemu.
 
 ## Konfiguracja
 
@@ -70,11 +63,11 @@ Powyższe pola uzupełnisz danymi, które otrzymasz od Blue Media S.A. Jeśli je
 W momencie, gdy skończysz już sprawdzać, czy wszystko działa prawidłowo – wyłącz tryb testowy, wówczas płatności na Twojej stronie będą w 100% aktywne.
 Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 
-![Widok pól do uzupełnienia](/assets/img/screenshot_1.png)
+![Widok pól do uzupełnienia](/assets/img/screenshot_12.jpg)
 <em>Widok pól do uzupełnienia<em>
 
 
-![Dostępne metody płatności](/assets/img/screenshot_2.png)
+![Dostępne metody płatności](/assets/img/screenshot_5.jpg)
 
 <em>Dostępne metody płatności</em>
 
@@ -119,33 +112,3 @@ Wpisz Klucz śledzący Google Analytics oraz pozostałe dane GA4 we wskazane pol
 Nowa funkcja wyboru i dopasowania statusów płatności pozwala na automatyczną zmianę statusu zamówienia Woocoemmerce w momencie zmiany statusu płatności.
 
 ![Konfiguracja statusów](/assets/img/screenshot_4.jpg)
-
-
-### Najczęściej zadawane pytania
-
-
-#### Czy można włączać i wyłączać metody płatności?
-Niestety, w przypadku Płatności dla WooCommerce nie ma takiej możliwości. Wszystkie dostępne metody płatności są automatycznie włączone.
-
-
-#### Jak włączyć BLIK 0?
-BLIK 0 nie jest dostępną metodą płatności w Płatnościach dla WooCommerce. Dostępny jest natomiast BLIK z przekierowaniem na serwis blik.pl (w modelu white label) oraz szereg innych metod płatności, chętnie wybieranych przez klientów.
-
-
-#### Czy jest możliwość "wyciągnięcia" samego BLIK-a na white label?
-Niestety nie ma takiej możliwości.
-
-#### Czy można dodać inną walutę?
-Tak, obsługiwane waluty to: PLN, EUR, CZK, RON, HUF
-#### Jak zlecać zwroty (z poziomu sklepu czy panelu PayBM)?
-Aktualnie zwroty należy zlecać z poziomu panelu administracyjnego PayBM. Zaloguj się do oplacasie.bm.pl i wejdź w zakładkę 'Transakcje', po czym:
-
-- kliknij 'strzałkę zwrotu' (⟲);
-- zaznacz płatności, które chcesz zwrócić;
-- kliknij 'zwróć zaznaczone';
-- uzupełnij dane do zwrotu;
-- kliknij 'Zwróć', żeby potwierdzić akcję.
-
-
-
-Nie znalazłeś odpowiedzi na swoje pytanie? [Sprawdź naszą bazę wiedzy](https://developers.bluemedia.pl/online/faq), gdzie zebraliśmy wszystkie pytania dotyczące naszych usług.

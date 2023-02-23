@@ -101,3 +101,8 @@
 - Update frontend scripts
 - Update translations
 - Update docs
+- PayPO whitelabel descriptions
+
+## [4.1.15] - 2023-02-23
+### Updated
+- Docs
