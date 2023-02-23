@@ -3,7 +3,9 @@
 namespace Ilabs\BM_Woocommerce\Domain\Model\White_Label;
 
 class Config {
+
 	const UNSPECIFIED_IDS = null;
+
 	static $config_json = '{"1500":"karta-platnicza","509":"blik","106":"pbl","1899":"pbl","21":"szybki-przelew","35":"szybki-przelew","9":"szybki-przelew","1513":"portfel-elektroniczny","1512":"portfel-elektroniczny","700":"raty-online"}';
 
 
@@ -19,13 +21,13 @@ class Config {
 			[ 'name' => 'Apple Pay', 'position' => 6, 'ids' => [ 1513 ], ],
 			[ 'name' => 'Smartney', 'position' => 7, 'ids' => [ 700 ], ],
 			[ 'name' => 'Alior raty', 'position' => 8, 'ids' => [ 1506 ], ],
-			[ 'name' => 'PayPo', 'position' => 9, 'ids' => [ 705 ], ],
+			[ 'name' => 'PayPo', 'position' => 9, 'ids' => [ 705 ], 'extra_html' => $this->get_paypo_html_info() ],
 			[ 'name' => 'Hub ratalny', 'position' => 10, 'ids' => [ 702 ], ],
 			[ 'name' => 'Przelew Internetowy', 'position' => 11, 'ids' => self::UNSPECIFIED_IDS ],
 		];
 	}
 
-	public function get_ids():array {
+	public function get_ids(): array {
 		$return = [];
 
 		foreach ( $this->get_config() as $v ) {
@@ -35,5 +37,14 @@ class Config {
 		}
 
 		return $return;
+	}
+
+	private function get_paypo_html_info(): string {
+		return sprintf( ' <span style="text-align: justify"><span class="payment-method-description">%s </span>
+                            <span class="payment-method-help-text">%s</span><a href="https://start.paypo.pl/" target="_blank"><span style=""><br>%s</a></span>',
+			__( 'Odbierz zakupy, sprawdź je i zapłać później — za 30 dni lub w wygodnych ratach.', 'bm-woocommerc' ),
+			__( 'Przekierujemy Cię na stronę partnera PayPo.', 'bm-woocommerc' ),
+			__( 'Poznaj szczegóły.', 'bm-woocommerc' )
+		);
 	}
 }

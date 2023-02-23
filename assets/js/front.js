@@ -1,42 +1,23 @@
-// function initBmAddClassToRadio() {
-//     const elements = document.querySelectorAll(".bm-payment-channel-item > input[type='radio']");
-//     if(elements) {
-//         console.log("elements exist");
-//         elements.forEach((element) => {
-//             console.log("element", element);
-//             element.addEventListener("click", function() {
-//                 console.log("clicked");
-//                 if(element.checked) {
-//                     element.closest(".bm-payment-channel-item").classList.toggle("selected");
-//                 }
-//                 document.querySelectorAll(".bm-payment-channel-item > input[type='radio']").forEach((element) => {
-//                     if(element.checked === false) {
-//                         element.closest(".bm-payment-channel-item").classList.remove("selected");
-//                     }
-//                 })
-//             });
-//         });
-//     }
-// }
+function addCurrentClass(el) {
+    const current_payment_block = el.closest('#payment');   
 
-
-function addCurrentClass() {
-    const elements = document.querySelectorAll(".bm-payment-channel-item > input[type='radio']");
-    const bank_group_wrap = document.querySelector(".bm-group-expandable-wrapper");
-    const bank_group_radio = document.querySelector("#bm-gateway-bank-group");
+    const elements = current_payment_block.querySelectorAll(".bm-payment-channel-item > input[type='radio']");
+    
+    const bank_group_wrap = current_payment_block.querySelector(".bm-group-expandable-wrapper");
+    const bank_group_radio = current_payment_block.querySelector("#bm-gateway-bank-group");
     if (elements) {
         elements.forEach((element) => {
             if (element.checked) {
                 element.closest(".bm-payment-channel-item").classList.toggle("selected");
                 // hide list of "PRZELEW INTERNETOWY"
-                if ( ! isChild(element, document.querySelector("div.bm-group-expandable-wrapper")) ) {
+                if ( ! isChild(element, current_payment_block.querySelector("div.bm-group-expandable-wrapper")) ) {
                     bank_group_wrap.classList.remove('active');
                     if(bank_group_radio.checked) {
                         bank_group_radio.checked = !bank_group_radio.checked;
                     }
                 }
             }
-            document.querySelectorAll(".bm-payment-channel-item > input[type='radio']").forEach((element) => {
+            current_payment_block.querySelectorAll(".bm-payment-channel-item > input[type='radio']").forEach((element) => {
                 if (element.checked === false) {
                     element.closest(".bm-payment-channel-item").classList.remove("selected");
                 }
@@ -81,7 +62,10 @@ document.addEventListener('click', function (e) {
     // click on PRZELEW INTERNETOWY
     if (target.hasAttribute('id') && target.getAttribute('id') == 'bm-gateway-bank-group') {
         if (target.checked) {
-            bank_group_wrap.classList.add('active');
+            
+            document.querySelectorAll(".bm-group-expandable-wrapper").forEach((element) => {
+                element.classList.add('active');
+            });
 
             document.querySelectorAll(".bm-payment-channel-item > input[type='radio']").forEach((element) => {
                 if (element.checked) {
@@ -89,7 +73,6 @@ document.addEventListener('click', function (e) {
                     element.checked = !element.checked;
                 }
             })
-
         }
     }
 

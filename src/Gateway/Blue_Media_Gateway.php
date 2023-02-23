@@ -874,7 +874,7 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
                     <input
                     type="radio"
                     name="bm-payment-channel"
-                    onclick="addCurrentClass()"
+                    onclick="addCurrentClass(this)"
                     data-index="0" id="bm-gateway-id-%s" class="shipping_method" value="%s">
                     <span class="bm-payment-channel-method-logo">
                             <img style="" src="%s">

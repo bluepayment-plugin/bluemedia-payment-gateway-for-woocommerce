@@ -68,11 +68,8 @@ msgstr "Zawiera cyfry i małe litery. Służy do weryfikacji komunikacji z bramk
 msgid "It contains only numbers. It is different for each shop"
 msgstr "Zawiera tylko cyfry. Jest inny dla każdego sklepu."
 
-msgid "It contains only numbers. It is different for each shop."
-msgstr "Zawiera tylko cyfry. Jest inny dla każdego sklepu."
-
 msgid "Google Analytics Tracking ID"
-msgstr "Klucz konfiguracyjny (hash)"
+msgstr "Klucz śledzący Google Analitics"
 
 msgid "Payment statuses"
 msgstr "Statusy płatności"

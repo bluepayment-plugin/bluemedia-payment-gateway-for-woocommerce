@@ -95,3 +95,9 @@
 - Update plugin core
 - Update translations
 - Update docs
+
+## [4.1.14] - 2023-02-23
+### Updated
+- Update frontend scripts
+- Update translations
+- Update docs

@@ -58,7 +58,10 @@ class Group_Mapper {
 								sanitize_title( $config_item['name'] ) );
 							$instance_created = true;
 						}
-						$group->push_item( ( new Item( $raw_channel->gatewayName, $raw_channel->gatewayID,
+
+						$gateway_name = $config_item['extra_html'] ?? $raw_channel->gatewayName;
+
+						$group->push_item( ( new Item( $gateway_name, $raw_channel->gatewayID,
 							$raw_channel->iconURL ) ) );
 					} elseif ( ! in_array( $raw_channel->gatewayID,
 						$ids_from_config ) ) {
