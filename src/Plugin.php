@@ -274,6 +274,20 @@ class Plugin extends Abstract_Ilabs_Plugin {
 			return;
 		}
 
+        add_filter( 'woocommerce_payment_complete_order_status',
+            function ( $status, $order_id, $order ) {
+                if ( 'bluemedia' === $order->get_payment_method() ) {
+                    if ( 'processing' === $status ) {
+                        $new_status = get_option( 'wc_payment_status_on_bm_success' );
+                        if( $new_status ) {
+                            return $new_status;
+                        }
+                    }
+                }
+                return $status;
+
+            }, 10, 3 );
+
 		add_filter( 'woocommerce_get_checkout_order_received_url',
 			function ( $return_url, $order ) {
 				$this->update_payment_cache( 'bm_order_received_url', $return_url );

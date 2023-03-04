@@ -287,8 +287,8 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 				'description' => __( '',
 					'bm-woocommerce' ),
 				'type'        => 'select',
-				'options'     => wc_get_order_statuses(),
-				'default'     => 'wc-completed',
+                'options'     => array_merge(array('' => 'Auto'), wc_get_order_statuses()),
+                'default'     => '',
 			],
 			'wc_payment_status_on_bm_failure' => [
 				'title'       => __( 'Payment failure',
@@ -555,8 +555,7 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 					}
 
 					foreach ( $order_success_to_update as $wc_order ) {
-						$new_status = $this->get_option( 'wc_payment_status_on_bm_success', 'completed' );
-						$wc_order->set_status( $new_status );
+                        $wc_order->payment_complete();
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus SUCCESS' );
 						$wc_order->save();
 					}
