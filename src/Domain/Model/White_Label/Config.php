@@ -18,10 +18,21 @@ class Config {
 			[ 'name' => 'Blik', 'position' => 3, 'ids' => [ 509 ], ],
 			[ 'name' => 'Wirtualny portfel', 'position' => 4, 'ids' => [ 778 ], ],
 			[ 'name' => 'Google Pay', 'position' => 5, 'ids' => [ 1512 ], ],
-			[ 'name' => 'Apple Pay', 'position' => 6, 'ids' => [ 1513 ], ],
+			[
+				'name'        => 'Apple Pay',
+				'position'    => 6,
+				'ids'         => [ 1513 ],
+				'extra_class' => 'bm-apple-pay',
+				'extra_script' => $this->get_applepay_check_script()
+			],
 			[ 'name' => 'Smartney', 'position' => 7, 'ids' => [ 700 ], ],
 			[ 'name' => 'Alior raty', 'position' => 8, 'ids' => [ 1506 ], ],
-			[ 'name' => 'PayPo', 'position' => 9, 'ids' => [ 705 ], 'extra_html' => $this->get_paypo_html_info() ],
+			[
+				'name'       => 'PayPo',
+				'position'   => 9,
+				'ids'        => [ 705 ],
+				'extra_html' => $this->get_paypo_html_info(),
+			],
 			[ 'name' => 'Hub ratalny', 'position' => 10, 'ids' => [ 702 ], ],
 			[ 'name' => 'Przelew Internetowy', 'position' => 11, 'ids' => self::UNSPECIFIED_IDS ],
 		];
@@ -46,5 +57,9 @@ class Config {
 			__( 'Przekierujemy Cię na stronę partnera PayPo.', 'bm-woocommerc' ),
 			__( 'Poznaj szczegóły.', 'bm-woocommerc' )
 		);
+	}
+
+	private function get_applepay_check_script(): string {
+		return "<script>if (window.ApplePaySession) {jQuery('.bm-apple-pay').css('display', 'grid')}</script>";
 	}
 }

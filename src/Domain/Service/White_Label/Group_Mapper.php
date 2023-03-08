@@ -60,9 +60,11 @@ class Group_Mapper {
 						}
 
 						$gateway_name = $config_item['extra_html'] ?? $raw_channel->gatewayName;
+						$extra_class  = $config_item['extra_class'] ?? null;
+						$extra_script = $config_item['extra_script'] ?? null;
 
 						$group->push_item( ( new Item( $gateway_name, $raw_channel->gatewayID,
-							$raw_channel->iconURL ) ) );
+							$raw_channel->iconURL, $extra_class, $extra_script ) ) );
 					} elseif ( ! in_array( $raw_channel->gatewayID,
 						$ids_from_config ) ) {
 						$unknown_raw_channels[ $raw_channel->gatewayID ] = $raw_channel;
@@ -79,7 +81,9 @@ class Group_Mapper {
 			foreach ( $unknown_raw_channels as $raw_channel ) {
 				$result[ $unspecified_ids_group_key ]->push_item( ( new Item( $raw_channel->gatewayName,
 					$raw_channel->gatewayID,
-					$raw_channel->iconURL ) ) );
+					$raw_channel->iconURL,
+					null,
+					null ) ) );
 
 			}
 		}

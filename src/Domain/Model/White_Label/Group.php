@@ -19,6 +19,7 @@ class Group {
 	 */
 	private $slug;
 
+
 	/**
 	 * @param Item[] $items
 	 * @param string $name
@@ -77,4 +78,6 @@ class Group {
 		$items[]     = $item;
 		$this->items = $items;
 	}
+
+
 }

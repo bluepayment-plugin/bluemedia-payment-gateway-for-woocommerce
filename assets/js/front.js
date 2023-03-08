@@ -1,8 +1,8 @@
 function addCurrentClass(el) {
-    const current_payment_block = el.closest('#payment');   
+    const current_payment_block = el.closest('#payment');
 
     const elements = current_payment_block.querySelectorAll(".bm-payment-channel-item > input[type='radio']");
-    
+
     const bank_group_wrap = current_payment_block.querySelector(".bm-group-expandable-wrapper");
     const bank_group_radio = current_payment_block.querySelector("#bm-gateway-bank-group");
     if (elements) {
@@ -10,9 +10,9 @@ function addCurrentClass(el) {
             if (element.checked) {
                 element.closest(".bm-payment-channel-item").classList.toggle("selected");
                 // hide list of "PRZELEW INTERNETOWY"
-                if ( ! isChild(element, current_payment_block.querySelector("div.bm-group-expandable-wrapper")) ) {
+                if (!isChild(element, current_payment_block.querySelector("div.bm-group-expandable-wrapper"))) {
                     bank_group_wrap.classList.remove('active');
-                    if(bank_group_radio.checked) {
+                    if (bank_group_radio.checked) {
                         bank_group_radio.checked = !bank_group_radio.checked;
                     }
                 }
@@ -31,7 +31,6 @@ jQuery(document).ready(function () {
     if (typeof window.blueMedia !== 'undefined') {
         if (typeof blue_media_ga4_tasks !== 'undefined' && typeof blueMedia.ga4TrackingId !== 'undefined') {
             window.dataLayer = window.dataLayer || [];
-
 
 
             function gtag() {
@@ -62,7 +61,7 @@ document.addEventListener('click', function (e) {
     // click on PRZELEW INTERNETOWY
     if (target.hasAttribute('id') && target.getAttribute('id') == 'bm-gateway-bank-group') {
         if (target.checked) {
-            
+
             document.querySelectorAll(".bm-group-expandable-wrapper").forEach((element) => {
                 element.classList.add('active');
             });
@@ -79,12 +78,13 @@ document.addEventListener('click', function (e) {
 });
 
 
-function isChild (obj,parentObj){
-    while (obj != undefined && obj != null && obj.tagName.toUpperCase() != 'BODY'){
-        if (obj == parentObj){
+function isChild(obj, parentObj) {
+    while (obj != undefined && obj != null && obj.tagName.toUpperCase() != 'BODY') {
+        if (obj == parentObj) {
             return true;
         }
         obj = obj.parentNode;
     }
     return false;
 }
+

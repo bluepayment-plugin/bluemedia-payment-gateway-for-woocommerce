@@ -5,7 +5,7 @@ declare( strict_types=1 );
  * Plugin URI: https://wordpress.org/plugins/platnosci-online-blue-media
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.1.15
+ * Version: 4.1.16
  * Tested up to: 6.1.1
  * Requires PHP: 7.2
  * Author: iLabs LTD
@@ -32,20 +32,28 @@ declare( strict_types=1 );
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly
-
-require_once __DIR__ . '/vendor/autoload.php';
-require_once 'dependencies.php';
-
-function blue_media(): Ilabs\BM_Woocommerce\Plugin {
-	return new Ilabs\BM_Woocommerce\Plugin();
 }
 
-$config = [
-	'__FILE__'    => __FILE__,
-	'slug'        => 'bm_woocommerce',
-	'lang_dir'    => 'lang',
-	'text_domain' => 'bm-woocommerce',
-];
 
-blue_media()->execute( $config );
+require_once __DIR__ . '/compatibility.php';
+
+if ( blue_media_system_check() ) {
+	require_once __DIR__ . '/vendor/autoload.php';
+	require_once 'dependencies.php';
+
+	function blue_media(): Ilabs\BM_Woocommerce\Plugin {
+		return new Ilabs\BM_Woocommerce\Plugin();
+	}
+
+	$config = [
+		'__FILE__'    => __FILE__,
+		'slug'        => 'bm_woocommerce',
+		'lang_dir'    => 'lang',
+		'text_domain' => 'bm-woocommerce',
+	];
+
+	blue_media()->execute( $config );
+}
+
+
+

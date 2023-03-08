@@ -5,6 +5,7 @@ namespace Ilabs\BM_Woocommerce\Gateway;
 use Exception;
 use Ilabs\BM_Woocommerce\Domain\Model\White_Label\Expandable_Group;
 use Ilabs\BM_Woocommerce\Domain\Model\White_Label\Expandable_Group_Interface;
+use Ilabs\BM_Woocommerce\Domain\Model\White_Label\Group;
 use Ilabs\BM_Woocommerce\Domain\Service\White_Label\Group_Mapper;
 use Ilabs\BM_Woocommerce\Plugin;
 use SimpleXMLElement;
@@ -44,7 +45,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		                      . '/logo-blue-media.svg';
 		$this->has_fields
 		                    = true;
-		$this->method_title = __( 'Blue Media',
+		$this->method_title = __( 'Instant payment',
 			'bm-woocommerce' );
 		$this->method_description
 		                    = __( 'Description of Blue Media payment gateway',
@@ -485,6 +486,11 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 
 						$wc_order_id     = (int) (string) $transaction->orderID;
 						$bm_order_status = (string) $transaction->paymentStatus;
+						$bm_remote_id = (string) $transaction->remoteID;
+
+
+
+
 						$init_params     = get_post_meta( $wc_order_id,
 							'bm_transaction_init_params', true );
 
@@ -528,15 +534,15 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 						$wc_order = wc_get_order( $wc_order_id );
 
 						if ( 'SUCCESS' === $bm_order_status ) {
-							$order_success_to_update[] = $wc_order;
+							$order_success_to_update[$bm_remote_id] = $wc_order;
 						}
 
 						if ( 'PENDING' === $bm_order_status ) {
-							$order_pending_to_update[] = $wc_order;
+							$order_pending_to_update[$bm_remote_id] = $wc_order;
 						}
 
 						if ( 'FAILURE' === $bm_order_status ) {
-							$order_failure_to_update[] = $wc_order;
+							$order_failure_to_update[$bm_remote_id] = $wc_order;
 						}
 
 					}
@@ -554,20 +560,25 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 						exit;
 					}
 
-					foreach ( $order_success_to_update as $wc_order ) {
-                        $wc_order->payment_complete();
+					foreach ( $order_success_to_update as $k => $wc_order ) {
+						$new_status = $this->get_option( 'wc_payment_status_on_bm_success' );
+						$wc_order->payment_complete($k);
+                        if( $new_status ) {
+                            $wc_order->set_status( $new_status );
+                        }
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus SUCCESS' );
+
 						$wc_order->save();
 					}
 
-					foreach ( $order_pending_to_update as $wc_order ) {
+					foreach ( $order_pending_to_update as $k => $wc_order ) {
 						$new_status = $this->get_option( 'wc_payment_status_on_bm_pending', 'pending' );
 						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus PENDING' );
 						$wc_order->save();
 					}
 
-					foreach ( $order_failure_to_update as $wc_order ) {
+					foreach ( $order_failure_to_update as $k => $wc_order ) {
 						$new_status = $this->get_option( 'wc_payment_status_on_bm_failure', 'failed' );
 						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus FAILURE' );
@@ -843,6 +854,9 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 		echo '<div class="bm-payment-channels-wrapper">';
 		echo '<ul id="shipping_method" class="woocommerce-shipping-methods">';
 
+		/**
+		 * @var Group[] $group_arr
+		 */
 		foreach ( $group_arr as $group ) {
 			$expandable_Group = $group instanceof Expandable_Group;
 
@@ -867,9 +881,8 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 
 
 			foreach ( $group->get_items() as $item ) {
-
 				printf( '
-                    <li class="bm-payment-channel-item">
+                    <li class="bm-payment-channel-item %s">
                     <input
                     type="radio"
                     name="bm-payment-channel"
@@ -880,14 +893,17 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
                             </span>
                     <label for="bm-gateway-id-%s">%s</label>
                             </li>',
+					(string) $item->get_class(),
 					$item->get_id(),
 					$item->get_id(),
 					$item->get_icon(),
 					$item->get_id(),
 					$item->get_name()
 				);
-
-
+				$script = $item->get_script();
+				if ( $script ) {
+					echo $item->get_script();
+				}
 			}
 			if ( $expandable_Group ) {
 				echo '</div>';
