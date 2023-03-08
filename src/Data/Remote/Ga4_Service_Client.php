@@ -60,7 +60,12 @@ class Ga4_Service_Client {
 	public function add_to_cart_event( Add_Product_To_Cart_Use_Case $add_product_to_cart_use_case ) {
 		$ga4Service  = new Service( $this->get_api_secret(), $this->get_tracking_id() );
 		$baseRequest = new BaseRequest( $this->get_client_id() );
-		$baseRequest->setClientId( $this->get_user_id() );
+
+		$client_id_from_cookie = $this->get_user_id();
+		if ($client_id_from_cookie){
+			$baseRequest->setClientId( $client_id_from_cookie );
+		}
+
 		$addToCartEventData = new AddToCartEvent();
 		$addToCartEventData
 			->setValue( $add_product_to_cart_use_case->get_ga4_payload_dto()->get_value() )
@@ -100,7 +105,12 @@ class Ga4_Service_Client {
 	public function remove_from_cart_event( Remove_Product_From_Cart_Use_Case $remove_product_from_cart_use_case ) {
 		$ga4Service  = new Service( $this->get_api_secret(), $this->get_tracking_id() );
 		$baseRequest = new BaseRequest( $this->get_client_id() );
-		$baseRequest->setClientId( $this->get_user_id() );
+
+		$client_id_from_cookie = $this->get_user_id();
+		if ($client_id_from_cookie){
+			$baseRequest->setClientId( $client_id_from_cookie );
+		}
+
 		$remove_from_cart_event_data = new RemoveFromCartEvent();
 
 
@@ -135,7 +145,12 @@ class Ga4_Service_Client {
 	public function purchase_event( Complete_Transation_Use_Case $complete_transaction_use_case ) {
 		$ga4Service  = new Service( $this->get_api_secret(), $this->get_tracking_id() );
 		$baseRequest = new BaseRequest( $this->get_client_id() );
-		$baseRequest->setClientId( $this->get_user_id() );
+
+		$client_id_from_cookie = $this->get_user_id();
+		if ($client_id_from_cookie){
+			$baseRequest->setClientId( $client_id_from_cookie );
+		}
+
 		$purchase_event_data = new PurchaseEvent();
 
 		$purchase_event_data
@@ -262,7 +277,11 @@ class Ga4_Service_Client {
 		return $base_request->export();
 	}
 
-	private function get_user_id(): string {
+	private function get_user_id(): ?string {
+		if (!isset($_COOKIE['_ga'])){
+			return null;
+		}
+
 		$from_cookie = $_COOKIE['_ga'];
 		$exploded    = explode( '.', $from_cookie );
 
