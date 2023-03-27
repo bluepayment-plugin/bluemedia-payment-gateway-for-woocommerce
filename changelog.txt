@@ -112,3 +112,11 @@
 - Protection against accidentally installing the development version instead of the production package
 ### Fixed
 - Missing call of payment_complete() method on Order object
+
+## [4.1.17] - 2023-03-21
+### Fixed
+- Styles
+
+## [4.1.18] - 2023-03-27
+### Added
+- Astra theme support

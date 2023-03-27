@@ -15,7 +15,7 @@ class Item {
 	private $id;
 
 	/**
-	 * @var string
+	 * @var string | null
 	 */
 	private $icon;
 
@@ -33,11 +33,11 @@ class Item {
 	/**
 	 * @param string $name
 	 * @param string $id
-	 * @param string $icon
+	 * @param string|null $icon
 	 * @param string|null $extra_class
 	 * @param string|null $script
 	 */
-	public function __construct( string $name, string $id, string $icon, ?string $extra_class, ?string $script ) {
+	public function __construct( string $name, string $id, ?string $icon, ?string $extra_class, ?string $script ) {
 		$this->name   = $name;
 		$this->id     = $id;
 		$this->icon   = $icon;
@@ -73,19 +73,7 @@ class Item {
 		$this->id = $id;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function get_icon(): string {
-		return $this->icon;
-	}
 
-	/**
-	 * @param string $icon
-	 */
-	public function set_icon( string $icon ): void {
-		$this->icon = $icon;
-	}
 
 	/**
 	 * @return string
@@ -113,5 +101,19 @@ class Item {
 	 */
 	public function set_script( ?string $script ): void {
 		$this->script = $script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_icon(): string {
+		return (string) $this->icon;
+	}
+
+	/**
+	 * @param string|null $icon
+	 */
+	public function set_icon( ?string $icon ): void {
+		$this->icon = $icon;
 	}
 }

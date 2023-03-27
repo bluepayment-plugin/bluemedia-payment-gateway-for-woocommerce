@@ -3,7 +3,7 @@ Contributors: inspirelabs
 Tags: woocommerce, bluemedia
 Requires at least: 4.1
 Tested up to: 6.1
-Stable tag: 4.1.16
+Stable tag: 4.1.18
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -177,3 +177,11 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 - Protection against accidentally installing the development version instead of the production package
 ### Fixed
 - Missing call of payment_complete() method on Order object
+
+## [4.1.17] - 2023-03-21
+### Fixed
+- Styles
+
+## [4.1.18] - 2023-03-27
+### Added
+- Astra theme support

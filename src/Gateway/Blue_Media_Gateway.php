@@ -518,6 +518,15 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 							header( 'HTTP/1.0 401 Unauthorized' );
 							echo __( 'validate_itn_params - not valid',
 								esc_attr( blue_media()->get_from_config( 'slug' ) ) );
+
+
+							update_option( 'bm_api_last_error',
+								sprintf( '[%s server time] [BlueMedia ITN validate_itn_params 401 debug] [Transaction from ITN: %s] [Init params meta: %s]',
+									date( "Y-m-d H:i:s", time() ),
+									json_encode( $transaction ),
+									json_encode( $init_params )
+								)
+							);
 							exit;
 						}
 
@@ -596,6 +605,15 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 				}
 			} catch ( Exception $e ) {
 				error_log( print_r( $e->getMessage(), true ) );
+
+				update_option( 'bm_api_last_error',
+					sprintf( '[%s server time] [BlueMedia webhook exception debug] [mesage: %s] [Post data: %s]',
+						date( "Y-m-d H:i:s", time() ),
+						json_encode( $e->getMessage() ),
+						json_encode( $_POST )
+					)
+				);
+
 				die( 'Message: ' . $e->getMessage() . ' Code: ' . $e->getCode() );
 			}
 		} );

@@ -5,7 +5,7 @@ declare( strict_types=1 );
  * Plugin URI: https://wordpress.org/plugins/platnosci-online-blue-media
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.1.16
+ * Version: 4.1.18
  * Tested up to: 6.1.1
  * Requires PHP: 7.2
  * Author: iLabs LTD
