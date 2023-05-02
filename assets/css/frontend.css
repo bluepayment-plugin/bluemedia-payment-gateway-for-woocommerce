@@ -114,15 +114,16 @@ ul#shipping_method input:focus {
 }
 
 .bm-payment-channel-item > input[type="radio"],
+.bm-payment-channel-group-item > input[type="radio"],
 .bm-payment-channel-item > .bm-payment-channel-method-logo,
-.bm-payment-channel-item > .bm-payment-channel-group-method-logo,
-.bm-payment-channel-group-item > input[type="radio"] {
+.bm-payment-channel-group-item > .bm-payment-channel-group-method-logo {
 	margin-right: 10px;
 }
 
 .bm-payment-channel-item > .bm-payment-channel-method-logo,
-.bm-payment-channel-item > .bm-payment-channel-group-method-logo,
-.bm-payment-channel-item > label {
+.bm-payment-channel-group-item > .bm-payment-channel-group-method-logo,
+.bm-payment-channel-item > label,
+.bm-payment-channel-group-item > label {
 	text-indent: initial;
 }
 

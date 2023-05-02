@@ -110,7 +110,6 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	}
 
 
-
 	/**
 	 * @throws Exception
 	 */
@@ -291,7 +290,7 @@ class Plugin extends Abstract_Ilabs_Plugin {
 			[ $this, 'bm_woocommerce_cancel_unpaid_order_filter' ], 10, 2 );
 
 
-		if (!is_admin()){
+		if ( ! is_admin() ) {
 			if ( ! empty( $this->get_from_payment_cache( 'bm_order_received_url' ) )
 			     && empty( $this->get_from_payment_cache( 'bm_payment_start' ) ) ) {
 

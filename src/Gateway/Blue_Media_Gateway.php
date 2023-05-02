@@ -689,13 +689,11 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 		int $payment_channel = 0
 	): array {
 
-		// get price (type "string") and check if it has dot in it
-		// because some shops in Woocommerce settings
-		// set rounded prices
-		$price = $wc_order->get_total();
-		if ( stripos( $price, "." ) === false ) {
-			$price = sprintf( "%.2f", $price );
+		$price = str_replace(',', '.', (string)$wc_order->get_total(false));
+		if (strpos($price, '.') === false) {
+			$price = $price . '.00';
 		}
+
 
 		$params = [
 			'ServiceID'             => $this->service_id,
@@ -709,9 +707,15 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 			'PlatformPluginVersion' => blue_media()->get_plugin_version(),
 		];
 
-
 		$params_hash = $this->hash_transaction_parameters(
 			$params
+		);
+
+		update_option( 'bm_api_last_error',
+			sprintf( '[%s server time] [BlueMedia debug] [initial_transaction_parameters: %s]',
+				date( "Y-m-d H:i:s", time() ),
+				serialize($params)
+			)
 		);
 
 		return array_merge( $params, [ 'Hash' => $params_hash ] );
@@ -747,9 +751,7 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 		                                              - (int) get_option( 'bm_gateway_list_cache_time' )
 		                                              > 600//10 minutes cache
 		) {
-
 			$gateway_list_cache = $this->api_get_gateway_list();
-
 			update_option( 'bm_gateway_list_cache', $gateway_list_cache );
 			update_option( 'bm_gateway_list_cache_time', time() );
 		} else {
