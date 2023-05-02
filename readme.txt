@@ -1,9 +1,9 @@
 === Blue Media ===
 Contributors: inspirelabs
 Tags: woocommerce, bluemedia
-Requires at least: 4.1
-Tested up to: 6.1
-Stable tag: 4.1.18
+Requires at least: 5.0
+Tested up to: 6.2
+Stable tag: 4.1.19
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -185,3 +185,8 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 ## [4.1.18] - 2023-03-27
 ### Added
 - Astra theme support
+
+## [4.1.19] - 2023-05-02
+### Fixed
+- Redirect to payment issues for some scenarios
+- WP 6.2 compatibility

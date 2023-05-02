@@ -5,9 +5,9 @@ declare( strict_types=1 );
  * Plugin URI: https://wordpress.org/plugins/platnosci-online-blue-media
  * Description: Blue Media Woocommerce
  * Product: Blue Media Woocommerce
- * Version: 4.1.18
- * Tested up to: 6.1.1
- * Requires PHP: 7.2
+ * Version: 4.1.19
+ * Tested up to: 6.2
+ * Requires PHP: 7.3
  * Author: iLabs LTD
  * Author URI: iLabs.dev
  * Text Domain: bm-woocommerce
@@ -43,6 +43,10 @@ if ( blue_media_system_check() ) {
 
 	function blue_media(): Ilabs\BM_Woocommerce\Plugin {
 		return new Ilabs\BM_Woocommerce\Plugin();
+	}
+
+	if (!defined('BLUE_MEDIA_DEBUG')){
+		define('BLUE_MEDIA_DEBUG', 1);
 	}
 
 	$config = [
