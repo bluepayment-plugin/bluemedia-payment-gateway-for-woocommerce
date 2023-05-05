@@ -19,6 +19,7 @@ use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Event\Wc_Remove_Cart_Item;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Cart_Aware_Interface;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Order_Aware_Interface;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Product_Aware_Interface;
+use WC_Order;
 use WC_Session_Handler;
 
 class Plugin extends Abstract_Ilabs_Plugin {
@@ -40,15 +41,15 @@ class Plugin extends Abstract_Ilabs_Plugin {
 		add_action( 'bm_cancel_failed_pending_order_after_one_hour', function ( $order_id ) {
 			$order = wc_get_order( $order_id );
 			wp_clear_scheduled_hook( 'bm_cancel_failed_pending_order_after_one_hour', [ $order_id ] );
-			if ( $order->has_status( [ 'pending' ] ) ) {
-				$order->update_status( 'cancelled' );
-				$order->add_order_note( __( 'Unpaid order cancelled - time limit reached.', 'bm-woocommerce' ) );
-				$order->save();
+
+			if ( $order instanceof WC_Order ) {
+				if ( $order->has_status( [ 'pending' ] ) ) {
+					$order->update_status( 'cancelled' );
+					$order->add_order_note( __( 'Unpaid order cancelled - time limit reached.', 'bm-woocommerce' ) );
+					$order->save();
+				}
 			}
-
 		} );
-
-
 	}
 
 	/**

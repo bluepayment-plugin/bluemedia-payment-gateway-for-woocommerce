@@ -3,7 +3,7 @@ Contributors: inspirelabs
 Tags: woocommerce, bluemedia
 Requires at least: 5.0
 Tested up to: 6.2
-Stable tag: 4.1.19
+Stable tag: 4.1.20
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -190,3 +190,8 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 ### Fixed
 - Redirect to payment issues for some scenarios
 - WP 6.2 compatibility
+
+## [4.1.20] - 2023-05-05
+### Fixed
+- Fatal error on activate / deactivate hook for some scenarios
+
