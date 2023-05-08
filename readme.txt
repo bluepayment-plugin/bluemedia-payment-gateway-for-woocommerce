@@ -3,7 +3,7 @@ Contributors: inspirelabs
 Tags: woocommerce, bluemedia
 Requires at least: 5.0
 Tested up to: 6.2
-Stable tag: 4.1.20
+Stable tag: 4.1.21
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -195,3 +195,6 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 ### Fixed
 - Fatal error on activate / deactivate hook for some scenarios
 
+## [4.1.21] - 2023-05-08
+### Fixed
+- Show log only on demand
