@@ -120,3 +120,10 @@
 ## [4.1.18] - 2023-03-27
 ### Added
 - Astra theme support
+
+## [4.1.23] - 2023-06-22
+### Added
+- Improved checkout UI
+### Fixed
+- Styles
+- Minor fixes

@@ -53,6 +53,10 @@ ul.woocommerce-shipping-methods .bm-group-szybki-przelew {
 	object-fit: contain;
 }
 
+.payment_method_bluemedia .bm-payment-channel-item > label {
+	font-size: .9em;
+}
+
 @media only screen and (max-width: 375px) {
 	.bm-payment-channel-item > .bm-payment-channel-method-logo img,
 	.bm-payment-channel-group-item > .bm-payment-channel-group-method-logo img {

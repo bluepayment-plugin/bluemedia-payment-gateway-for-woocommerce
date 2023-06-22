@@ -53,6 +53,20 @@ jQuery(document).ready(function () {
     }
 })
 
+function blueMediaRadioShow() {
+    jQuery('.payment_box.payment_method_bluemedia .payment_box.payment_method_bacs').css('display', 'block');
+};
+
+function blueMediaRadioHide() {
+    jQuery('.payment_box.payment_method_bluemedia .payment_box.payment_method_bacs').css('display', 'none');
+};
+
+function blueMediaRadioTest() {
+    if ( jQuery('#payment_method_bluemedia').is(':checked') ) {
+        blueMediaRadioShow();
+    }
+};
+
 document.addEventListener('click', function (e) {
     e = e || window.event;
     var target = e.target || e.srcElement;
@@ -74,7 +88,6 @@ document.addEventListener('click', function (e) {
             })
         }
     }
-
 });
 
 

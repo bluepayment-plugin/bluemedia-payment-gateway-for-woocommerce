@@ -35,6 +35,9 @@ msgstr "Opis modułu płatności w sklepie"
 msgid "Instant payment"
 msgstr "Szybka płatność"
 
+msgid "Blue Media Instant payment"
+msgstr "Szybka płatność Blue Media"
+
 msgid "This controls the description which the user sees during checkout."
 msgstr "Opis, który widzi użytkownik w koszyku sklepu"
 
@@ -136,6 +139,12 @@ msgstr "Pozwala on na sprawdzenie działania modułu bez konieczności opłacani
 
 msgid "To get the data for the test environment,"
 msgstr "Żeby uzyskać dane dla środowiska testowego,"
+
+msgid "Blue Media gateway"
+msgstr "Szybka płatność"
+
+msgid "Instant payment. BLIK, credit card, Google Pay, Apple Pay"
+msgstr "Przelew internetowy. BLIK, karta płatnicza, Google Pay, Apple Pay"
 
 msgid "PHP version is older than 7.2 so this plugin will not work. Please contact your host and ask them to upgrade."
 msgstr "Wersja PHP jest starsza niż 7.2 więc ta wtyczka się nie uruchomi. Skontaktuj się ze wsparciem technicznym Twojej witryny i poproś o aktualizację PHP."

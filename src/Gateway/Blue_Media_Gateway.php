@@ -45,10 +45,10 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		                      . '/logo-blue-media.svg';
 		$this->has_fields
 		                    = true;
-		$this->method_title = __( 'Instant payment',
+		$this->method_title = __( 'Blue Media Instant payment',
 			'bm-woocommerce' );
 		$this->method_description
-		                    = __( 'Description of Blue Media payment gateway',
+		                    = __( 'Instant payment. BLIK, credit card, Google Pay, Apple Pay',
 			'bm-woocommerce' );
 
 		$this->supports = [
@@ -58,8 +58,10 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		$this->init_form_fields();
 		$this->init_settings();
 
-		$this->title       = $this->get_option( 'title' );
-		$this->description = $this->get_option( 'description' );
+		$this->title = __( 'Blue Media gateway',
+			'bm-woocommerce' );
+
+		$this->description = '';
 		$this->enabled     = $this->get_option( 'enabled' );
 		$this->testmode    = 'yes' === $this->get_option( 'testmode', 'no' );
 
@@ -76,11 +78,12 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 			? $this->get_option( 'test_service_id' )
 			: $this->get_option( 'service_id' );
 
-
-		//var_dump($this->private_key);die;
+		/*echo '<pre>';
+		print_r($this->gateway_list());die;*/
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id,
 			[ $this, 'process_admin_options' ] );
+
 
 		if ( is_object( WC()->session ) && ! wp_doing_ajax() ) {
 			if ( ! empty( WC()->session->get( 'bm_order_payment_params' ) ) ) {
@@ -90,14 +93,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 				WC()->session->set( 'bm_order_payment_params', null );
 				WC()->session->save_data();
-
-				/*
-				 * PlatformName (nazwa platofrmy, np. PrestaShop)
-
-PlatformVersion (wersja platformy, np. 1.7.1.6)
-
-PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
-				 */
 
 				if ( is_array( $params ) ) {
 					printf( "<form method='post' id='paymentForm' action='%s'>
@@ -156,21 +151,21 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 				'default'     => 'no',
 				'desc_tip'    => true,
 			],
-			'title'           => [
+			/*'title'           => [
 				'title'    => __( 'Title',
 					'bm-woocommerce' ),
 				'type'     => 'text',
 				'default'  => __( 'Blue Media gateway',
 					'bm-woocommerce' ),
 				'desc_tip' => true,
-			],
-			'description'     => [
+			],*/
+			/*'description'     => [
 				'title'   => __( 'Description',
 					'bm-woocommerce' ),
 				'type'    => 'textarea',
 				'default' => __( 'Lorem Ipsum',
 					'bm-woocommerce' ),
-			],
+			],*/
 			'testmode_header' => [
 				'title' => __( 'Test environment',
 					'bm-woocommerce' ),
@@ -199,7 +194,8 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 						'bm-woocommerce' )
 				                 . '<br>' . __( 'To get the data for the test environment,',
 						'bm-woocommerce' ) . '<a href="https://developers.bluemedia.pl/kontakt?mtm_campaign=woocommerce_developers_formularz&mtm_source=woocommerce_backoffice&mtm_medium=hiperlink">'
-				                 . ' ' . __( 'please contact us.', 'bm-woocommerce' ) . '</a></span>',
+				                 . ' ' . __( 'please contact us.',
+						'bm-woocommerce' ) . '</a></span>',
 				'type'        => 'title',
 			],
 
@@ -207,7 +203,8 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 			'test_service_id'  => [
 				'title'       => __( 'Test Service ID',
 					'bm-woocommerce' ),
-				'description' => __( 'It contains only numbers. It is different for each shop.', 'bm-woocommerce' ),
+				'description' => __( 'It contains only numbers. It is different for each shop.',
+					'bm-woocommerce' ),
 				'type'        => 'text',
 			],
 			'test_private_key' => [
@@ -237,8 +234,10 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 				'title'       => __( 'Google Analytics Tracking ID',
 					'bm-woocommerce' ),
 				'description' => ( function () {
-					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
-					$desc_link_text = __( 'Where can I find the Measurement ID?', 'bm-woocommerce' );
+					$desc           = __( 'The identifier is in the format G-XXXXXXX.',
+						'bm-woocommerce' );
+					$desc_link_text = __( 'Where can I find the Measurement ID?',
+						'bm-woocommerce' );
 
 					return "$desc <a class='bm_ga_help_modal' href='#'>$desc_link_text</a>";
 				} )(),
@@ -248,8 +247,10 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 				'title'       => __( 'Google Analytics Api secret',
 					'bm-woocommerce' ),
 				'description' => ( function () {
-					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
-					$desc_link_text = __( 'Where can I find the Measurement ID?', 'bm-woocommerce' );
+					$desc           = __( 'The identifier is in the format G-XXXXXXX.',
+						'bm-woocommerce' );
+					$desc_link_text = __( 'Where can I find the Measurement ID?',
+						'bm-woocommerce' );
 
 					return "$desc <a class='bm_ga_help_modal' href='#'>$desc_link_text</a>";
 				} )(),
@@ -259,8 +260,10 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 				'title'       => __( 'Google Analytics Client ID',
 					'bm-woocommerce' ),
 				'description' => ( function () {
-					$desc           = __( 'The identifier is in the format G-XXXXXXX.', 'bm-woocommerce' );
-					$desc_link_text = __( 'Where can I find the Measurement ID?', 'bm-woocommerce' );
+					$desc           = __( 'The identifier is in the format G-XXXXXXX.',
+						'bm-woocommerce' );
+					$desc_link_text = __( 'Where can I find the Measurement ID?',
+						'bm-woocommerce' );
 
 					return "$desc <a class='bm_ga_help_modal' href='#'>$desc_link_text</a>";
 				} )(),
@@ -335,39 +338,45 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 
 		ob_start();
 		?>
-        <tr valign="top">
-            <th scope="row" class="titledesc">
-                <label for="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post( $data['title'] ); ?><?php echo $this->get_tooltip_html( $data ); // WPCS: XSS ok. ?></label>
-            </th>
-            <td class="forminp">
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo wp_kses_post( $data['title'] ); ?></span>
-                    </legend>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label
+					for="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post( $data['title'] ); ?><?php echo $this->get_tooltip_html( $data ); // WPCS: XSS ok. ?></label>
+			</th>
+			<td class="forminp">
+				<fieldset>
+					<legend class="screen-reader-text">
+						<span><?php echo wp_kses_post( $data['title'] ); ?></span>
+					</legend>
 					<?php foreach ( (array) $data['options'] as $option_key => $option_value ) : ?>
 				<?php if ( is_array( $option_value ) ) : ?>
 
-                    <optgroup label="<?php echo esc_attr( $option_key ); ?>">
+					<optgroup label="<?php echo esc_attr( $option_key ); ?>">
 						<?php foreach ( $option_value as $option_key_inner => $option_value_inner ) : ?>
-                            <label for="<?php echo esc_attr( $option_key ); ?>"><?php echo esc_html( $option_value_inner ); ?></label>
-                            <input id="<?php echo esc_attr( $option_key ); ?>" type="radio"
-                                   name="<?php echo esc_attr( $field_key ); ?>"
-                                   value="<?php echo esc_attr( $option_key_inner ); ?>" <?php checked( (string) $option_key_inner,
+							<label
+								for="<?php echo esc_attr( $option_key ); ?>"><?php echo esc_html( $option_value_inner ); ?></label>
+							<input id="<?php echo esc_attr( $option_key ); ?>"
+							       type="radio"
+							       name="<?php echo esc_attr( $field_key ); ?>"
+							       value="<?php echo esc_attr( $option_key_inner ); ?>" <?php checked( (string) $option_key_inner,
 								esc_attr( $value ) ); ?>>
 						<?php endforeach; ?>
-                    </optgroup>
+					</optgroup>
 				<?php else : ?>
-                    <label for="<?php echo esc_attr( $option_key ); ?>"><?php echo esc_html( $option_value ); ?></label>
-                    <input id="<?php echo esc_attr( $option_key ); ?>" type="radio"
-                           name="<?php echo esc_attr( $field_key ); ?>"
-                           value="<?php echo esc_attr( $option_key ); ?>" <?php checked( (string) $option_key,
+					<label
+						for="<?php echo esc_attr( $option_key ); ?>"><?php echo esc_html( $option_value ); ?></label>
+					<input id="<?php echo esc_attr( $option_key ); ?>"
+					       type="radio"
+					       name="<?php echo esc_attr( $field_key ); ?>"
+					       value="<?php echo esc_attr( $option_key ); ?>" <?php checked( (string) $option_key,
 						esc_attr( $value ) ); ?>>
 						<?php endif; ?>
 						<?php endforeach; ?>
-                    </input>
+					</input>
 					<?php echo $this->get_description_html( $data ); // WPCS: XSS ok. ?>
-                </fieldset>
-            </td>
-        </tr>
+				</fieldset>
+			</td>
+		</tr>
 		<?php
 
 		return ob_get_clean();
@@ -421,7 +430,8 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 
 		if ( $woocommerce_hold_stock_minutes > 0 ) {
 			$woocommerce_hold_stock_minutes *= 60;
-			if ( ! wp_next_scheduled( 'bm_cancel_failed_pending_order_after_one_hour', [ $order_id ] ) ) {
+			if ( ! wp_next_scheduled( 'bm_cancel_failed_pending_order_after_one_hour',
+				[ $order_id ] ) ) {
 				wp_schedule_single_event( time() + $woocommerce_hold_stock_minutes,
 					'bm_cancel_failed_pending_order_after_one_hour',
 					[ $order_id ] );
@@ -486,12 +496,10 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 
 						$wc_order_id     = (int) (string) $transaction->orderID;
 						$bm_order_status = (string) $transaction->paymentStatus;
-						$bm_remote_id = (string) $transaction->remoteID;
+						$bm_remote_id    = (string) $transaction->remoteID;
 
 
-
-
-						$init_params     = get_post_meta( $wc_order_id,
+						$init_params = get_post_meta( $wc_order_id,
 							'bm_transaction_init_params', true );
 
 						update_option( 'bm_api_last_error',
@@ -543,15 +551,15 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 						$wc_order = wc_get_order( $wc_order_id );
 
 						if ( 'SUCCESS' === $bm_order_status ) {
-							$order_success_to_update[$bm_remote_id] = $wc_order;
+							$order_success_to_update[ $bm_remote_id ] = $wc_order;
 						}
 
 						if ( 'PENDING' === $bm_order_status ) {
-							$order_pending_to_update[$bm_remote_id] = $wc_order;
+							$order_pending_to_update[ $bm_remote_id ] = $wc_order;
 						}
 
 						if ( 'FAILURE' === $bm_order_status ) {
-							$order_failure_to_update[$bm_remote_id] = $wc_order;
+							$order_failure_to_update[ $bm_remote_id ] = $wc_order;
 						}
 
 					}
@@ -570,23 +578,26 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 					}
 
 					foreach ( $order_success_to_update as $k => $wc_order ) {
-						$new_status = $this->get_option( 'wc_payment_status_on_bm_success', 'completed' );
-						$wc_order->payment_complete($k);
-                        $wc_order->set_status( $new_status );
+						$new_status = $this->get_option( 'wc_payment_status_on_bm_success',
+							'completed' );
+						$wc_order->payment_complete( $k );
+						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus SUCCESS' );
 
 						$wc_order->save();
 					}
 
 					foreach ( $order_pending_to_update as $k => $wc_order ) {
-						$new_status = $this->get_option( 'wc_payment_status_on_bm_pending', 'pending' );
+						$new_status = $this->get_option( 'wc_payment_status_on_bm_pending',
+							'pending' );
 						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus PENDING' );
 						$wc_order->save();
 					}
 
 					foreach ( $order_failure_to_update as $k => $wc_order ) {
-						$new_status = $this->get_option( 'wc_payment_status_on_bm_failure', 'failed' );
+						$new_status = $this->get_option( 'wc_payment_status_on_bm_failure',
+							'failed' );
 						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus FAILURE' );
 						$wc_order->save();
@@ -689,8 +700,9 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 		int $payment_channel = 0
 	): array {
 
-		$price = str_replace(',', '.', (string)$wc_order->get_total(false));
-		if (strpos($price, '.') === false) {
+		$price = str_replace( ',', '.',
+			(string) $wc_order->get_total( false ) );
+		if ( strpos( $price, '.' ) === false ) {
 			$price = $price . '.00';
 		}
 
@@ -714,7 +726,7 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 		update_option( 'bm_api_last_error',
 			sprintf( '[%s server time] [BlueMedia debug] [initial_transaction_parameters: %s]',
 				date( "Y-m-d H:i:s", time() ),
-				serialize($params)
+				serialize( $params )
 			)
 		);
 
@@ -754,6 +766,8 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 			$gateway_list_cache = $this->api_get_gateway_list();
 			update_option( 'bm_gateway_list_cache', $gateway_list_cache );
 			update_option( 'bm_gateway_list_cache_time', time() );
+			update_option( 'bm_api_last_error',
+				'api_get_gateway_list: ' . serialize( $gateway_list_cache ) );
 		} else {
 			$gateway_list_cache = get_option( 'bm_gateway_list_cache' );
 			if ( empty( $gateway_list_cache ) ) {
@@ -869,6 +883,12 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 
 		$group_arr = ( new Group_Mapper( $channels ) )->map();
 
+		echo '<div class="payment_box payment_method_bacs">';
+		echo '<p>' . __( 'Instant payment. BLIK, credit card, Google Pay, Apple Pay',
+				'bm-woocommerce' ) . '</p>';
+		echo '</div>';
+		echo '<div class="payment_box payment_method_bacs">';
+		echo '<div class="payment_box payment_method_bacs">';
 		echo '<div class="bm-payment-channels-wrapper">';
 		echo '<ul id="shipping_method" class="woocommerce-shipping-methods">';
 
@@ -878,8 +898,13 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 		foreach ( $group_arr as $group ) {
 			$expandable_Group = $group instanceof Expandable_Group;
 
+			if ( empty( $group->get_items() ) ) {
+				continue;
+			}
+
 			printf( "<div class='bm-group-%s%s'><li><ul>",
-				$group->get_slug(), $expandable_Group ? ' bm-group-expandable' : '' );
+				$group->get_slug(),
+				$expandable_Group ? ' bm-group-expandable' : '' );
 
 
 			if ( $expandable_Group ) {
@@ -932,6 +957,22 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 		}
 
 		echo '</ul></div>';
+
+		echo "<script>
+
+		jQuery(document).ready(function () {
+			blueMediaRadioTest();
+
+			jQuery( '#payment_method_bluemedia' ).on( 'click', function() {
+				blueMediaRadioShow();
+			} );
+
+			jQuery( 'ul.wc_payment_methods > li.wc_payment_method:not(.payment_method_bluemedia)' ).on( 'click', function() {
+				blueMediaRadioHide();
+			} );
+		});
+
+		</script>";
 	}
 
 	/**
@@ -956,4 +997,6 @@ PlatformPluginVersion (wersja wtyczki zainstalowanej na platformie)
 		$p2    = array_splice( $array, 0, $order );
 		$array = array_merge( $p2, $p1, $array );
 	}
+
+
 }

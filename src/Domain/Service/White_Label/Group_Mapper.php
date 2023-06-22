@@ -44,7 +44,8 @@ class Group_Mapper {
 					$config_item['name'],
 					sanitize_title( $config_item['name'] ),
 					blue_media()->get_plugin_images_url() . '/logo-group.svg',
-					__( 'You will be redirected to the page of the selected bank.', 'bm-woocommerce'
+					__( 'You will be redirected to the page of the selected bank.',
+						'bm-woocommerce'
 					)
 				);
 
@@ -52,9 +53,16 @@ class Group_Mapper {
 				$unspecified_ids_group_key = array_keys( $result )[ count( $result ) - 1 ];
 			} else {
 				foreach ( $this->raw_channels_from_bm_api as $raw_channel ) {
-					if ( in_array( $raw_channel->gatewayID, $config_item['ids'] ) ) {
+
+					if ( ! $this->check_amount_range( $raw_channel ) ) {
+						continue;
+					}
+
+					if ( in_array( $raw_channel->gatewayID,
+						$config_item['ids'] ) ) {
 						if ( ! $instance_created ) {
-							$group            = new Group( [], $config_item['name'],
+							$group            = new Group( [],
+								$config_item['name'],
 								sanitize_title( $config_item['name'] ) );
 							$instance_created = true;
 						}
@@ -63,8 +71,10 @@ class Group_Mapper {
 						$extra_class  = $config_item['extra_class'] ?? null;
 						$extra_script = $config_item['extra_script'] ?? null;
 
-						$group->push_item( ( new Item( $gateway_name, $raw_channel->gatewayID,
-							$raw_channel->iconURL, $extra_class, $extra_script ) ) );
+						$group->push_item( ( new Item( $gateway_name,
+							$raw_channel->gatewayID,
+							$raw_channel->iconURL, $extra_class,
+							$extra_script ) ) );
 					} elseif ( ! in_array( $raw_channel->gatewayID,
 						$ids_from_config ) ) {
 						$unknown_raw_channels[ $raw_channel->gatewayID ] = $raw_channel;
@@ -92,4 +102,39 @@ class Group_Mapper {
 
 
 	}
+
+	private function check_amount_range( $gateway_obj ) {
+		if ( ! property_exists( $gateway_obj,
+				'currencyList' ) || ! is_array( $gateway_obj->currencyList ) ) {
+			//ignore if not exists
+			return true;
+		}
+
+		$woocommerce_currency = get_woocommerce_currency();
+		$woocommerce_cart     = WC()->cart;
+		$cart_total           = (float) $woocommerce_cart->get_total( false );
+
+		foreach ( $gateway_obj->currencyList as $currency_info ) {
+			if ( ! isset( $currency_info->minAmount ) ) {
+				continue;
+			}
+			if ( $currency_info->currency === $woocommerce_currency ) {
+
+				if ( property_exists( $currency_info,
+						'minAmount' ) && property_exists( $currency_info,
+						'maxAmount' ) ) {
+					if ( $cart_total >= $currency_info->minAmount && $cart_total <= $currency_info->maxAmount ) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+
+				return true;
+			}
+		}
+
+		return true;
+	}
+
 }
