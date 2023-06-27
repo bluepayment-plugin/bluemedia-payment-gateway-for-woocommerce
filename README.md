@@ -48,16 +48,11 @@ Do najważniejszych funkcji modułu zalicza się:
 
 1.	Przy nazwie Blue Media ustaw Włącz, dzięki temu Twoi klienci będą mogli już korzystać z płatności internetowych.
 2.	Zaznacz pole: “Pokazuj metody płatności w sklepie”
-3.	W polu Nazwa modułu płatności w sklepie wpisz nazwę płatności, czyli np.: Płatności Blue Media.
-
-4.	W polu Opis modułu płatności w sklepie dodaj opis używanej bramki płatności, czyli Blue Media – Twoi klienci będą widzieć tę nazwę składając zamówienie i wybierając metodę płatności.
-5.	W polu “tryb działania” Zaznacz “włącz tryb testowy” aby włączyć tryb sandbox.
-
-6.	W polu “Testowy identyfikator serwisu” wpisz Twój testowy identyfikator serwisu.
-
-7.	W polu “Testowy Klucz konfiguracyjny (hash)” wpisz Twój testowy Klucz konfiguracyjny (hash).
-      W polu “Identyfikator serwisu” wpisz identyfikator serwisu.
-8.	W polu “Klucz konfiguracyjny (hash)” wpisz Klucz konfiguracyjny (hash).
+3. 	W polu “tryb działania” Zaznacz “włącz tryb testowy” aby włączyć tryb sandbox.
+4. 	W polu “Testowy identyfikator serwisu” wpisz Twój testowy identyfikator serwisu.
+5. 	W polu “Testowy Klucz konfiguracyjny (hash)” wpisz Twój testowy Klucz konfiguracyjny (hash).
+6. 	W polu “Identyfikator serwisu” wpisz identyfikator serwisu.
+7. 	W polu “Klucz konfiguracyjny (hash)” wpisz Klucz konfiguracyjny (hash).
 
 Powyższe pola uzupełnisz danymi, które otrzymasz od Blue Media S.A. Jeśli jeszcze ich nie masz - skontaktuj się z nami.
 W momencie, gdy skończysz już sprawdzać, czy wszystko działa prawidłowo – wyłącz tryb testowy, wówczas płatności na Twojej stronie będą w 100% aktywne.
