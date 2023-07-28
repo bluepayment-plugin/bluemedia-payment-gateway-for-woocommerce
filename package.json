@@ -1,0 +1,23 @@
+{
+  "name": "bluemedia-woocommerce",
+  "version": "0.0.1",
+  "description": "WooCommerce BlueMedia Plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.inspirelabs.pl/inspirelabs/bluemedia-woocommerce.git"
+  },
+  "author": "Katarzyna Izak",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-uglify": "^3.0.2",
+    "node-sass": "^9.0.0",
+    "sass": "^1.63.6"
+  }
+}

@@ -27,6 +27,17 @@
     {
       "type": "package",
       "package": {
+        "name": "isolated-guzzlehttp-guzzle/isolated-guzzle",
+        "version": "7.5.1",
+        "dist": {
+          "type": "zip",
+          "url": "ilabs/setup/isolated_dependencies/isolated-guzzle-7.5.1.zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
         "name": "isolated-br33f-php-ga4-mp/isolated-php-ga4-mp",
         "version": "0.1.2",
         "dist": {
@@ -38,6 +49,7 @@
   ],
   "require": {
     "isolated-ilabs-plugin/ilabs-plugin": "1.0.23",
+    "isolated-guzzlehttp-guzzle/isolated-guzzle": "7.5.1",
     "isolated-br33f-php-ga4-mp/isolated-php-ga4-mp": "0.1.2"
   }
 }

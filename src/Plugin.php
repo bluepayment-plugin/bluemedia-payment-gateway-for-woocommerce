@@ -11,6 +11,7 @@ use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Ga4_Use_Case_Interface;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Init_Checkout_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\Remove_Product_From_Cart_Use_Case;
 use Ilabs\BM_Woocommerce\Domain\Service\Ga4\View_Product_On_List_Use_Case;
+use Ilabs\BM_Woocommerce\Gateway\Blue_Media_Gateway;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Abstract_Ilabs_Plugin;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Alerts;
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Event\Wc_Add_To_Cart;
@@ -21,6 +22,7 @@ use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Order_Aware_
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Product_Aware_Interface;
 use WC_Order;
 use WC_Session_Handler;
+use Ilabs\BM_Woocommerce\Controller\Blik0_Status_Controller;
 
 class Plugin extends Abstract_Ilabs_Plugin {
 
@@ -28,6 +30,11 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	 * @var string
 	 */
 	private $blue_media_currency;
+
+	/**
+	 * @var Blue_Media_Gateway
+	 */
+	private static $blue_media_gateway;
 
 
 	public function get_logger(
@@ -129,6 +136,23 @@ class Plugin extends Abstract_Ilabs_Plugin {
 			->on_wc_before_settings( 'checkout' )
 			->when_request_value_equals( 'section', 'bluemedia' )
 			->action_output_template( 'settings_banner.php' )
+			->action_output_template( 'settings_tabs.php' )
+			->on_wc_before_settings( 'checkout' )
+			->when_request_value_equals( 'bmtab', 'channels' )
+			->action( function () {
+				echo wp_kses( "<div class='bm_settings_no_form'>", [
+					'div' => [
+						'class' => [],
+					],
+				] );
+				add_action( 'woocommerce_after_settings_checkout', function () {
+					echo wp_kses( "<!--bm_settings_no_form--></div>", [
+						'div' => [
+						],
+					] );
+				} );
+			} )
+			->action_output_template( 'settings_channel_list.php' )
 			->execute();
 	}
 
@@ -496,5 +520,16 @@ class Plugin extends Abstract_Ilabs_Plugin {
 
 	}
 
+	public function set_bluemedia_gateway(
+		Blue_Media_Gateway $blue_media_gateway
+	) {
+		self::$blue_media_gateway = $blue_media_gateway;
+	}
 
+	/**
+	 * @return Blue_Media_Gateway | null
+	 */
+	public function get_blue_media_gateway(): ?Blue_Media_Gateway {
+		return self::$blue_media_gateway;
+	}
 }

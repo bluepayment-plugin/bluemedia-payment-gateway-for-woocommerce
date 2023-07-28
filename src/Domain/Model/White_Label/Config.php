@@ -6,8 +6,6 @@ class Config {
 
 	const UNSPECIFIED_IDS = null;
 
-	static $config_json = '{"1500":"karta-platnicza","509":"blik","106":"pbl","1899":"pbl","21":"szybki-przelew","35":"szybki-przelew","9":"szybki-przelew","1513":"portfel-elektroniczny","1512":"portfel-elektroniczny","700":"raty-online"}';
-
 
 	public function get_config(): array {
 

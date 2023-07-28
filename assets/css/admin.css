@@ -1,189 +1,178 @@
-.bm-disabled {
-    color: #DCDAD1;
-    padding: 2px;
-    margin: 0 0 0 0;
-    background-image: none;
-}
-
-
-.bm-modalbackground {
-    position: relative;
-}
-
-.bm-modal-content {
-    padding: 0px 30px 30px 30px;
-    display: none;
-    position: fixed;
-    width: 33.333%;!important;
-    top: 20%;!important;
-    left: 33.3333%;!important;
-    background: white;!important;
-    z-index: 2;!important;
-}
-
-.bm-close {
-    font-size: 40px;
-    margin: 5px;
-    right: 0;
-    position: absolute;
-    cursor: pointer;
-}
-
-.bm-modal-content p {
-    font-weight: bold;
-    font-size: 15px;
-    margin: 20px 0px;
-}
-
-.bm-modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.25);
-    z-index: 1;
-}
-
-.bm-modal-overlay.active {
-    display: block !important;
-}
-
 .bm-settings-banner {
-    border: 1px solid #c3c4c7;
-    position: relative;
-    font-size: 15px;
-    padding: 10px;
-    margin: 5px 0 15px;
-    background-color: white;
-}
-
-.bm-settings-banner-title {
+  border: 1px solid #c3c4c7;
+  position: relative;
+  font-size: 15px;
+  padding: 10px;
+  margin: 5px 0 15px;
+  background-color: white; }
+  .bm-settings-banner-title {
     padding: 5px;
     background: #f0f0f1;
     font-size: 15px;
     font-weight: bold;
-    margin: 0px 0px 15px 0px;
-}
-
-.bm-settings-banner-row {
+    margin: 0px 0px 15px 0px; }
+  .bm-settings-banner-row {
+    display: -webkit-box;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 0px 0px 15px 0px;
-}
-
-.bm-settings-banner-image {
-    width: 100px;
-    height: 100%;
-    margin: 0px 70px 0px 0px;
-}
-
-.banner-txt > span > a {
-    padding-left: 25px;
-}
-
-.bm-settings-banner-row .banner-txt {
-    margin-right: 55px;
-    height: 40px;
-}
-
-.bm-banner-row-container {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+            flex-direction: row;
+    -webkit-box-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+            align-items: center;
+    margin: 0px 0px 15px 0px; }
+    .bm-settings-banner-row .bm-settings-banner-image {
+      width: 100px;
+      height: 100%;
+      margin: 0px 70px 0px 0px; }
+    .bm-settings-banner-row span a,
+    .bm-settings-banner-row span span a {
+      text-decoration: none;
+      color: #0068B4; }
+    .bm-settings-banner-row .banner-txt {
+      margin-right: 55px;
+      height: 40px; }
+      .bm-settings-banner-row .banner-txt > span > a {
+        padding-left: 25px; }
+      .bm-settings-banner-row .banner-txt-icon {
+        font-size: 15px;
+        margin: 0px 15px 0px 0px;
+        font-weight: bolder; }
+  .bm-settings-banner-row-iconBox {
+    display: -webkit-box;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
-
-.bm-settings-banner-row-iconBox {
-    display: flex;
-    flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+            flex-direction: row;
     justify-content: space-around;
     margin: 0px 0px 15px 0px;
-    border-top: 1px solid #c3c4c7;
-}
+    border-top: 1px solid #c3c4c7; }
+    .bm-settings-banner-row-iconBox .bm-settings-banner-icon-box {
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+              justify-content: center;
+      height: 100px;
+      margin: 0px 10px 0px 0px; }
+      .bm-settings-banner-row-iconBox .bm-settings-banner-icon-box a {
+        margin-left: 5px;
+        text-decoration: none;
+        color: #0068B4; }
+      .bm-settings-banner-row-iconBox .bm-settings-banner-icon-box span {
+        font-size: 14px; }
+        .bm-settings-banner-row-iconBox .bm-settings-banner-icon-box span:first-child {
+          -webkit-box-align: center;
+                  align-items: center;
+          display: -webkit-box;
+          display: flex;
+          border: 2px solid #0068B4;
+          border-radius: 50%;
+          width: 20px;
+          padding: 10px;
+          margin: 0px 10px 0px 0px;
+          height: 20px;
+          -webkit-box-pack: center;
+                  justify-content: center; }
 
-.bm-settings-banner-row span a, .bm-settings-banner-row span span a  {
-    text-decoration: none;
-    color: #0068B4;
-}
+.bm-modalbackground {
+  position: relative; }
 
-.bm-settings-banner-icon-box span:first-child {
-    align-items: center;
-    display: flex;
-    border: 2px solid #0068B4;
-    border-radius: 50%;
-    width: 20px;
-    padding: 10px;
-    margin: 0px 10px 0px 0px;
-    height: 20px;
-    justify-content: center;
-}
-
-.bm-settings-banner-icon-box span {
-    font-size: 14px;
-}
-
-.bm-settings-banner-icon-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    margin: 0px 10px 0px 0px;
-}
-
-.bm-settings-banner-icon-box a {
-    margin-left: 5px;
-    text-decoration: none;
-    color: #0068B4;
-}
-
-.banner-txt-icon {
-    font-size: 15px;
-    margin: 0px 15px 0px 0px;
-    font-weight: bolder;
-}
-
-.icon-box-link {
-    text-decoration: none;
-    color: #0068B4;
-}
-
-/* label text under the radio buttons start*/
-label[for=no], label[for=yes]  {
-    top: 37px;
+.bm-modal-content {
+  padding: 0px 30px 30px 30px;
+  display: none;
+  position: fixed;
+  width: 33.333% !important;
+  top: 20% !important;
+  left: 33.3333% !important;
+  background: white !important;
+  z-index: 2 !important; }
+  .bm-modal-content .bm-close {
+    font-size: 40px;
+    margin: 5px;
+    right: 0;
     position: absolute;
-}
+    cursor: pointer; }
+  .bm-modal-content p {
+    font-weight: bold;
+    font-size: 15px;
+    margin: 20px 0px; }
+
+.bm-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1; }
+  .bm-modal-overlay.active {
+    display: block !important; }
+
+/* label text under the radio buttons start */
+label[for=no], label[for=yes] {
+  top: 37px;
+  position: absolute; }
+  @media screen and (max-width: 782px) {
+    label[for=no], label[for=yes] {
+      top: 46px; } }
 
 input#yes[name="woocommerce_bluemedia_testmode"] {
-    margin-right: 20px;
-}
+  margin-right: 20px; }
 
-@media screen and (max-width: 782px) {
-    label[for=no], label[for=yes]  {
-        top: 46px;
-    }
-}
 /* label text under the radio buttons end */
-
 .p-info {
-    margin-left: 234px;
-    display: block;
-}
-
-.woocommerce table.form-table .woocommerce-help-tip {
-    margin: 0px 0px 1px 4px !important;
-}
+  margin-left: 234px;
+  display: block; }
 
 .woocommerce table.form-table th label .woocommerce-help-tip {
-    margin: 0px 0px 1px 4px !important;
-    position: relative !important;
-    right: unset !important;
-    top: unset !important;
-}
-.wc-wp-version-gte-53 .woocommerce table.form-table th label .woocommerce-help-tip {
-    margin: 0px 0px 1px 4px !important;
-}
+  margin: 0px 0px 1px 4px !important;
+  position: relative !important;
+  right: unset !important;
+  top: unset !important; }
+
+.bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul .bm-group-name {
+  display: block;
+  font-weight: bolder;
+  margin-bottom: 5px;
+  -webkit-box-flex: 1;
+          flex: 1 0 100%; }
+
+.bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul > li {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-column-gap: 10px;
+     -moz-column-gap: 10px;
+          column-gap: 10px; }
+  .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul > li .bm-payment-channel-method-logo img {
+    width: 75px; }
+
+.bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-przelew-internetowy {
+  margin-bottom: 1em; }
+  .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-przelew-internetowy > li > ul {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+            flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px; }
+    .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-przelew-internetowy > li > ul > li > .bm-payment-channel-method-logo img {
+      width: 60px !important;
+      height: 30px;
+      -o-object-fit: cover;
+         object-fit: cover; }
+    .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-przelew-internetowy > li > ul > li .bm-inside-expandable-group {
+      display: none; }
+
+.bm_settings_no_form > h2,
+.bm_settings_no_form > p,
+.bm_settings_no_form > table {
+  display: none; }

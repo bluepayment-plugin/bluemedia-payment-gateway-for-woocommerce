@@ -1,175 +1,167 @@
-.payment_box.payment_method_bluemedia ul.woocommerce-shipping-methods {
-	display: grid;
-	grid-template-areas:
-		"blik"
-		"carts"
-		"pbl"
-		"wallets"
-		"fr"
-		"installment";
-	grid-template-rows: auto;
-	grid-auto-columns: auto;
-}
+#payment > ul.wc_payment_methods .payment_method_bluemedia img {
+  width: 100px !important;
+  height: 80px;
+  -o-object-fit: contain;
+     object-fit: contain; }
 
-.payment_box.payment_method_bluemedia > .bm-payment-channels-wrapper {
-	margin-left: 1em;
-}
+#payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia img {
+  float: unset !important;
+  max-height: unset !important;
+  box-sizing: border-box; }
 
-ul.woocommerce-shipping-methods > div > li > ul {
-	padding-left: 0;
-}
+#payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > label {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center; }
+  #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > label > img {
+    margin-left: 15px; }
 
-ul.woocommerce-shipping-methods .bm-group-blik {
-	grid-area: blik;
-}
+#payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs {
+  padding: 0; }
+  #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods {
+    display: grid;
+    grid-template-areas: "blik" "carts" "pbl" "wallets" "fr" "installment";
+    grid-template-rows: auto;
+    grid-auto-columns: auto; }
+    #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div {
+      margin: 8px 0; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul {
+        margin-left: 0; }
+        #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item, #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item {
+          display: grid;
+          grid-template-columns: 13px 100px auto;
+          grid-template-areas: "input logo label";
+          -webkit-box-align: center;
+                  align-items: center;
+          -webkit-column-gap: 10px;
+             -moz-column-gap: 10px;
+                  column-gap: 10px; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item > input[type="radio"], #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item > input[type="radio"] {
+            grid-area: input;
+            margin-right: unset; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item .bm-payment-channel-method-logo,
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item .bm-payment-channel-group-method-logo, #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item .bm-payment-channel-method-logo,
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item .bm-payment-channel-group-method-logo {
+            grid-area: logo; }
+            @media only screen and (max-width: 375px) {
+              #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item .bm-payment-channel-method-logo,
+              #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item .bm-payment-channel-group-method-logo, #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item .bm-payment-channel-method-logo,
+              #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item .bm-payment-channel-group-method-logo {
+                width: 75px !important; } }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item > label, #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item > label {
+            grid-area: label;
+            text-indent: initial; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item > span.bm-payment-channel-method-desc, #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item > span.bm-payment-channel-method-desc {
+            display: none; }
+        #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item {
+          border: 1px solid transparent !important;
+          padding: 5px; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item.selected {
+            border: 1px solid #87ca8d !important;
+            grid-template-areas: "input logo label" ". desc desc"; }
+            #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item.selected > span.bm-payment-channel-method-desc {
+              display: block;
+              grid-area: desc;
+              margin-top: 5px; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item > .bm-payment-channel-method-logo {
+            max-width: unset !important; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-item > label {
+            font-size: .9em; }
+        #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul li.bm-payment-channel-group-item .bm-payment-channel-group-method-logo {
+          min-width: 100px; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik {
+        grid-area: blik; }
+        #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-overlay {
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+               -o-transform: translate(-50%, -50%);
+                  transform: translate(-50%, -50%);
+          z-index: 9999;
+          background-color: white;
+          border: #CCC5C5 1px solid;
+          border-radius: 10px;
+          box-shadow: 5px 5px 10px;
+          color: #CCC5C5;
+          font-size: 33px;
+          padding: 1.3em;
+          max-width: 600px;
+          width: 80vw; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-overlay p {
+            text-align: center; }
+            #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-overlay p::after {
+              content: "";
+              display: block;
+              background-image: url("https://platnosci.bm.pl/pomoc/grafika/509.gif");
+              background-size: cover;
+              background-position: center center;
+              margin: 10px auto 0;
+              height: 55px;
+              width: 123px; }
+            #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-overlay p span {
+              display: inline-block; }
+              #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-overlay p span.bm-blik-overlay-status {
+                font-weight: bold; }
+                #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-overlay p span.bm-blik-overlay-status--success {
+                  color: #0e7b17; }
+                #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-overlay p span.bm-blik-overlay-status--process {
+                  color: #CCC5C5; }
+                #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-overlay p span.bm-blik-overlay-status--error {
+                  color: #A7301F; }
+        #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-blik .bm-blik-code-wrapper > * {
+          display: block; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-karta-platnicza, #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-platnosc-karta {
+        grid-area: carts; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-portfel-elektroniczny, #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-przelew-internetowy {
+        grid-area: wallets; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-pbl {
+        grid-area: pbl; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-raty-online {
+        grid-area: installment; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-szybki-przelew {
+        grid-area: fr; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-apple-pay {
+        display: none; }
+      #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-expandable .bm-group-expandable-wrapper {
+        display: none;
+        justify-content: space-around;
+        flex-wrap: wrap; }
+        #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-expandable .bm-group-expandable-wrapper.active {
+          display: -webkit-box;
+          display: flex; }
+        #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-expandable .bm-group-expandable-wrapper > li {
+          display: inline-block;
+          position: relative; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-expandable .bm-group-expandable-wrapper > li > input[type="radio"] {
+            display: block !important;
+            height: 100%;
+            width: 100%;
+            margin-right: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-expandable .bm-group-expandable-wrapper > li > .bm-payment-channel-method-logo {
+            width: 60px !important;
+            height: 30px;
+            -o-object-fit: cover;
+               object-fit: cover; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-expandable .bm-group-expandable-wrapper > li > label {
+            display: none; }
+          #payment > ul.wc_payment_methods > li.wc_payment_method.payment_method_bluemedia > .payment_box.payment_method_bluemedia .payment_box.payment_method_bacs > .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-expandable .bm-group-expandable-wrapper > li > span.bm-payment-channel-method-desc {
+            margin-top: 0 !important; }
 
-ul.woocommerce-shipping-methods .bm-group-karta-platnicza {
-	grid-area: carts;
-}
-
-ul.woocommerce-shipping-methods .bm-group-portfel-elektroniczny {
-	grid-area: wallets;
-}
-
-ul.woocommerce-shipping-methods .bm-group-pbl {
-	grid-area: pbl;
-}
-
-ul.woocommerce-shipping-methods .bm-group-raty-online {
-	grid-area: installment;
-}
-
-ul.woocommerce-shipping-methods .bm-group-szybki-przelew {
-	grid-area: fr;
-}
-
-.bm-payment-channel-item.selected {
-	border: 1px solid #87ca8d !important;
-}
-
-.payment_method_bluemedia img {
-	width: 100px !important;
-	height: 80px;
-	object-fit: contain;
-}
-
-.payment_method_bluemedia .bm-payment-channel-item > label {
-	font-size: .9em;
-}
-
-@media only screen and (max-width: 375px) {
-	.bm-payment-channel-item > .bm-payment-channel-method-logo img,
-	.bm-payment-channel-group-item > .bm-payment-channel-group-method-logo img {
-		width: 75px !important;
-	}
-}
-
-.bm-payment-channel-item,
-.bm-payment-channel-group-item,
-#payment .payment_methods > .wc_payment_method.payment_method_bluemedia > label {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-}
-
-.bm-payment-channel-item > input.bm-payment-channel {
-	height: 20px;
-	width: 20px;
-}
-
-span.bm-payment-channel-method-logo {
-	top: unset !important;
-}
-
-#payment .payment_methods li img {
-	float: unset !important;
-	max-height: unset !important;
-	box-sizing: border-box;
-}
-
-.bm-payment-channel-method-logo img {
-	max-width: unset !important;
-	max-height: unset !important;
-}
-
-#shipping_method > div > h5 {
-	display: none;
-}
-
-li.bm-payment-channel-item {
-	margin: 8px 0px;
-}
-
-#payment .payment_methods > .wc_payment_method.payment_method_bluemedia  label > img {
-	margin-left: 15px;
-}
-
-ul#shipping_method input:focus {
-	outline-color: unset !important;
-	outline: unset !important;
-}
-
-.bm-group-przelew-internetowy h5,
-.bm-payment-channel-item > input[type="radio"] {
-	display: block !important;
-}
-
-.bm-payment-channel-item > input[type="radio"],
-.bm-payment-channel-group-item > input[type="radio"],
-.bm-payment-channel-item > .bm-payment-channel-method-logo,
-.bm-payment-channel-group-item > .bm-payment-channel-group-method-logo {
-	margin-right: 10px;
-}
-
-.bm-payment-channel-item > .bm-payment-channel-method-logo,
-.bm-payment-channel-group-item > .bm-payment-channel-group-method-logo,
-.bm-payment-channel-item > label,
-.bm-payment-channel-group-item > label {
-	text-indent: initial;
-}
-
-.bm-group-expandable-wrapper {
-	display: none;
-}
-
-.bm-group-expandable-wrapper.active {
-	display: block;
-}
-
-span.bm-payment-channel-group-method-logo {
-	top: unset !important;
-}
-
-.bm-payment-channel-group-method-logo img {
-	max-width: unset !important;
-	max-height: unset !important;
-}
-
-.bm-payment-channel-group-item > input.bm-payment-channel-group {
-	display: block !important;
-	height: 20px;
-	width: 20px;
-}
-
-li.bm-payment-channel-group-item {
-	margin: 8px 0px;
-}
-
-.bm-apple-pay {
-	display: none;
-}
-
-/* Compatibility with Astra theme */
+/* Compatibility with Astra theme - start */
 body.theme-astra .woocommerce-checkout #payment .payment_method_bluemedia img {
-	margin: 0;
-}
+  margin: 0; }
 
 body.theme-astra .payment_box.payment_method_bluemedia > .bm-payment-channels-wrapper {
-	margin-left: 0;
-}
+  margin-left: 0; }
+
 body.theme-astra .woocommerce .woocommerce-checkout #payment ul.wc_payment_methods li.payment_method_bluemedia ul#shipping_method li {
-	padding-left: 0;
-}
+  padding-left: 0; }
+
+/* Compatibility with Astra theme - end */

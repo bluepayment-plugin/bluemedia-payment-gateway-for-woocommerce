@@ -3,6 +3,7 @@
 namespace Ilabs\BM_Woocommerce\Gateway;
 
 use Exception;
+use Ilabs\BM_Woocommerce\Data\Remote\Blue_Media\Client;
 use Ilabs\BM_Woocommerce\Domain\Model\White_Label\Expandable_Group;
 use Ilabs\BM_Woocommerce\Domain\Model\White_Label\Expandable_Group_Interface;
 use Ilabs\BM_Woocommerce\Domain\Model\White_Label\Group;
@@ -17,6 +18,14 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	const GATEWAY_PRODUCTION = 'https://pay.bm.pl/';
 
 	const GATEWAY_SANDBOX = 'https://pay-accept.bm.pl/';
+
+	const BLIK_0_CHANNEL = 509;
+
+	const ITN_SUCCESS_STATUS_ID = 'SUCCESS';
+
+	const ITN_PENDING_STATUS_ID = 'PENDING';
+
+	const ITN_FAILURE_STATUS_ID = 'FAILURE';
 
 	/**
 	 * @var string
@@ -39,6 +48,8 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 * @throws Exception
 	 */
 	public function __construct() {
+		blue_media()->set_bluemedia_gateway( $this );
+
 		$this->id           = 'bluemedia';
 		$this->icon
 		                    = blue_media()->get_plugin_images_url()
@@ -139,6 +150,12 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 * @throws Exception
 	 */
 	public function init_form_fields() {
+		if ( blue_media()
+			     ->get_request()
+			     ->get_by_key( 'bmtab' ) === 'channels' ) {
+			return;
+		}
+
 		$this->form_fields = [
 			'whitelabel'      => [
 				'title'       => __( 'Gateway mode',
@@ -306,6 +323,11 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 		];
 
+
+	}
+
+	public function render_gateway_channels_test() {
+		echo '<h2>test</h2>';
 	}
 
 
@@ -397,24 +419,30 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 * @param $order_id
 	 *
 	 * @return array
+	 * @throws Exception
 	 */
 	public function process_payment( $order_id ): array {
 		global $woocommerce;
-
+		$order           = wc_get_order( $order_id );
 		$payment_channel = (int) $_POST['bm-payment-channel'] ?? null;
 
-		$params = [
-			'params' => $this->prepare_initial_transaction_parameters(
-				wc_get_order( $order_id ), $payment_channel
-			),
-		];
+		if ( self::BLIK_0_CHANNEL === $payment_channel ) {
+			$blik_code = (int) $_POST['bluemedia_blik_code'];
 
+			$this->process_blik_0( $order, $blik_code );
+		} else {
+			$params = [
+				'params' => $this->prepare_initial_transaction_parameters(
+					wc_get_order( $order_id ), $payment_channel
+				),
+			];
+			WC()->session->set( 'bm_order_payment_params', $params );
+		}
 
-		WC()->session->set( 'bm_order_payment_params', $params );
 
 		$this->schedule_remove_unpaid_orders( $order_id );
 
-		$order = wc_get_order( $order_id );
+
 		$order->set_status( 'pending' );
 		$order->save();
 
@@ -423,6 +451,80 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 			'redirect' => $this->get_return_url( $order ),
 		];
 
+	}
+
+	private function process_blik_0(
+		WC_Order $order,
+		int $blik_authorization_code
+	) {
+		add_filter( 'woocommerce_get_checkout_order_received_url',
+			function ( $redirect_url, $order ) {
+				WC()->session->set( 'bm_original_order_received_url',
+					$redirect_url );
+				WC()->session->set( 'bm_wc_order_id',
+					$order->get_id() );
+
+				return '#';
+			}, 10, 2 );
+
+		if ( 0 === $blik_authorization_code ) {
+			WC()->session->set( 'bm_blik_0_transaction_start_error',
+				'Incorrect transaction code!' );
+
+			return;
+		}
+
+		$client = new Client();
+		$params = [
+			'ServiceID'         => $this->service_id,
+			'OrderID'           => $order->get_id(),
+			'Amount'            => $this->get_price_for_api_request( $order ),
+			'Description'       => (string) $order->get_id(),
+			'GatewayID'         => self::BLIK_0_CHANNEL,
+			'Currency'          => 'PLN',
+			'CustomerEmail'     => $order->get_billing_email(),
+			'CustomerIP'        => '127.0.0.1',
+			'Title'             => (string) $order->get_id(),
+			'AuthorizationCode' => (string) $blik_authorization_code,
+		];
+
+		$params = array_merge( $params, [
+			'Hash' => $this->hash_transaction_parameters(
+				$params ),
+		] );
+
+		try {
+			update_post_meta( $order->get_id(),
+				'bm_transaction_init_params', $params );
+
+			$result = $client->continue_transaction_request(
+				$params,
+				$this->gateway_url . 'payment'
+			);
+
+			update_option( 'bm_api_last_error',
+				sprintf( '[%s server time] [BlueMedia Blik-0 debug] [Response: %s]',
+					date( "Y-m-d H:i:s", time() ),
+					serialize( $result )
+				)
+			);
+
+			WC()->session->set( 'bm_blik_0_transaction_start_error', '' );
+
+		} catch ( Exception $e ) {
+			WC()->session->set( 'bm_blik_0_transaction_start_error',
+				$e->getMessage() );
+		}
+	}
+
+	private function get_price_for_api_request( WC_Order $order ) {
+		$price = str_replace( ',', '.',
+			(string) $order->get_total( false ) );
+		if ( strpos( $price, '.' ) === false ) {
+			$price = $price . '.00';
+		}
+
+		return $price;
 	}
 
 	private function schedule_remove_unpaid_orders( int $order_id ) {
@@ -447,6 +549,11 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		add_action( 'woocommerce_api_wc_gateway_bluemedia', function () {
 			try {
 
+				/*
+				 * b) błędy autoryzacji (confirmation=NOTCONFIRMED oraz reason o jednej z wartości:
+				 * ALIAS_DECLINED, ALIAS_NOT_FOUND, WRONG_TICKET, TICKET_EXPIRED, TICKET_USED) –
+				 * wyświetlenie pola Kod Blik, w celu pobrania go i podania w parametrze AuthorizationCode kolejnej próby przedtransakcji
+				 */
 				if ( ! empty( $_POST ) ) {
 					$posted                  = wp_unslash( $_POST );
 					$posted_xml              = simplexml_load_string( base64_decode( $posted['transactions'] ) );
@@ -455,6 +562,11 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 					$order_success_to_update = [];
 					$order_failure_to_update = [];
 					$order_pending_to_update = [];
+
+					blue_media()
+						->get_logger()
+						->log( base64_decode( $posted['transactions'] ) );
+
 
 					$xw = xmlwriter_open_memory();
 					xmlwriter_set_indent( $xw, 1 );
@@ -468,6 +580,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 					xmlwriter_text( $xw, $this->service_id );
 					xmlwriter_end_element( $xw ); // serviceID
 					xmlwriter_start_element( $xw, 'transactionsConfirmations' );
+
 
 					foreach (
 						$posted_xml->xpath( '/transactionList/transactions/transaction' )
@@ -493,6 +606,13 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 							}
 						}
 
+						/*update_option( 'bm_api_last_error',
+							sprintf( '[%s server time] [BlueMedia ITN debug] [Transaction from ITN: %s] [Init params meta: %s]',
+								date( "Y-m-d H:i:s", time() ),
+								'test'
+							)
+						);*/
+
 
 						$wc_order_id     = (int) (string) $transaction->orderID;
 						$bm_order_status = (string) $transaction->paymentStatus;
@@ -502,19 +622,21 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 						$init_params = get_post_meta( $wc_order_id,
 							'bm_transaction_init_params', true );
 
-						update_option( 'bm_api_last_error',
+						/*update_option( 'bm_api_last_error',
 							sprintf( '[%s server time] [BlueMedia ITN debug] [Transaction from ITN: %s] [Init params meta: %s]',
 								date( "Y-m-d H:i:s", time() ),
 								json_encode( $transaction ),
 								json_encode( $init_params )
 							)
-						);
+						);*/
 
 
 						if ( ! is_array( $init_params ) ) {
-							throw new Exception(
+							/*throw new Exception(
 								'Blue Media Woocommerce webhook error - transaction (ID: '
-								. $wc_order_id . ') does not contain BlueMedia gateway data' );
+								. $wc_order_id . ') does not contain BlueMedia gateway data' );*/
+
+							continue;
 						}
 
 						/**
@@ -550,15 +672,15 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 						xmlwriter_end_element( $xw ); // transactionConfirmed
 						$wc_order = wc_get_order( $wc_order_id );
 
-						if ( 'SUCCESS' === $bm_order_status ) {
+						if ( self::ITN_SUCCESS_STATUS_ID === $bm_order_status ) {
 							$order_success_to_update[ $bm_remote_id ] = $wc_order;
 						}
 
-						if ( 'PENDING' === $bm_order_status ) {
+						if ( self::ITN_PENDING_STATUS_ID === $bm_order_status ) {
 							$order_pending_to_update[ $bm_remote_id ] = $wc_order;
 						}
 
-						if ( 'FAILURE' === $bm_order_status ) {
+						if ( self::ITN_FAILURE_STATUS_ID === $bm_order_status ) {
 							$order_failure_to_update[ $bm_remote_id ] = $wc_order;
 						}
 
@@ -583,7 +705,9 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 						$wc_order->payment_complete( $k );
 						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus SUCCESS' );
-
+						update_post_meta( $wc_order->get_id(),
+							'bm_order_itn_status',
+							self::ITN_SUCCESS_STATUS_ID );
 						$wc_order->save();
 					}
 
@@ -592,6 +716,9 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 							'pending' );
 						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus PENDING' );
+						update_post_meta( $wc_order->get_id(),
+							'bm_order_itn_status',
+							self::ITN_PENDING_STATUS_ID );
 						$wc_order->save();
 					}
 
@@ -600,6 +727,9 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 							'failed' );
 						$wc_order->set_status( $new_status );
 						$wc_order->add_order_note( 'PayBM ITN: paymentStatus FAILURE' );
+						update_post_meta( $wc_order->get_id(),
+							'bm_order_itn_status',
+							self::ITN_FAILURE_STATUS_ID );
 						$wc_order->save();
 					}
 
@@ -699,13 +829,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		WC_Order $wc_order,
 		int $payment_channel = 0
 	): array {
-
-		$price = str_replace( ',', '.',
-			(string) $wc_order->get_total( false ) );
-		if ( strpos( $price, '.' ) === false ) {
-			$price = $price . '.00';
-		}
-
+		$price = $this->get_price_for_api_request( $wc_order );
 
 		$params = [
 			'ServiceID'             => $this->service_id,
@@ -721,13 +845,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 		$params_hash = $this->hash_transaction_parameters(
 			$params
-		);
-
-		update_option( 'bm_api_last_error',
-			sprintf( '[%s server time] [BlueMedia debug] [initial_transaction_parameters: %s]',
-				date( "Y-m-d H:i:s", time() ),
-				serialize( $params )
-			)
 		);
 
 		return array_merge( $params, [ 'Hash' => $params_hash ] );
@@ -758,16 +875,18 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 * @throws Exception
 	 */
 	public
-	function gateway_list(): array {
-		if ( defined( 'BLUE_MEDIA_DISABLE_CACHE' ) || time()
-		                                              - (int) get_option( 'bm_gateway_list_cache_time' )
-		                                              > 600//10 minutes cache
+	function gateway_list(
+		$force_rebuild_cache = false
+	): array {
+		if ( defined( 'BLUE_MEDIA_DISABLE_CACHE' ) || $force_rebuild_cache || time()
+		                                                                      - (int) get_option( 'bm_gateway_list_cache_time' )
+		                                                                      > 600//10 minutes cache
 		) {
 			$gateway_list_cache = $this->api_get_gateway_list();
 			update_option( 'bm_gateway_list_cache', $gateway_list_cache );
 			update_option( 'bm_gateway_list_cache_time', time() );
-			update_option( 'bm_api_last_error',
-				'api_get_gateway_list: ' . serialize( $gateway_list_cache ) );
+			/*update_option( 'bm_api_last_error',
+				'api_get_gateway_list: ' . serialize( $gateway_list_cache ) );*/
 		} else {
 			$gateway_list_cache = get_option( 'bm_gateway_list_cache' );
 			if ( empty( $gateway_list_cache ) ) {
@@ -775,7 +894,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 				update_option( 'bm_gateway_list_cache', $gateway_list_cache );
 				update_option( 'bm_gateway_list_cache_time', time() );
 			} else {
-				update_option( 'bm_api_last_error', '' );
+				//update_option( 'bm_api_last_error', '' );
 			}
 		}
 
@@ -833,12 +952,12 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		     && property_exists( $result_decoded,
 				'result' )
 		     && $result_decoded->result === 'ERROR' ) {
-			update_option( 'bm_api_last_error',
+			/*update_option( 'bm_api_last_error',
 				sprintf( '[%s server time] [BlueMedia debug] [URL: %s] [Message: %s]',
 					date( "Y-m-d H:i:s", time() ), $url,
 					$result_decoded->description
 				)
-			);
+			);*/
 
 			return [];
 		}
@@ -876,7 +995,7 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 	 * @return void
 	 * @throws Exception
 	 */
-	private
+	public
 	function render_channels(
 		array $channels
 	) {
@@ -887,7 +1006,6 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		echo '<p>' . __( 'Instant payment. BLIK, credit card, Google Pay, Apple Pay',
 				'bm-woocommerce' ) . '</p>';
 		echo '</div>';
-		echo '<div class="payment_box payment_method_bacs">';
 		echo '<div class="payment_box payment_method_bacs">';
 		echo '<div class="bm-payment-channels-wrapper">';
 		echo '<ul id="shipping_method" class="woocommerce-shipping-methods">';
@@ -930,18 +1048,18 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
                     type="radio"
                     name="bm-payment-channel"
                     onclick="addCurrentClass(this)"
-                    data-index="0" id="bm-gateway-id-%s" class="shipping_method" value="%s">
-                    <span class="bm-payment-channel-method-logo">
-                            <img style="" src="%s">
-                            </span>
-                    <label for="bm-gateway-id-%s">%s</label>
+                    data-index="0" id="bm-gateway-id-%s" class="shipping_method" value="%s">                    
+                    <img style="" src="%s" class="bm-payment-channel-method-logo">
+                    <label class="bm-payment-channel-label" for="bm-gateway-id-%s">%s</label>
+                    <span class="bm-payment-channel-method-desc">%s</span>
                             </li>',
 					(string) $item->get_class(),
 					$item->get_id(),
 					$item->get_id(),
 					$item->get_icon(),
 					$item->get_id(),
-					$item->get_name()
+					$item->get_name(),
+					$item->get_description()
 				);
 				$script = $item->get_script();
 				if ( $script ) {
@@ -958,6 +1076,8 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 
 		echo '</ul></div>';
 
+		echo '</div>';
+
 		echo "<script>
 
 		jQuery(document).ready(function () {
@@ -973,6 +1093,63 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		});
 
 		</script>";
+	}
+
+
+	public
+	function render_channels_for_admin_panel(
+		array $channels
+	) {
+
+		$group_arr = ( new Group_Mapper( $channels ) )->map_for_admin_panel();
+
+
+		echo '<div class="payment_box payment_box_wpadmin payment_method_bacs">';
+		echo '<div class="bm-payment-channels-wrapper">';
+		echo '<ul id="shipping_method" class="woocommerce-shipping-methods">';
+
+		/**
+		 * @var Group[] $group_arr
+		 */
+		foreach ( $group_arr as $group ) {
+
+			$expandable_Group = $group instanceof Expandable_Group;
+
+			if ( empty( $group->get_items() ) ) {
+				continue;
+			}
+
+			printf( "<div class='bm-group-%s%s'><li><ul>",
+				$group->get_slug(),
+				$expandable_Group ? ' bm-group-expandable' : '' );
+
+			if ( $expandable_Group ) {
+				printf( "<p class='bm-group-name'>%s</p>",
+					$group->get_name() );
+			}
+
+			foreach ( $group->get_items() as $item ) {
+				printf( '
+                    <li class="bm-payment-channel-item %s">
+                    <span class="bm-payment-channel-method-logo">
+                            <img style="" src="%s">
+                            </span>
+                    <span class="%s">%s</span>
+                            </li>',
+					(string) $item->get_class(),
+					$item->get_icon(),
+					$expandable_Group ? 'bm-inside-expandable-group' : 'bm-inside-single-item',
+					$item->get_name(),
+				);
+			}
+
+			printf( "</li></ul></div>" );
+
+
+		}
+
+		echo '</ul></div>';
+		echo '</div>';
 	}
 
 	/**

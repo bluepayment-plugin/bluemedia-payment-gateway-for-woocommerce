@@ -29,6 +29,11 @@ class Item {
 	 */
 	private $script;
 
+	/**
+	 * @var string
+	 */
+	private $description;
+
 
 	/**
 	 * @param string $name
@@ -36,13 +41,22 @@ class Item {
 	 * @param string|null $icon
 	 * @param string|null $extra_class
 	 * @param string|null $script
+	 * @param string $description
 	 */
-	public function __construct( string $name, string $id, ?string $icon, ?string $extra_class, ?string $script ) {
-		$this->name   = $name;
-		$this->id     = $id;
-		$this->icon   = $icon;
-		$this->class  = $extra_class;
-		$this->script = $script;
+	public function __construct(
+		string $name,
+		string $id,
+		?string $icon,
+		?string $extra_class,
+		?string $script,
+		string $description
+	) {
+		$this->name        = $name;
+		$this->id          = $id;
+		$this->icon        = $icon;
+		$this->class       = $extra_class;
+		$this->script      = $script;
+		$this->description = $description;
 	}
 
 	/**
@@ -72,7 +86,6 @@ class Item {
 	public function set_id( string $id ): void {
 		$this->id = $id;
 	}
-
 
 
 	/**
@@ -115,5 +128,19 @@ class Item {
 	 */
 	public function set_icon( ?string $icon ): void {
 		$this->icon = $icon;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_description(): string {
+		return $this->description;
+	}
+
+	/**
+	 * @param string $description
+	 */
+	public function set_description( string $description ): void {
+		$this->description = $description;
 	}
 }

@@ -151,3 +151,9 @@ msgstr "Wersja PHP jest starsza niż 7.2 więc ta wtyczka się nie uruchomi. Sko
 
 msgid "It looks like the developer version of the Blue Media plug-in is installed instead of the production release. Remove this plugin and install it from this URL: %s"
 msgstr "Wygląda na to, że zainstalowana została deweloperska wersja wtyczki Blue Media zamiast produkcyjnego wydania. Usuń ją i zainstaluj z tego URL: %s"
+
+msgid "Payment gateway list"
+msgstr "Lista kanałów płatności"
+
+msgid "Settings"
+msgstr "Ustawienia"
