@@ -426,23 +426,14 @@ class Blue_Media_Gateway extends WC_Payment_Gateway {
 		$order           = wc_get_order( $order_id );
 		$payment_channel = (int) $_POST['bm-payment-channel'] ?? null;
 
-		if ( self::BLIK_0_CHANNEL === $payment_channel ) {
-			$blik_code = (int) $_POST['bluemedia_blik_code'];
-
-			$this->process_blik_0( $order, $blik_code );
-		} else {
-			$params = [
-				'params' => $this->prepare_initial_transaction_parameters(
-					wc_get_order( $order_id ), $payment_channel
-				),
-			];
-			WC()->session->set( 'bm_order_payment_params', $params );
-		}
-
+		$params = [
+			'params' => $this->prepare_initial_transaction_parameters(
+				wc_get_order( $order_id ), $payment_channel
+			),
+		];
+		WC()->session->set( 'bm_order_payment_params', $params );
 
 		$this->schedule_remove_unpaid_orders( $order_id );
-
-
 		$order->set_status( 'pending' );
 		$order->save();
 

@@ -3,7 +3,7 @@ Contributors: inspirelabs
 Tags: woocommerce, bluemedia
 Requires at least: 5.0
 Tested up to: 6.2.2
-Stable tag: 4.1.24
+Stable tag: 4.1.25
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,3 +210,7 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 ### Added
 - New bank list styles
 - New module: Preview payment methods in Admin Panel
+
+## [4.1.25] - 2023-08-03
+### Fixed
+- Blik redirect fix
