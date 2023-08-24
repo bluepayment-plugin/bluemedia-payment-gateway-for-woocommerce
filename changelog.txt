@@ -132,3 +132,14 @@
 ### Added
 - New bank list styles
 - New module: Preview payment methods in Admin Panel
+
+## [4.1.25] - 2023-08-03
+### Fixed
+- Blik redirect fix
+
+## [4.1.26] - 2023-08-24
+### Added
+- Blik-0 support
+### Fixed
+- Minor fixes
+- Styles

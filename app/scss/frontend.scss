@@ -1,7 +1,7 @@
 #payment > ul.wc_payment_methods {
     .payment_method_bluemedia {
         img {
-            width: 100px !important;
+            width: 100px;
             height: 80px;
             object-fit: contain;
         }
@@ -55,6 +55,9 @@
                                             grid-template-areas: "input logo label";
                                             align-items: center;
                                             column-gap: 10px;
+                                            @media only screen and (max-width: 375px) {
+                                                grid-template-columns: 13px 75px auto;
+                                            }
 
                                             > input {
                                                 &[type="radio"] {
@@ -66,18 +69,29 @@
                                             .bm-payment-channel-method-logo,
                                             .bm-payment-channel-group-method-logo {
                                                 grid-area: logo;
+                                                display: inline-flex;
+                                                vertical-align: middle;
+                                                min-height: 100px;
                                                 @media only screen and (max-width: 375px) {
-                                                    width: 75px !important;
+                                                    min-height: 75px;
                                                 }
+                                            }
+
+                                            .bm-payment-channel-method-logo,
+                                            .bm-payment-channel-group-method-logo img {
+                                                height: unset;
+                                                width: 100%;
                                             }
 
                                             > label {
                                                 grid-area: label;
+                                                font-size: .9em;
                                                 text-indent: initial;
                                             }
 
                                             > span.bm-payment-channel-method-desc {
                                                 display: none;
+                                                font-size: .9em;
                                             }
                                         }
 
@@ -98,17 +112,7 @@
                                             }
 
                                             > .bm-payment-channel-method-logo {
-                                                    max-width: unset !important;
-                                            }
-
-                                            > label {
-                                                font-size: .9em;
-                                            }
-                                        }
-
-                                        &-group-item {
-                                           .bm-payment-channel-group-method-logo {
-                                                min-width: 100px;
+                                                max-width: unset !important;
                                             }
                                         }
                                     }
@@ -177,6 +181,11 @@
                                             > * {
                                                 display: block;
                                             }
+
+                                            input {
+                                                margin-right: 0;
+                                                width: 100%;
+                                            }
                                         }
                                     }
                                 }
@@ -210,17 +219,17 @@
                                 &-expandable {
                                     .bm-group-expandable-wrapper {
                                         display: none;
-                                        justify-content: space-around;
                                         flex-wrap: wrap;
-
                                         &.active {
                                             display: flex;
                                         }
 
                                         > li {
-                                            display: inline-block;
+                                            display: block;
                                             position: relative;
-
+                                            width: 32%;
+                                            height: 70px;
+                                            margin-right: 1.3%;
                                             > input {
                                                 &[type="radio"] {
                                                     display: block !important;
@@ -231,13 +240,16 @@
                                                     top: 0;
                                                     left: 0;
                                                     opacity: 0;
+                                                    z-index: 2;
                                                 }
                                             }
 
                                             > .bm-payment-channel-method-logo {
-                                                width: 60px !important;
-                                                height: 30px;
-                                                object-fit: cover;
+                                                width: 100% !important;
+                                                height: 100%;
+                                                object-fit: contain;
+                                                margin-left: auto;
+                                                margin-right: auto;
                                             }
 
                                             > label {

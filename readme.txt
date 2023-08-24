@@ -3,7 +3,7 @@ Contributors: inspirelabs
 Tags: woocommerce, bluemedia
 Requires at least: 5.0
 Tested up to: 6.2.2
-Stable tag: 4.1.25
+Stable tag: 4.1.26
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -214,3 +214,10 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 ## [4.1.25] - 2023-08-03
 ### Fixed
 - Blik redirect fix
+
+## [4.1.26] - 2023-08-24
+### Added
+- Blik-0 support
+### Fixed
+- Minor fixes
+- Styles

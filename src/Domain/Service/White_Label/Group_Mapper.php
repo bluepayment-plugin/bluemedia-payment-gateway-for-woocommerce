@@ -53,7 +53,6 @@ class Group_Mapper {
 				$unspecified_ids_group_key = array_keys( $result )[ count( $result ) - 1 ];
 			} else {
 				foreach ( $this->raw_channels_from_bm_api as $raw_channel ) {
-
 					if ( ! $this->check_amount_range( $raw_channel ) ) {
 						continue;
 					}

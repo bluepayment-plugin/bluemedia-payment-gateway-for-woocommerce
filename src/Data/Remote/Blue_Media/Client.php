@@ -25,10 +25,8 @@ class Client {
 					'verify'      => true,
 				] );
 
-			$statusCode   = $response->getStatusCode();
-			$responseBody = $response->getBody()->getContents();
-
-			return  $responseBody;
+			//$statusCode   = $response->getStatusCode();
+			return $response->getBody()->getContents();
 		} catch ( Exception $e ) {
 			return "Error: " . $e->getMessage();
 		}

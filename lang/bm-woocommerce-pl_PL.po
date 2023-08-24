@@ -152,6 +152,42 @@ msgstr "Wersja PHP jest starsza niż 7.2 więc ta wtyczka się nie uruchomi. Sko
 msgid "It looks like the developer version of the Blue Media plug-in is installed instead of the production release. Remove this plugin and install it from this URL: %s"
 msgstr "Wygląda na to, że zainstalowana została deweloperska wersja wtyczki Blue Media zamiast produkcyjnego wydania. Usuń ją i zainstaluj z tego URL: %s"
 
+msgid "BLIK payment type"
+msgstr "Typ płatności Blik"
+
+msgid "Blik-0 without redirect"
+msgstr "Blik 0 bez przekierowania"
+
+msgid "Blik with redirect"
+msgstr "Blik z przekierowaniem"
+
+msgid "The code you provided is invalid. Code should be 6 digits."
+msgstr "Wprowadzony kod BLIK jest nieprawidłowy. Kod powinien składać się z 6 cyfr."
+
+msgid "Waiting for transaction confirmation."
+msgstr "Oczekiwanie na potwierdzenie transakcji."
+
+msgid "Enter the BLIK code."
+msgstr "Podaj kod BLIK."
+
+msgid "The code has 6 digits. You'll find it in your banking app."
+msgstr "Kod ma 6 cyfr. Znajdziesz go w swojej aplikacji bankowej."
+
+msgid "Payment successful."
+msgstr "Płatność zakończona powodzeniem."
+
+msgid "Payment failed."
+msgstr "Płatność nieudana."
+
+msgid "Check your device."
+msgstr "Sprawdź swoje urządzenie."
+
+msgid "The BLIK code has expired. Try again."
+msgstr "Kod BLIK wygasł. Spróbuj ponownie."
+
+msgid "Invalid BLIK code."
+msgstr "Niepoprawny kod BLIK."
+
 msgid "Payment gateway list"
 msgstr "Lista kanałów płatności"
 

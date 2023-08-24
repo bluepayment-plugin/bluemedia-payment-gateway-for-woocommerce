@@ -22,7 +22,7 @@ use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Order_Aware_
 use Isolated\BlueMedia\Ilabs\Ilabs_Plugin\Event_Chain\Interfaces\Wc_Product_Aware_Interface;
 use WC_Order;
 use WC_Session_Handler;
-use Ilabs\BM_Woocommerce\Controller\Blik0_Status_Controller;
+use Ilabs\BM_Woocommerce\Controller\Payment_Status_Controller;
 
 class Plugin extends Abstract_Ilabs_Plugin {
 
@@ -46,9 +46,13 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	 * @throws Exception
 	 */
 	protected function before_init() {
+		$this->init_payment_gateway();
+
 		$this->implement_ga4();
 		$this->implement_settings_modal();
 		$this->implement_settings_banner();
+
+		( new Payment_Status_Controller() )->handle();
 
 		add_action( 'bm_cancel_failed_pending_order_after_one_hour',
 			function ( $order_id ) {
@@ -65,6 +69,18 @@ class Plugin extends Abstract_Ilabs_Plugin {
 					}
 				}
 			} );
+
+		//DEBUG START
+		if ( ! defined( 'BLUE_MEDIA_DEBUG' ) ) {
+			define( 'BLUE_MEDIA_DEBUG', 1 );
+		}
+		update_option( 'bm_api_last_error',
+			sprintf( '[%s server time] [BlueMedia debug: %s]',
+				date( "Y-m-d H:i:s", time() ),
+				'test'
+			)
+		);
+		//DEBUG END
 	}
 
 	/**
@@ -72,13 +88,14 @@ class Plugin extends Abstract_Ilabs_Plugin {
 	 */
 	public function enqueue_frontend_scripts() {
 		wp_enqueue_style( $this->get_plugin_prefix() . '_front_css',
-			$this->get_plugin_css_url() . '/frontend.css'
-		);
+			$this->get_plugin_css_url() . '/frontend.css',
+			[],
+			blue_media()->get_plugin_version() );
 
 		wp_enqueue_script( $this->get_plugin_prefix() . '_front_js',
 			$this->get_plugin_js_url() . '/front.js',
 			[ 'jquery' ],
-			1.1,
+			blue_media()->get_plugin_version(),
 			true );
 
 		$ga4_tracking_id = ( new Ga4_Service_Client() )->get_tracking_id();
@@ -97,6 +114,15 @@ class Plugin extends Abstract_Ilabs_Plugin {
 				]
 			);
 		}
+
+		if ( is_checkout() ) {
+			wp_enqueue_script( $this->get_plugin_prefix() . '_c_checkout',
+				"https://cards.bm.pl/integration/checkout.js",
+				[],
+				blue_media()->get_plugin_version(),
+				true );
+		}
+
 	}
 
 
@@ -357,7 +383,7 @@ class Plugin extends Abstract_Ilabs_Plugin {
 			$alerts->add_error( 'Blue Media: ' . $last_api_err );
 		}
 
-		$this->init_payment_gateway();
+
 
 		if ( get_option( 'bluemedia_activated' ) === '1' ) {
 			$this->reposition_on_activate();

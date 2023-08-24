@@ -12,15 +12,10 @@
     font-weight: bold;
     margin: 0px 0px 15px 0px; }
   .bm-settings-banner-row {
-    display: -webkit-box;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-direction: row;
-    -webkit-box-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: center;
-            align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
     margin: 0px 0px 15px 0px; }
     .bm-settings-banner-row .bm-settings-banner-image {
       width: 100px;
@@ -40,21 +35,15 @@
         margin: 0px 15px 0px 0px;
         font-weight: bolder; }
   .bm-settings-banner-row-iconBox {
-    display: -webkit-box;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-direction: row;
+    flex-direction: row;
     justify-content: space-around;
     margin: 0px 0px 15px 0px;
     border-top: 1px solid #c3c4c7; }
     .bm-settings-banner-row-iconBox .bm-settings-banner-icon-box {
-      display: -webkit-box;
       display: flex;
-      -webkit-box-align: center;
-              align-items: center;
-      -webkit-box-pack: center;
-              justify-content: center;
+      align-items: center;
+      justify-content: center;
       height: 100px;
       margin: 0px 10px 0px 0px; }
       .bm-settings-banner-row-iconBox .bm-settings-banner-icon-box a {
@@ -64,9 +53,7 @@
       .bm-settings-banner-row-iconBox .bm-settings-banner-icon-box span {
         font-size: 14px; }
         .bm-settings-banner-row-iconBox .bm-settings-banner-icon-box span:first-child {
-          -webkit-box-align: center;
-                  align-items: center;
-          display: -webkit-box;
+          align-items: center;
           display: flex;
           border: 2px solid #0068B4;
           border-radius: 50%;
@@ -74,8 +61,7 @@
           padding: 10px;
           margin: 0px 10px 0px 0px;
           height: 20px;
-          -webkit-box-pack: center;
-                  justify-content: center; }
+          justify-content: center; }
 
 .bm-modalbackground {
   position: relative; }
@@ -140,28 +126,21 @@ input#yes[name="woocommerce_bluemedia_testmode"] {
   display: block;
   font-weight: bolder;
   margin-bottom: 5px;
-  -webkit-box-flex: 1;
-          flex: 1 0 100%; }
+  flex: 1 0 100%; }
 
 .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul > li {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-align: center;
-          align-items: center;
-  -webkit-column-gap: 10px;
-     -moz-column-gap: 10px;
-          column-gap: 10px; }
+  align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px; }
   .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div > li > ul > li .bm-payment-channel-method-logo img {
     width: 75px; }
 
 .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-przelew-internetowy {
   margin-bottom: 1em; }
   .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-przelew-internetowy > li > ul {
-    display: -webkit-box;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-direction: row;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 10px; }
     .bm-settings-channel-list .bm-payment-channels-wrapper ul.woocommerce-shipping-methods > div.bm-group-przelew-internetowy > li > ul > li > .bm-payment-channel-method-logo img {

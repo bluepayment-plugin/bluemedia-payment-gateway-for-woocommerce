@@ -6,11 +6,26 @@ class Config {
 
 	const UNSPECIFIED_IDS = null;
 
-
 	public function get_config(): array {
 
+		$blik0_type = blue_media()
+			->get_blue_media_gateway()
+			->get_option( 'blik_type', 'with_redirect' );
+
 		return [
-			[ 'name' => 'Blik', 'position' => 0, 'ids' => [ 509 ], ],
+			[
+				'name'       => 'Blik',
+				'position'   => 0,
+				'ids'        => [ 509 ],
+				'extra_html' => $blik0_type === 'blik_0_without_redirect' ? $this->get_blik0_html_info() : null,
+			],
+
+			/*[
+				'name'       => 'Płatność Kartą',
+				'position'   => 1,
+				'ids'        => [ 1500 ],
+				'extra_html' => $this->get_card_html_info()
+			],*/
 			[
 				'name'       => 'Płatność Kartą',
 				'position'   => 1,
@@ -103,6 +118,24 @@ class Config {
 				'bm-woocommerc' ),
 			__( 'Poznaj szczegóły.', 'bm-woocommerc' )
 		);
+	}
+
+	private function get_blik0_html_info(): string {
+		ob_start();
+		blue_media()->locate_template( 'blik_0.php' );
+		$blik0_html = ob_get_contents();
+		ob_end_clean();
+
+		return $blik0_html;
+	}
+
+	private function get_card_html_info(): string {
+		ob_start();
+		blue_media()->locate_template( 'card.php' );
+		$card_html = ob_get_contents();
+		ob_end_clean();
+
+		return $card_html;
 	}
 
 	private function get_smartney_html_info(): string {
