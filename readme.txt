@@ -1,17 +1,17 @@
-=== Blue Media ===
+=== Autopay ===
 Contributors: inspirelabs
-Tags: woocommerce, bluemedia
+Tags: woocommerce, autopay
 Requires at least: 5.0
 Tested up to: 6.2.2
 Stable tag: 4.1.26
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-BluePayment to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce).
+Autopay to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce).
 
 == Opis ==
 
-BluePayment to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce).
+Autopay to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce).
 
 Do najważniejszych funkcji modułu zalicza się:
 - realizację płatności online poprzez odpowiednie zbudowanie startu transakcji
@@ -36,15 +36,15 @@ Zainstaluj wtyczkę w panelu administracyjnym Wordpress:
 2. Przejdź do zakładki Wtyczki > Dodaj nową a następnie wskaż pobrany plik instalacyjny.
 3. Po zainstalowaniu wtyczki włącz moduł.
 1. Przejdź do zakładki WooCommerce ➝ Ustawienia ➝ Płatności.
-2. Wybierz Blue Media, żeby przejść do konfiguracji.
+2. Wybierz Autopay, żeby przejść do konfiguracji.
 
 Konfiguracja podstawowych pól wtyczki:
 
-1.	Przy nazwie Blue Media ustaw Włącz, dzięki temu Twoi klienci będą mogli już korzystać z płatności internetowych.
+1.	Przy nazwie Autopay ustaw Włącz, dzięki temu Twoi klienci będą mogli już korzystać z płatności internetowych.
 2.	Zaznacz pole: “Pokazuj metody płatności w sklepie”
-3.	W polu Nazwa modułu płatności w sklepie wpisz nazwę płatności, czyli np.: Płatności Blue Media.
+3.	W polu Nazwa modułu płatności w sklepie wpisz nazwę płatności, czyli np.: Płatności Autopay.
 
-4.	W polu Opis modułu płatności w sklepie dodaj opis używanej bramki płatności, czyli Blue Media – Twoi klienci będą widzieć tę nazwę składając zamówienie i wybierając metodę płatności.
+4.	W polu Opis modułu płatności w sklepie dodaj opis używanej bramki płatności, czyli Autopay – Twoi klienci będą widzieć tę nazwę składając zamówienie i wybierając metodę płatności.
 5.	W polu “tryb działania” Zaznacz “włącz tryb testowy” aby włączyć tryb sandbox.
 
 6.	W polu “Testowy identyfikator serwisu” wpisz Twój testowy identyfikator serwisu.
@@ -53,7 +53,7 @@ Konfiguracja podstawowych pól wtyczki:
       W polu “Identyfikator serwisu” wpisz identyfikator serwisu.
 8.	W polu “Klucz współdzielony” wpisz klucz współdzielony.
 
-Powyższe pola uzupełnisz danymi, które otrzymasz od Blue Media S.A. Jeśli jeszcze ich nie masz - skontaktuj się z nami.
+Powyższe pola uzupełnisz danymi, które otrzymasz od Autopay S.A. Jeśli jeszcze ich nie masz - skontaktuj się z nami.
 W momencie, gdy skończysz już sprawdzać, czy wszystko działa prawidłowo – wyłącz tryb testowy, wówczas płatności na Twojej stronie będą w 100% aktywne.
 Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 
@@ -67,7 +67,7 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 
 ## [4.0.3] - 2022-07-15
 ### Fixed
-- Show API errors only if BLUE_MEDIA_DEBUG constant is defined
+- Show API errors only if debug constant is defined
 
 ## [4.0.4] - 2022-07-20
 ### Fixed
