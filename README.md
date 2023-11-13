@@ -1,8 +1,8 @@
-# Instrukcja modułu BluePayment dla platformy WooCommerce
+# Instrukcja modułu Autopay dla platformy WooCommerce
 
 ## Podstawowe informacje
 
-BluePayment to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce). Jeżeli jeszcze nie masz wtyczki, możesz ją pobrać [tutaj.](https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce/releases)
+Autopay to moduł płatności umożliwiający realizację transakcji bezgotówkowych w sklepie opartym na platformie WordPress (WooCommerce). Jeżeli jeszcze nie masz wtyczki, możesz ją pobrać [tutaj.](https://github.com/bluepayment-plugin/bluemedia-payment-gateway-for-woocommerce/releases)
 
 Należy zawsze pobierać najnowsze wydanie oznaczone etykietą "latest" (plik z ikonką paczki, zobacz poniższy screen).
 
@@ -42,11 +42,11 @@ Do najważniejszych funkcji modułu zalicza się:
 ## Konfiguracja
 
 1. Przejdź do zakładki WooCommerce ➝ Ustawienia ➝ Płatności.
-2. Wybierz Blue Media, żeby przejść do konfiguracji.
+2. Wybierz Autopay, żeby przejść do konfiguracji.
 
 ### Konfiguracja podstawowych pól wtyczki
 
-1.	Przy nazwie Blue Media ustaw Włącz, dzięki temu Twoi klienci będą mogli już korzystać z płatności internetowych.
+1.	Przy nazwie Autopay ustaw Włącz, dzięki temu Twoi klienci będą mogli już korzystać z płatności internetowych.
 2.	Zaznacz pole: “Pokazuj metody płatności w sklepie”
 3. 	W polu “tryb działania” Zaznacz “włącz tryb testowy” aby włączyć tryb sandbox.
 4. 	W polu “Testowy identyfikator serwisu” wpisz Twój testowy identyfikator serwisu.
@@ -54,7 +54,7 @@ Do najważniejszych funkcji modułu zalicza się:
 6. 	W polu “Identyfikator serwisu” wpisz identyfikator serwisu.
 7. 	W polu “Klucz konfiguracyjny (hash)” wpisz Klucz konfiguracyjny (hash).
 
-Powyższe pola uzupełnisz danymi, które otrzymasz od Blue Media S.A. Jeśli jeszcze ich nie masz - skontaktuj się z nami.
+Powyższe pola uzupełnisz danymi, które otrzymasz od Autopay S.A. Jeśli jeszcze ich nie masz - skontaktuj się z nami.
 W momencie, gdy skończysz już sprawdzać, czy wszystko działa prawidłowo – wyłącz tryb testowy, wówczas płatności na Twojej stronie będą w 100% aktywne.
 Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 
@@ -68,7 +68,7 @@ Po uzupełnieniu wszystkich pól – wybierz: Zapisz zmiany i gotowe.
 
 ### Konfiguracja adresów URL
 
-Upewnij się, że w panelach administracyjnych Blue Media https://oplacasie.bm.pl oraz https://oplacasie-accept.bm.pl poniższe pola zawierają poprawne adresy sklepu.
+Upewnij się, że w panelach administracyjnych Autopay https://oplacasie.bm.pl oraz https://oplacasie-accept.bm.pl poniższe pola zawierają poprawne adresy sklepu.
 
 ●	Konfiguracja adresu powrotu do płatności
 {URL Twojego sklepu}/?bm_gateway_return
@@ -94,7 +94,7 @@ Moduł dodaje obsługę dodatkowych zdarzeń w Google Analytics 4:
 - begin_checkout – użytkownik rozpoczął proces zamówienia (koszyk i/lub wybór metody dostawy),
 - checkout_progress – użytkownik przeszedł do drugiego kroku zamówienia (wybór metody płatności),
 - set_checkout_option – użytkownik uzupełnił dane zamówienia,
-- purchase – użytkownik złożył zamówienie oraz opłacił je poprzez płatność BlueMedia (oznaczenie jako konwersja).
+- purchase – użytkownik złożył zamówienie oraz opłacił je poprzez płatność Autopay (oznaczenie jako konwersja).
 
 ### Konfiguracja Google Analytics
 
